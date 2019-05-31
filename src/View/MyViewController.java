@@ -4,18 +4,18 @@ import Server.Configurations;
 import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MyViewController implements IView{
 
@@ -36,7 +36,7 @@ public class MyViewController implements IView{
             int rows = Integer.valueOf(txtfld_rowsNum.getText());
             int columns = Integer.valueOf(txtfld_columnsNum.getText());
         } catch (NumberFormatException e) {
-            popWindow("Wrong row/column","Please enter valid numbers.");
+            popWindow("Wrong row or column","Please enter valid numbers.");
         }
         GridPane_newMaze.setVisible(false);
     }
@@ -57,7 +57,7 @@ public class MyViewController implements IView{
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(400);
+        window.setMinWidth(550);
         window.setMinHeight(300);
 
         Label label = new Label();
@@ -113,16 +113,54 @@ public class MyViewController implements IView{
 
     @Override
     public void exitGame() {
+        String strExit="are you sure you want to exit?";
+        exitPopWindow("exit window",strExit);
+    }
+    public void exitPopWindow(String title, String message ){
 
+        Stage window = new Stage();
+
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(300);
+        window.setMinHeight(300);
+
+        Label label = new Label();
+        label.setText(message);
+        Button yesButton = new Button("Yes, of course!\n" +
+                                            "Close the game");
+        Button noButton = new Button("No,I regretted it\n" +
+                                         "Keep playing");
+        noButton.setOnAction(e -> window.close());
+        yesButton.setOnAction(e -> System.exit(0));//Platform.exit();
+        VBox layout = new VBox(20);//Platform.exit();
+        layout.getChildren().addAll(label, yesButton,noButton);
+        layout.setAlignment(Pos.CENTER);
+
+        //Display window and wait for it to be closed before returning
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     @Override
     public void helpGame() {
-
+        String strHelp="roles of the game:\n" +
+                "move the racket on the eggs and break them until you get to the end. ";
+        popWindow("Help window",strHelp);
     }
 
     @Override
     public void aboutGame() {
-
+        String strAbout="this game brought you by Yuval Mor Yosef and Adi Ashkenazi\n" +
+                "in the course of advanced topic in programing\n"+
+                "We build the maze whit the algorithm of Prim\n" +
+                "We build solutions for the maze whit the algorithms of :\n" +
+                "Breadth-first search and his expansion, Best-first search and depth-first search\n"+
+                "We compress the maze in a decimal method\n" +
+                "We use thread pool to to manage multiple client."
+                ;
+        popWindow("About the game",strAbout);
     }
 }

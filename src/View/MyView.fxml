@@ -27,9 +27,18 @@
               <MenuItem mnemonicParsing="false" onAction="#propertiesGame" text="Properties" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Exit" />
-            <Menu mnemonicParsing="false" text="Help" />
-            <Menu mnemonicParsing="false" text="About" />
+            <Menu mnemonicParsing="false" text="Exit">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#exitGame" text="exit" />
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#helpGame" text="help" />
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="About">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#aboutGame" text="about" />
+               </items></Menu>
         </menus>
       </MenuBar>
    </top>
