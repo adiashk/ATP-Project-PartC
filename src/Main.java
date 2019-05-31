@@ -8,11 +8,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../View/MyView.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+
+        Parent root = FXMLLoader.load(getClass().getResource("/View/MyView.fxml"));
+        primaryStage.setTitle("The Chicken Invaders Maze!!!");
+        Scene scene = new Scene(root,800,700);
+        scene.getStylesheets().add("View/MyViewStyle.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
 
+        //Rise Servers
     }
 
 
