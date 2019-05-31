@@ -1,10 +1,15 @@
 package View;
 
 import Server.Configurations;
+import algorithms.mazeGenerators.IMazeGenerator;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -17,6 +22,7 @@ public class MyViewController implements IView{
     public javafx.scene.control.TextField txtfld_rowsNum;
     public javafx.scene.control.TextField txtfld_columnsNum;
     public javafx.scene.Node GridPane_newMaze;
+    //public javafx.scene.image.Image back;
 
 
     @Override
@@ -30,16 +36,22 @@ public class MyViewController implements IView{
             int rows = Integer.valueOf(txtfld_rowsNum.getText());
             int columns = Integer.valueOf(txtfld_columnsNum.getText());
         } catch (NumberFormatException e) {
-            errorWindow("Wrong row/column","Please enter valid numbers.");
+            popWindow("Wrong row/column","Please enter valid numbers.");
         }
+        GridPane_newMaze.setVisible(false);
     }
+
 
     public void mazePrintWindow(int row, int col ){
-
-
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(row, col);
+/*
+        for (int i )
+*/
     }
 
-    public void errorWindow(String title, String message ){
+    public void popWindow(String title, String message ){
+
         Stage window = new Stage();
 
         //Block events to other windows
@@ -95,7 +107,7 @@ public class MyViewController implements IView{
         str+="Maze = ";
         str+=prop.getProperty("maze");
 
-        errorWindow("maze properties",str);
+        popWindow("maze properties",str);
 
 }
 
