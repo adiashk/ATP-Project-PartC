@@ -59,7 +59,7 @@ public class MyViewController implements Observer, IView {
     }
 
     @Override
-    public void displayMaze(int[][] maze) {
+    public void displayMaze(Maze maze) {
         mazeDisplayer.setMaze(maze);
         int characterPositionRow = myViewModel.getCharacterPositionRow();
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();

@@ -2,6 +2,7 @@ package ViewModel;
 
 import Model.MyModel;
 import Model.IModel;
+import algorithms.mazeGenerators.Maze;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -47,7 +48,7 @@ public class MyViewModel extends Observable implements Observer {
         model.moveCharacter(movement);
     }
 
-    public int[][] getMaze() {
+    public Maze getMaze() {
         return model.getMaze();
     }
 

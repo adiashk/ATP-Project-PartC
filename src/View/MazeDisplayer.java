@@ -1,5 +1,6 @@
 package View;
 
+import algorithms.mazeGenerators.Maze;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
@@ -22,11 +23,11 @@ import java.util.ResourceBundle;
  */
 public class MazeDisplayer extends Canvas {
 
-    private int[][] maze;
+    private Maze maze;
     private int characterPositionRow = 1;
     private int characterPositionColumn = 1;
 
-    public void setMaze(int[][] maze) {
+    public void setMaze(Maze maze) {
         this.maze = maze;
         redraw();
     }
@@ -47,10 +48,12 @@ public class MazeDisplayer extends Canvas {
 
     public void redraw() {
         if (maze != null) {
+            int row=maze.getrowSize();
+            int col=maze.getcolSize();
             double canvasHeight = getHeight();
             double canvasWidth = getWidth();
-            double cellHeight = canvasHeight / maze.length;
-            double cellWidth = canvasWidth / maze[0].length;
+            double cellHeight = canvasHeight / row;
+            double cellWidth = canvasWidth / col;
 
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
@@ -60,9 +63,9 @@ public class MazeDisplayer extends Canvas {
                 gc.clearRect(0, 0, getWidth(), getHeight());
 
                 //Draw Maze
-                for (int i = 0; i < maze.length; i++) {
-                    for (int j = 0; j < maze[i].length; j++) {
-                        if (maze[i][j] == 1) {
+                for (int i = 0; i < row; i++) {
+                    for (int j = 0; j < col; j++) {
+                        if (maze.getValue(i,j) == 1) {
                             //gc.fillRect(i * cellHeight, j * cellWidth, cellHeight, cellWidth);
                             gc.drawImage(wallImage, i * cellHeight, j * cellWidth, cellHeight, cellWidth);
                         }
