@@ -101,6 +101,7 @@ public class MyModel extends Observable implements IModel {
        // int intMovement = (Integer.valueOf(movement.toString()));
         //int intMovement = Integer.valueOf(movement.getName());
 
+
         //KeyCode.NUMPAD0
         System.out.println(movement.getName());
         switch (movement) {
