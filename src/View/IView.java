@@ -1,12 +1,14 @@
 package View;
 
 public interface IView {
-    public void newGame();
-    public void saveGame();
-    public void loadGame();
-    public void propertiesGame();
-    public void exitGame();
-    public void helpGame();
-    public void aboutGame();
+    void displayMaze(int[][] maze);
+
+    void newGame();
+    void saveGame();
+    void loadGame();
+    void propertiesGame();
+    void exitGame();
+    void helpGame();
+    void aboutGame();
 
 }

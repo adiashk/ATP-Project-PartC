@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane prefHeight="567.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
-      <MenuBar prefHeight="0.0" prefWidth="389.0" BorderPane.alignment="CENTER">
+      <MenuBar prefHeight="0.0" prefWidth="424.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -43,12 +43,15 @@
       </MenuBar>
    </top>
    <left>
-      <GridPane fx:id="GridPane_newMaze" alignment="TOP_CENTER" prefHeight="175.0" prefWidth="524.0" visible="false" BorderPane.alignment="CENTER">
+      <GridPane fx:id="GridPane_newMaze" alignment="TOP_CENTER" prefHeight="543.0" prefWidth="282.0" visible="false" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="130.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="0.0" prefWidth="70.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="144.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="180.0" minWidth="0.0" prefWidth="138.0" />
         </columnConstraints>
         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -56,11 +59,15 @@
         </rowConstraints>
          <children>
             <Label text="Rows:" GridPane.rowIndex="1" />
-            <Label text="Colomns:" GridPane.rowIndex="2" />
-            <TextField fx:id="txtfld_rowsNum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="txtfld_columnsNum" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Columns:" GridPane.rowIndex="2" />
+            <TextField fx:id="txtfld_rowsNum" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txtfld_columnsNum" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Please enter row and column:" />
-            <Button mnemonicParsing="false" onAction="#generateMaze" prefHeight="31.0" prefWidth="198.0" text="Generate maze" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Button fx:id="btn_generateMaze" mnemonicParsing="false" onAction="#generateMaze" prefHeight="31.0" prefWidth="198.0" text="Generate maze" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Rows Location:" GridPane.rowIndex="4" />
+            <Label text="Columns Location:" GridPane.rowIndex="5" />
+            <Label fx:id="lbl_rowsNum" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="lbl_columnsNum" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </left>

@@ -1,29 +1,40 @@
 package View;
 
 import Server.Configurations;
+import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
-import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Properties;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MyViewController implements IView{
+public class MyViewController implements Observer,IView {
 
+    private MyViewModel myViewModel;
+    public MazeDisplayer mazeDisplayer;
     public javafx.scene.control.TextField txtfld_rowsNum;
     public javafx.scene.control.TextField txtfld_columnsNum;
+    public javafx.scene.control.Label lbl_rowsNum;
+    public javafx.scene.control.Label lbl_columnsNum;
+    public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.Node GridPane_newMaze;
-    //public javafx.scene.image.Image back;
-
 
     @Override
     public void newGame() {
@@ -38,10 +49,17 @@ public class MyViewController implements IView{
         } catch (NumberFormatException e) {
             popWindow("Wrong row or column","Please enter valid numbers.");
         }
-        GridPane_newMaze.setVisible(false);
+       // GridPane_newMaze.setVisible(false);
     }
-
-
+    @Override
+    public void displayMaze(int[][] maze) {
+        mazeDisplayer.setMaze(maze);
+        int characterPositionRow = myViewModel.getCharacterPositionRow();
+        int characterPositionColumn = myViewModel.getCharacterPositionColumn();
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        this.characterPositionRow.set(characterPositionRow + "");
+        this.characterPositionColumn.set(characterPositionColumn + "");
+    }
     public void mazePrintWindow(int row, int col ){
         IMazeGenerator mg = new MyMazeGenerator();
         Maze maze = mg.generate(row, col);
@@ -146,8 +164,10 @@ public class MyViewController implements IView{
 
     @Override
     public void helpGame() {
-        String strHelp="roles of the game:\n" +
-                "move the racket on the eggs and break them until you get to the end. ";
+        String strHelp="The roles of the game:\n" +
+                        "move the rocket on the eggs and break them until\n" +
+                        "you get to the end of the board.\n" +
+                        "be careful not to collide the chickens. ";
         popWindow("Help window",strHelp);
     }
 
@@ -155,12 +175,80 @@ public class MyViewController implements IView{
     public void aboutGame() {
         String strAbout="this game brought you by Yuval Mor Yosef and Adi Ashkenazi\n" +
                 "in the course of advanced topic in programing\n"+
-                "We build the maze whit the algorithm of Prim\n" +
-                "We build solutions for the maze whit the algorithms of :\n" +
+                "We build the maze with the algorithm of Prim\n" +
+                "We build solutions for the maze with the algorithms of :\n" +
                 "Breadth-first search and his expansion, Best-first search and depth-first search\n"+
                 "We compress the maze in a decimal method\n" +
                 "We use thread pool to to manage multiple client."
                 ;
         popWindow("About the game",strAbout);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == myViewModel) {
+            displayMaze(myViewModel.getMaze());
+            btn_generateMaze.setDisable(false);
+        }
+    }
+    public void setResizeEvent(Scene scene) {
+        long width = 0;
+        long height = 0;
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                System.out.println("Width: " + newSceneWidth);
+            }
+        });
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                System.out.println("Height: " + newSceneHeight);
+            }
+        });
+    }
+
+    public void setViewModel(MyViewModel myViewModel) {
+        this.myViewModel = myViewModel;
+        bindProperties(myViewModel);
+    }
+    private void bindProperties(MyViewModel myViewModel) {
+        txtfld_rowsNum.textProperty().bind(myViewModel.characterPositionRow);
+        txtfld_columnsNum.textProperty().bind(myViewModel.characterPositionColumn);
+    }
+
+    public void solveMaze(ActionEvent actionEvent) {
+        showAlert("Solving maze..");
+    }
+
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(alertMessage);
+        alert.show();
+    }
+
+    public void KeyPressed(KeyEvent keyEvent) {
+        myViewModel.moveCharacter(keyEvent.getCode());
+        keyEvent.consume();
+    }
+
+    public StringProperty characterPositionRow = new SimpleStringProperty();
+
+    public StringProperty characterPositionColumn = new SimpleStringProperty();
+
+    public String getCharacterPositionRow() {
+        return characterPositionRow.get();
+    }
+
+    public StringProperty characterPositionRowProperty() {
+        return characterPositionRow;
+    }
+
+    public String getCharacterPositionColumn() {
+        return characterPositionColumn.get();
+    }
+
+    public StringProperty characterPositionColumnProperty() {
+        return characterPositionColumn;
     }
 }
