@@ -91,55 +91,59 @@ public class MyModel extends Observable implements IModel {
 
     @Override
     public void moveCharacter(KeyCode movement) {
-/*        int rowSize = getMaze().getrowSize();
-        int colSize = getMaze().getcolSize();*/
         Position currPos = new Position(characterPositionRow, characterPositionColumn);
         AState state = new MazeState(1, null, currPos);
         SearchableMaze searchableMaze = new SearchableMaze(this.maze);
         ArrayList<AState> possibleS = searchableMaze.getAllPossibleStates(state);
 
-       // int intMovement = (Integer.valueOf(movement.toString()));
-        //int intMovement = Integer.valueOf(movement.getName());
-
-
-        //KeyCode.NUMPAD0
-        System.out.println(movement.getName());
         switch (movement) {
             case NUMPAD8:
+            case DIGIT8:
+            case UP:
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn))))
                     characterPositionRow--;
                 break;
             case NUMPAD2:
+            case DIGIT2:
+            case DOWN:
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn))))
                     characterPositionRow++;
                 break;
             case NUMPAD6:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn++))))
+            case DIGIT6:
+            case RIGHT:
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn+1))))
                     characterPositionColumn++;
                 break;
             case NUMPAD4:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn--))))
+            case DIGIT4:
+            case LEFT:
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn-1))))
                     characterPositionColumn--;
                 break;
             case NUMPAD7://8&4
+            case DIGIT7:
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn - 1)))) {
                     characterPositionRow--;
                     characterPositionColumn--;
                 }
                 break;
             case NUMPAD1://4&2
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn + 1)))) {
-                    characterPositionRow--;
-                    characterPositionColumn++;
+            case DIGIT1:
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow +1, characterPositionColumn - 1)))) {
+                    characterPositionRow++;
+                    characterPositionColumn--;
                 }
                 break;
             case NUMPAD3://2&6
+            case DIGIT3:
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn + 1)))) {
                     characterPositionRow++;
                     characterPositionColumn++;
                 }
                 break;
             case NUMPAD9://6&8
+            case DIGIT9:
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn + 1)))) {
                     characterPositionRow--;
                     characterPositionColumn++;

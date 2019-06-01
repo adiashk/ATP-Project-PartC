@@ -37,7 +37,9 @@ public class MyViewController implements Observer, IView {
     public javafx.scene.control.Label lbl_rowsNum;
     public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_generateMaze;
+    public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.Node GridPane_newMaze;
+    public boolean isPushedSolve=false;
 
 
     public void setViewModel(MyViewModel myViewModel) {
@@ -69,6 +71,7 @@ public class MyViewController implements Observer, IView {
     }
 
     public void generateMaze() {
+        isPushedSolve=false;
         boolean isOk=true;
         try {
             int row = Integer.valueOf(txtfld_rowsNum.getText());
@@ -84,7 +87,11 @@ public class MyViewController implements Observer, IView {
 
     }
         public void solveMaze (ActionEvent actionEvent){
-            showAlert("Solving maze..");
+//            showAlert("Solving maze..");
+            isPushedSolve = true;
+            mazeDisplayer.redraw(isPushedSolve);
+            //btn_solveMaze.setDisable(true);
+
         }
 
         private void showAlert (String alertMessage){
