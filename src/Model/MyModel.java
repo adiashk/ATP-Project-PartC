@@ -4,17 +4,21 @@ import Client.*;
 import IO.MyDecompressorInputStream;
 import Server.*;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
+import algorithms.search.*;
 import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+
 
 public class MyModel extends Observable implements IModel {
 
@@ -87,22 +91,64 @@ public class MyModel extends Observable implements IModel {
 
     @Override
     public void moveCharacter(KeyCode movement) {
+/*        int rowSize = getMaze().getrowSize();
+        int colSize = getMaze().getcolSize();*/
+        Position currPos = new Position(characterPositionRow, characterPositionColumn);
+        AState state = new MazeState(1, null, currPos);
+        SearchableMaze searchableMaze = new SearchableMaze(this.maze);
+        ArrayList<AState> possibleS = searchableMaze.getAllPossibleStates(state);
+
+       // int intMovement = (Integer.valueOf(movement.toString()));
+        //int intMovement = Integer.valueOf(movement.getName());
+
+        //KeyCode.NUMPAD0
+        System.out.println(movement.getName());
         switch (movement) {
-            case UP:
-                characterPositionRow--;
+            case NUMPAD8:
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn))))
+                    characterPositionRow--;
                 break;
-            case DOWN:
-                characterPositionRow++;
+            case NUMPAD2:
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn))))
+                    characterPositionRow++;
                 break;
-            case RIGHT:
-                characterPositionColumn++;
+            case NUMPAD6:
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn++))))
+                    characterPositionColumn++;
                 break;
-            case LEFT:
-                characterPositionColumn--;
+            case NUMPAD4:
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn--))))
+                    characterPositionColumn--;
+                break;
+            case NUMPAD7://8&4
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn - 1)))) {
+                    characterPositionRow--;
+                    characterPositionColumn--;
+                }
+                break;
+            case NUMPAD1://4&2
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn + 1)))) {
+                    characterPositionRow--;
+                    characterPositionColumn++;
+                }
+                break;
+            case NUMPAD3://2&6
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn + 1)))) {
+                    characterPositionRow++;
+                    characterPositionColumn++;
+                }
+                break;
+            case NUMPAD9://6&8
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn + 1)))) {
+                    characterPositionRow--;
+                    characterPositionColumn++;
+                }
                 break;
         }
-        setChanged();
-        notifyObservers();
+            setChanged();
+            notifyObservers();
+
+
     }
 
     @Override
