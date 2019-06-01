@@ -26,9 +26,6 @@ public class MyViewModel extends Observable implements Observer {
         this.model = model;
     }
 
-    public void func(){
-        System.out.println("hi");
-    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -61,4 +58,5 @@ public class MyViewModel extends Observable implements Observer {
     public int getCharacterPositionColumn() {
         return characterPositionColumnIndex;
     }
+
 }

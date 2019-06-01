@@ -1,30 +1,27 @@
 package Model;
 
-import Server.*;
 import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
 
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * Created by Aviadjo on 6/14/2017.
+ */
 public class MyModel extends Observable implements IModel {
 
-   private ExecutorService threadPool = Executors.newCachedThreadPool();
+    private ExecutorService threadPool = Executors.newCachedThreadPool();
 
     public MyModel() {
+        //Raise the servers
     }
 
-    public void startServers(){
+    public void startServers() {
 
-        Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
-        Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
-
-        mazeGeneratingServer.start();
-        solveSearchProblemServer.start();
     }
 
     public void stopServers() {
@@ -107,5 +104,4 @@ public class MyModel extends Observable implements IModel {
     public int getCharacterPositionColumn() {
         return characterPositionColumn;
     }
-
 }
