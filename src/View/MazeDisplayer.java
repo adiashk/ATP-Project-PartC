@@ -34,10 +34,10 @@ public class MazeDisplayer extends Canvas {
         redraw(false);
     }
 
-    public void setCharacterPosition(int row, int column) {
+    public void setCharacterPosition(int row, int column,boolean isPushedSolve) {
         characterPositionRow = row;
         characterPositionColumn = column;
-        redraw(false);
+        redraw(isPushedSolve);
     }
 
     public int getCharacterPositionRow() {

@@ -65,13 +65,14 @@ public class MyViewController implements Observer, IView {
         mazeDisplayer.setMaze(maze);
         int characterPositionRow = myViewModel.getCharacterPositionRow();
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
-        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn,isPushedSolve);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
     }
 
     public void generateMaze() {
         isPushedSolve=false;
+        //btn_solveMaze.setDisable(false);
         boolean isOk=true;
         try {
             int row = Integer.valueOf(txtfld_rowsNum.getText());
@@ -88,7 +89,8 @@ public class MyViewController implements Observer, IView {
     }
         public void solveMaze (ActionEvent actionEvent){
 //            showAlert("Solving maze..");
-            isPushedSolve = true;
+            isPushedSolve = !isPushedSolve;
+            //btn_solveMaze.setDisable(true);
             mazeDisplayer.redraw(isPushedSolve);
             //btn_solveMaze.setDisable(true);
 
