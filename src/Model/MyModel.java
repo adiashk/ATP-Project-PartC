@@ -6,12 +6,14 @@ import Server.*;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.*;
-import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
+import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
@@ -87,7 +89,9 @@ public class MyModel extends Observable implements IModel {
 //    }
 
     @Override
-    public Maze getMaze() { return maze; }
+    public Maze getMaze() {
+        return maze;
+    }
 
     @Override
     public void moveCharacter(KeyCode movement) {
@@ -112,13 +116,13 @@ public class MyModel extends Observable implements IModel {
             case NUMPAD6:
             case DIGIT6:
             case RIGHT:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn+1))))
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn + 1))))
                     characterPositionColumn++;
                 break;
             case NUMPAD4:
             case DIGIT4:
             case LEFT:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn-1))))
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn - 1))))
                     characterPositionColumn--;
                 break;
             case NUMPAD7://8&4
@@ -130,7 +134,7 @@ public class MyModel extends Observable implements IModel {
                 break;
             case NUMPAD1://4&2
             case DIGIT1:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow +1, characterPositionColumn - 1)))) {
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn - 1)))) {
                     characterPositionRow++;
                     characterPositionColumn--;
                 }
@@ -150,8 +154,8 @@ public class MyModel extends Observable implements IModel {
                 }
                 break;
         }
-            setChanged();
-            notifyObservers();
+        setChanged();
+        notifyObservers();
 
 
     }
@@ -184,7 +188,7 @@ public class MyModel extends Observable implements IModel {
                         byte[] decompressedMaze = new byte[100000000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze m = new Maze(decompressedMaze);
-                        maze=m;
+                        maze = m;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -194,5 +198,22 @@ public class MyModel extends Observable implements IModel {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void saveGame() {
+        /*String tempDirectoryPath = System.getProperty("java.io.tmpdir");
+        File folderMaze = new File(tempDirectoryPath + "/Mazes");
+        folderMaze.mkdir();
+        File rowCol = new File(folderMaze.getPath() + "/" + maze.getrowSize() + "." + maze.getcolSize());
+        rowCol.mkdir();
+        byte[] mazeByte = maze.toByteArray();
+        try {
+            Files.write(Paths.get(rowCol.getPath() + "/maze.txt"), mazeByte);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+
     }
 }

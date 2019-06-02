@@ -29,6 +29,11 @@ public class MazeDisplayer extends Canvas {
     private int characterPositionRow = 1;
     private int characterPositionColumn = 1;
 
+    public MazeDisplayer() {
+//        widthProperty().addListener(e->redraw());
+//        heightProperty().addListener(e->redraw());
+    }
+
     public void setMaze(Maze maze) {
         this.maze = maze;
         redraw(false);

@@ -32,6 +32,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         //--------------
         MyViewController myViewController = fxmlLoader.getController();
+        myViewController.initStage(primaryStage);
         myViewController.setResizeEvent(scene);
         myViewController.setViewModel(viewModel);
         viewModel.addObserver(myViewController);

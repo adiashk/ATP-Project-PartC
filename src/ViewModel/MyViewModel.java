@@ -60,4 +60,8 @@ public class MyViewModel extends Observable implements Observer {
         return characterPositionColumnIndex;
     }
 
+    public void saveMaze(){
+        model.saveGame();
+    }
+
 }

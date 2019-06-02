@@ -10,6 +10,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,8 +19,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -39,8 +42,14 @@ public class MyViewController implements Observer, IView {
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.Node GridPane_newMaze;
-    public boolean isPushedSolve=false;
+    public javafx.scene.Node pane;
+    public boolean isPushedSolve = false;
+    public boolean isPushedNewMaze = false;
+    public Stage stage;
 
+    public void initStage(Stage s) {
+        stage = s;
+    }
 
     public void setViewModel(MyViewModel myViewModel) {
         this.myViewModel = myViewModel;
@@ -65,15 +74,15 @@ public class MyViewController implements Observer, IView {
         mazeDisplayer.setMaze(maze);
         int characterPositionRow = myViewModel.getCharacterPositionRow();
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
-        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn,isPushedSolve);
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn, isPushedSolve);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
     }
 
     public void generateMaze() {
-        isPushedSolve=false;
+        isPushedSolve = false;
         //btn_solveMaze.setDisable(false);
-        boolean isOk=true;
+        boolean isOk = true;
         try {
             int row = Integer.valueOf(txtfld_rowsNum.getText());
             int col = Integer.valueOf(txtfld_columnsNum.getText());
@@ -81,197 +90,244 @@ public class MyViewController implements Observer, IView {
         } catch (NumberFormatException e) {
             popWindow("Wrong row or column", "Please enter valid numbers.");
             //btn_generateMaze.setDisable(true);
-            isOk=false;
+            isOk = false;
         }
-        if(isOk)
+        if (isOk) {
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
-
+            isPushedNewMaze = true;
+        }
+        /*
+        mazeDisplayer.widthProperty().bind(pane.widthProperty());
+        mazeDisplayer.heightProperty().bind(pane.heightProperty());
+        characterPositionRow.widthProperty().bind(pane.widthProperty());
+        characterPositionColumn.heightProperty().bind(pane.heightProperty());
+        */
     }
-        public void solveMaze (ActionEvent actionEvent){
+
+    public void solveMaze(ActionEvent actionEvent) {
 //            showAlert("Solving maze..");
-            isPushedSolve = !isPushedSolve;
-            //btn_solveMaze.setDisable(true);
-            mazeDisplayer.redraw(isPushedSolve);
-            //btn_solveMaze.setDisable(true);
+        isPushedSolve = !isPushedSolve;
+        //btn_solveMaze.setDisable(true);
+        mazeDisplayer.redraw(isPushedSolve);
+        //btn_solveMaze.setDisable(true);
 
-        }
+    }
 
-        private void showAlert (String alertMessage){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText(alertMessage);
-            alert.show();
-        }
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(alertMessage);
+        alert.show();
+    }
 
-        public void KeyPressed (KeyEvent keyEvent){
-            myViewModel.moveCharacter(keyEvent.getCode());
-            keyEvent.consume();
-        }
+    public void KeyPressed(KeyEvent keyEvent) {
+        myViewModel.moveCharacter(keyEvent.getCode());
+        keyEvent.consume();
+    }
 
-        //region String Property for Binding
-        public StringProperty characterPositionRow = new SimpleStringProperty();
+    //region String Property for Binding
+    public StringProperty characterPositionRow = new SimpleStringProperty();
 
-        public StringProperty characterPositionColumn = new SimpleStringProperty();
+    public StringProperty characterPositionColumn = new SimpleStringProperty();
 
-        public String getCharacterPositionRow () {
-            return characterPositionRow.get();
-        }
+    public String getCharacterPositionRow() {
+        return characterPositionRow.get();
+    }
 
-        public StringProperty characterPositionRowProperty () {
-            return characterPositionRow;
-        }
+    public StringProperty characterPositionRowProperty() {
+        return characterPositionRow;
+    }
 
-        public String getCharacterPositionColumn () {
-            return characterPositionColumn.get();
-        }
+    public String getCharacterPositionColumn() {
+        return characterPositionColumn.get();
+    }
 
-        public StringProperty characterPositionColumnProperty () {
-            return characterPositionColumn;
-        }
+    public StringProperty characterPositionColumnProperty() {
+        return characterPositionColumn;
+    }
 
-        public void setResizeEvent (Scene scene){
-            long width = 0;
-            long height = 0;
-            scene.widthProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                    System.out.println("Width: " + newSceneWidth);
-                }
-            });
-            scene.heightProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                    System.out.println("Height: " + newSceneHeight);
-                }
-            });
-        }
-
-
-        //endregion
-
-
-        @Override
-        public void newGame () {
-            GridPane_newMaze.setVisible(true);
-        }
-
-        public void mazePrintWindow ( int row, int col){
-            IMazeGenerator mg = new MyMazeGenerator();
-            Maze maze = mg.generate(row, col);
-        }
-        public void popWindow (String title, String message ){
-
-            Stage window = new Stage();
-
-            //Block events to other windows
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle(title);
-            window.setMinWidth(550);
-            window.setMinHeight(300);
-
-            Label label = new Label();
-            label.setText(message);
-            Button closeButton = new Button("Close this window");
-            closeButton.setOnAction(e -> window.close());
-
-            VBox layout = new VBox(20);
-            layout.getChildren().addAll(label, closeButton);
-            layout.setAlignment(Pos.CENTER);
-
-            //Display window and wait for it to be closed before returning
-            Scene scene = new Scene(layout);
-            window.setScene(scene);
-            window.showAndWait();
-        }
-        @Override
-        public void saveGame () {
-
-        }
-
-        @Override
-        public void loadGame () {
-
-        }
-
-        @Override
-        public void propertiesGame () {
-            Properties prop = new Properties();
-
-            InputStream input = Configurations.class.getClassLoader().getResourceAsStream("config.properties");
-            // load a properties file
-            try {
-                prop.load(input);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void setResizeEvent(Scene scene) {
+        long width = 0;
+        long height = 0;
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                System.out.println("Width: " + newSceneWidth);
             }
+        });
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                System.out.println("Height: " + newSceneHeight);
+            }
+        });
+    }
 
-            // get value by key
-            String str = "Tread = ";
-            str += prop.getProperty("Tread");
-            str += "\n";
-            str += "Solution = ";
-            str += prop.getProperty("sol");
-            str += "\n";
-            str += "Maze = ";
-            str += prop.getProperty("maze");
 
-            popWindow("maze properties", str);
+    //endregion
 
-        }
 
-        @Override
-        public void exitGame () {
-            String strExit = "are you sure you want to exit?";
-            exitPopWindow("exit window", strExit);
+    @Override
+    public void newGame() {
+        GridPane_newMaze.setVisible(true);
+    }
 
-        }
-        public void exitPopWindow (String title, String message ){
+    public void mazePrintWindow(int row, int col) {
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(row, col);
+    }
 
-            Stage window = new Stage();
+    public void popWindow(String title, String message) {
 
-            //Block events to other windows
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle(title);
-            window.setMinWidth(300);
-            window.setMinHeight(300);
+        Stage window = new Stage();
 
-            Label label = new Label();
-            label.setText(message);
-            Button yesButton = new Button("Yes, of course!\n" +
-                    "Close the game");
-            Button noButton = new Button("No,I regretted it\n" +
-                    "Keep playing");
-            noButton.setOnAction(e -> window.close());
-            yesButton.setOnAction(e -> System.exit(0));//Platform.exit();
-            VBox layout = new VBox(20);//Platform.exit();
-            layout.getChildren().addAll(label, yesButton, noButton);
-            layout.setAlignment(Pos.CENTER);
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(550);
+        window.setMinHeight(300);
 
-            //Display window and wait for it to be closed before returning
-            Scene scene = new Scene(layout);
-            window.setScene(scene);
-            window.showAndWait();
-        }
+        Label label = new Label();
+        label.setText(message);
+        Button closeButton = new Button("Close this window");
+        closeButton.setOnAction(e -> window.close());
+        closeButton.setOnKeyPressed(e->{ if (e.getCode().equals(KeyCode.ENTER)) { window.close(); }});
 
-        @Override
-        public void helpGame () {
-            String strHelp = "The roles of the game:\n" +
-                    "move the rocket on the eggs and break them until\n" +
-                    "you get to the end of the board.\n" +
-                    "be careful not to collide the chickens. ";
-            popWindow("Help window", strHelp);
-        }
+        VBox layout = new VBox(20);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER);
 
-        @Override
-        public void aboutGame () {
-            String strAbout = "this game brought you by Yuval Mor Yosef and Adi Ashkenazi\n" +
-                    "in the course of advanced topic in programing\n" +
-                    "We build the maze with the algorithm of Prim\n" +
-                    "We build solutions for the maze with the algorithms of :\n" +
-                    "Breadth-first search and his expansion, Best-first search and depth-first search\n" +
-                    "We compress the maze in a decimal method\n" +
-                    "We use thread pool to to manage multiple client.";
-            popWindow("About the game", strAbout);
+        //Display window and wait for it to be closed before returning
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    @Override
+    public void saveGame() {
+        if (isPushedNewMaze == true) {
+            //myViewModel.saveMaze();
+            btn_generateMaze.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    FileChooser fileChooser = new FileChooser();
+                    //Set extension filter
+                    FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("maza.maze", ".maze");
+                    fileChooser.getExtensionFilters().add(extensionFilter);
+                    //Show save file dialog
+                    File file = fileChooser.showSaveDialog(stage);
+                    SaveFile("a", file);///???
+                }
+            });
+
+
+        } else
+            popWindow("Attempt failed", " attempt failed to save the maze\n" +
+                    "you need to create maze first");
+
+    }
+
+    private void SaveFile(String content, File file) {
+        try {
+            FileWriter fileWriter = null;
+
+            fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        } catch (IOException ex) {
+//            Logger.getLogger(JavaFX_Text.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
+
+    @Override
+    public void loadGame() {
+
+    }
+
+    @Override
+    public void propertiesGame() {
+        Properties prop = new Properties();
+
+        InputStream input = Configurations.class.getClassLoader().getResourceAsStream("config.properties");
+        // load a properties file
+        try {
+            prop.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // get value by key
+        String str = "Tread = ";
+        str += prop.getProperty("Tread");
+        str += "\n";
+        str += "Solution = ";
+        str += prop.getProperty("sol");
+        str += "\n";
+        str += "Maze = ";
+        str += prop.getProperty("maze");
+
+        popWindow("maze properties", str);
+
+    }
+
+    @Override
+    public void exitGame() {
+        String strExit = "are you sure you want to exit?";
+        exitPopWindow("exit window", strExit);
+
+    }
+
+    public void exitPopWindow(String title, String message) {
+
+        Stage window = new Stage();
+
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(300);
+        window.setMinHeight(300);
+
+        Label label = new Label();
+        label.setText(message);
+        Button yesButton = new Button("Yes, of course!\n" +
+                "Close the game");
+        Button noButton = new Button("No,I regretted it\n" +
+                "Keep playing");
+        noButton.setOnAction(e -> window.close());
+        noButton.setOnKeyPressed(e->{ if (e.getCode().equals(KeyCode.ENTER)) { window.close(); }});
+        yesButton.setOnAction(e -> System.exit(0));//Platform.exit();
+        yesButton.setOnKeyPressed(e->{ if (e.getCode().equals(KeyCode.ENTER)) { System.exit(0); }});
+
+        VBox layout = new VBox(20);//Platform.exit();
+        layout.getChildren().addAll(label, yesButton, noButton);
+        layout.setAlignment(Pos.CENTER);
+
+        //Display window and wait for it to be closed before returning
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
+    @Override
+    public void helpGame() {
+        String strHelp = "The roles of the game:\n" +
+                "move the rocket on the eggs and break them until\n" +
+                "you get to the end of the board.\n" +
+                "be careful not to collide the chickens. ";
+        popWindow("Help window", strHelp);
+    }
+
+    @Override
+    public void aboutGame() {
+        String strAbout = "this game brought you by Yuval Mor Yosef and Adi Ashkenazi\n" +
+                "in the course of advanced topic in programing\n" +
+                "We build the maze with the algorithm of Prim\n" +
+                "We build solutions for the maze with the algorithms of :\n" +
+                "Breadth-first search and his expansion, Best-first search and depth-first search\n" +
+                "We compress the maze in a decimal method\n" +
+                "We use thread pool to to manage multiple client.";
+        popWindow("About the game", strAbout);
+    }
+
+}
 
