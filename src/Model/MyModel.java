@@ -202,7 +202,7 @@ public class MyModel extends Observable implements IModel {
 
     @Override
     public void saveGame() {
-        /*String tempDirectoryPath = System.getProperty("java.io.tmpdir");
+/*        String tempDirectoryPath = System.getProperty("java.io.tmpdir");
         File folderMaze = new File(tempDirectoryPath + "/Mazes");
         folderMaze.mkdir();
         File rowCol = new File(folderMaze.getPath() + "/" + maze.getrowSize() + "." + maze.getcolSize());

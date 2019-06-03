@@ -27,6 +27,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Properties;
@@ -163,17 +165,9 @@ public class MyViewController implements Observer, IView {
     }
 
 
-    //endregion
-
-
     @Override
     public void newGame() {
         GridPane_newMaze.setVisible(true);
-    }
-
-    public void mazePrintWindow(int row, int col) {
-        IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(row, col);
     }
 
     public void popWindow(String title, String message) {
@@ -190,7 +184,11 @@ public class MyViewController implements Observer, IView {
         label.setText(message);
         Button closeButton = new Button("Close this window");
         closeButton.setOnAction(e -> window.close());
-        closeButton.setOnKeyPressed(e->{ if (e.getCode().equals(KeyCode.ENTER)) { window.close(); }});
+        closeButton.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                window.close();
+            }
+        });
 
         VBox layout = new VBox(20);
         layout.getChildren().addAll(label, closeButton);
@@ -205,44 +203,60 @@ public class MyViewController implements Observer, IView {
     @Override
     public void saveGame() {
         if (isPushedNewMaze == true) {
-            //myViewModel.saveMaze();
-            btn_generateMaze.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    FileChooser fileChooser = new FileChooser();
-                    //Set extension filter
-                    FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("maza.maze", ".maze");
-                    fileChooser.getExtensionFilters().add(extensionFilter);
-                    //Show save file dialog
-                    File file = fileChooser.showSaveDialog(stage);
-                    SaveFile("a", file);///???
-                }
-            });
-
+            FileChooser fileChooser = new FileChooser();
+            //Set extension filter
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Maze Files", "*.maze");
+            fileChooser.getExtensionFilters().add(extensionFilter);
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            //Show save file dialog
+            File file = fileChooser.showSaveDialog(stage);
+            SaveMazeFile(myViewModel.getMaze(), file);
 
         } else
-            popWindow("Attempt failed", " attempt failed to save the maze\n" +
+            popWindow("Attempt Saving failed", " attempt failed to save the maze\n" +
                     "you need to create maze first");
-
     }
 
-    private void SaveFile(String content, File file) {
+    private void SaveMazeFile(Maze maze, File file) {
         try {
-            FileWriter fileWriter = null;
-
-            fileWriter = new FileWriter(file);
-            fileWriter.write(content);
-            fileWriter.close();
-        } catch (IOException ex) {
-//            Logger.getLogger(JavaFX_Text.class.getName()).log(Level.SEVERE, null, ex);
+            File newFile = new File(file.getPath());
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(newFile));
+            out.writeObject(maze.toByteArray());
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     @Override
     public void loadGame() {
 
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Maze Files", "*.maze"));
+        File loadFile = fileChooser.showOpenDialog(stage);
+        if (loadFile != null) {
+            try {
+                loadMazeFile(loadFile);
+            }
+            catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            //Desktop.getDesktop().open(loadFile); /// open in new window
+        } else {
+            popWindow("Attempt Loading failed", " attempt failed to load the maze\n" +
+                    "you need to create maze first");
+        }
     }
+
+    private void loadMazeFile(File file) throws IOException, ClassNotFoundException {
+        FileInputStream inputFile = new FileInputStream(file.getPath());
+        ObjectInputStream input = new ObjectInputStream(inputFile);
+        Maze maze = (Maze) input.readObject();
+        mazeDisplayer.setMaze(maze);
+    }
+
 
     @Override
     public void propertiesGame() {
@@ -294,9 +308,17 @@ public class MyViewController implements Observer, IView {
         Button noButton = new Button("No,I regretted it\n" +
                 "Keep playing");
         noButton.setOnAction(e -> window.close());
-        noButton.setOnKeyPressed(e->{ if (e.getCode().equals(KeyCode.ENTER)) { window.close(); }});
+        noButton.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                window.close();
+            }
+        });
         yesButton.setOnAction(e -> System.exit(0));//Platform.exit();
-        yesButton.setOnKeyPressed(e->{ if (e.getCode().equals(KeyCode.ENTER)) { System.exit(0); }});
+        yesButton.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                System.exit(0);
+            }
+        });
 
         VBox layout = new VBox(20);//Platform.exit();
         layout.getChildren().addAll(label, yesButton, noButton);
