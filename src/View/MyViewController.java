@@ -253,7 +253,12 @@ public class MyViewController implements Observer, IView {
     private void loadMazeFile(File file) throws IOException, ClassNotFoundException {
         FileInputStream inputFile = new FileInputStream(file.getPath());
         ObjectInputStream input = new ObjectInputStream(inputFile);
+
         Maze maze = (Maze) input.readObject();
+        this.myViewModel.setMaze(maze);
+        this.txtfld_rowsNum.setText(maze.getrowSize()+"");
+        this.txtfld_columnsNum.setText(maze.getcolSize()+"");
+        this.isPushedSolve = false;
         mazeDisplayer.setMaze(maze);
     }
 

@@ -52,6 +52,10 @@ public class MyViewModel extends Observable implements Observer {
         return model.getMaze();
     }
 
+    public void setMaze(Maze maze){
+        this.model.setMaze(maze);
+    }
+
     public int getCharacterPositionRow() {
         return characterPositionRowIndex;
     }

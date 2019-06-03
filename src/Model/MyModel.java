@@ -94,6 +94,11 @@ public class MyModel extends Observable implements IModel {
     }
 
     @Override
+    public void setMaze(Maze maze) {
+        this.maze = maze;
+    }
+
+    @Override
     public void moveCharacter(KeyCode movement) {
         Position currPos = new Position(characterPositionRow, characterPositionColumn);
         AState state = new MazeState(1, null, currPos);
