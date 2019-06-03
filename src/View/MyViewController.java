@@ -221,7 +221,7 @@ public class MyViewController implements Observer, IView {
         try {
             File newFile = new File(file.getPath());
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(newFile));
-            out.writeObject(maze.toByteArray());
+            out.writeObject(maze);
             out.flush();
             out.close();
         } catch (Exception e) {
@@ -243,7 +243,7 @@ public class MyViewController implements Observer, IView {
             catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            //Desktop.getDesktop().open(loadFile); /// open in new window
+            //Desktop.getDesktop().open(loadFile); // open in new window
         } else {
             popWindow("Attempt Loading failed", " attempt failed to load the maze\n" +
                     "you need to create maze first");
