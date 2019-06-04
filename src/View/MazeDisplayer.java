@@ -65,6 +65,8 @@ public class MazeDisplayer extends Canvas {
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
                 Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
+                Image startImage = new Image(new FileInputStream(ImageFileNameStart.get()));
+                Image endImage = new Image(new FileInputStream(ImageFileNameEnd.get()));
 
                 GraphicsContext gc = getGraphicsContext2D();
                 gc.clearRect(0, 0, getWidth(), getHeight());
@@ -80,6 +82,15 @@ public class MazeDisplayer extends Canvas {
                         }
                     }
                 }
+               /* //start:
+                gc.drawImage(startImage, maze.getStartPosition().getColumnIndex() * cellWidth,
+                        maze.getStartPosition().getColumnIndex() * cellHeight, cellWidth, cellHeight);
+
+                //end:
+                gc.drawImage(startImage, maze.getGoalPosition().getColumnIndex() * cellWidth,
+                        maze.getGoalPosition().getColumnIndex() * cellHeight, cellWidth, cellHeight);
+*/
+              // imageFileNameEnd ="resources/images/end.png" imageFileNameCharacter="resources/images/rocket.png"
 
                 if(isSolve)
                     redrawSolve();
@@ -135,6 +146,25 @@ public class MazeDisplayer extends Canvas {
     private StringProperty ImageFileNameWall = new SimpleStringProperty();
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
     private StringProperty ImageFileNameSolve = new SimpleStringProperty();
+    private StringProperty ImageFileNameStart = new SimpleStringProperty();
+    private StringProperty ImageFileNameEnd = new SimpleStringProperty();
+
+
+    public String getImageFileNameStart() {
+        return ImageFileNameStart.get();
+    }
+
+    public StringProperty imageFileNameStartProperty() {
+        return ImageFileNameStart;
+    }
+
+    public String getImageFileNameEnd() {
+        return ImageFileNameEnd.get();
+    }
+
+    public StringProperty imageFileNameEndProperty() {
+        return ImageFileNameEnd;
+    }
 
     public String getImageFileNameWall() {
         return ImageFileNameWall.get();
