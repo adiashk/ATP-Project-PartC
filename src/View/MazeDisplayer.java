@@ -82,14 +82,13 @@ public class MazeDisplayer extends Canvas {
                         }
                     }
                 }
-               /* //start:
+                //start:
                 gc.drawImage(startImage, maze.getStartPosition().getColumnIndex() * cellWidth,
                         maze.getStartPosition().getColumnIndex() * cellHeight, cellWidth, cellHeight);
 
                 //end:
                 gc.drawImage(startImage, maze.getGoalPosition().getColumnIndex() * cellWidth,
                         maze.getGoalPosition().getColumnIndex() * cellHeight, cellWidth, cellHeight);
-*/
               // imageFileNameEnd ="resources/images/end.png" imageFileNameCharacter="resources/images/rocket.png"
 
                 if(isSolve)
@@ -149,6 +148,13 @@ public class MazeDisplayer extends Canvas {
     private StringProperty ImageFileNameStart = new SimpleStringProperty();
     private StringProperty ImageFileNameEnd = new SimpleStringProperty();
 
+    public void setImageFileNameStart(String imageFileNameStart) {
+        this.ImageFileNameStart.set(imageFileNameStart);
+    }
+
+    public void setImageFileNameEnd(String imageFileNameEnd) {
+        this.ImageFileNameEnd.set(imageFileNameEnd);
+    }
 
     public String getImageFileNameStart() {
         return ImageFileNameStart.get();
