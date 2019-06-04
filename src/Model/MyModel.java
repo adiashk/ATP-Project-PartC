@@ -29,6 +29,8 @@ public class MyModel extends Observable implements IModel {
     Server solveSearchProblemServer;
     Maze maze;
 
+
+
     public MyModel() {
         //Raise the servers
         mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
@@ -58,13 +60,22 @@ public class MyModel extends Observable implements IModel {
 //            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1}
 //    };
 
-    private int characterPositionRow = 1;
-    private int characterPositionColumn = 1;
+    private int characterPositionRow=1;
+    private int characterPositionColumn=1;
+
+    public void setCharacterPositionRow(int characterPositionRow) {
+        this.characterPositionRow = characterPositionRow;
+    }
+
+    public void setCharacterPositionColumn(int characterPositionColumn) {
+        this.characterPositionColumn = characterPositionColumn;
+    }
 
     @Override
     public void generateMaze(int row, int col) {
         //Generate maze
         CommunicateWithServer_MazeGenerating(row, col);
+
         threadPool.execute(() -> {
             //generateRandomMaze(width,height);
             try {
@@ -72,9 +83,10 @@ public class MyModel extends Observable implements IModel {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            setChanged();
-            notifyObservers();
+
         });
+        setChanged();
+        notifyObservers();
     }
 
 //    private int[][] generateRandomMaze(int width, int height) {
@@ -95,7 +107,9 @@ public class MyModel extends Observable implements IModel {
 
     @Override
     public void setMaze(Maze maze) {
+
         this.maze = maze;
+
     }
 
     @Override
@@ -193,7 +207,11 @@ public class MyModel extends Observable implements IModel {
                         byte[] decompressedMaze = new byte[100000000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze m = new Maze(decompressedMaze);
+                        characterPositionColumn = m.getStartPosition().getColumnIndex();//
+                        characterPositionRow = m.getStartPosition().getRowIndex();//
                         maze = m;
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

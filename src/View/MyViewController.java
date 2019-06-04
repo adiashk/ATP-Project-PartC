@@ -54,6 +54,8 @@ public class MyViewController implements Observer, IView {
     }
 
     public void setViewModel(MyViewModel myViewModel) {
+
+        //System.out.println("wwwwwwwwwww");
         this.myViewModel = myViewModel;
         bindProperties(myViewModel);
     }
@@ -69,6 +71,7 @@ public class MyViewController implements Observer, IView {
             displayMaze(myViewModel.getMaze());
             btn_generateMaze.setDisable(false);
         }
+
     }
 
     @Override
@@ -76,14 +79,18 @@ public class MyViewController implements Observer, IView {
         mazeDisplayer.setMaze(maze);
         int characterPositionRow = myViewModel.getCharacterPositionRow();
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
+
         mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn, isPushedSolve);
+
         this.characterPositionRow.set(characterPositionRow + "");
+
         this.characterPositionColumn.set(characterPositionColumn + "");
+
     }
 
     public void generateMaze() {
+
         isPushedSolve = false;
-        //btn_solveMaze.setDisable(false);
         boolean isOk = true;
         try {
             int row = Integer.valueOf(txtfld_rowsNum.getText());
@@ -91,11 +98,13 @@ public class MyViewController implements Observer, IView {
             isOk = true;
         } catch (NumberFormatException e) {
             popWindow("Wrong row or column", "Please enter valid numbers.");
-            //btn_generateMaze.setDisable(true);
             isOk = false;
         }
         if (isOk) {
+
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
+
+
             isPushedNewMaze = true;
         }
         /*
@@ -259,7 +268,10 @@ public class MyViewController implements Observer, IView {
         this.txtfld_rowsNum.setText(maze.getrowSize()+"");
         this.txtfld_columnsNum.setText(maze.getcolSize()+"");
         this.isPushedSolve = false;
-        mazeDisplayer.setMaze(maze);
+        setViewModel(myViewModel);
+        displayMaze(maze);
+
+        //mazeDisplayer.setMaze(maze);
     }
 
 

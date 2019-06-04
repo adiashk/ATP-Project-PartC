@@ -11,4 +11,7 @@ public interface IModel {
     int getCharacterPositionRow();
     int getCharacterPositionColumn();
     void saveGame();
+    void setCharacterPositionColumn(int i);
+    void setCharacterPositionRow(int i);
 }
+

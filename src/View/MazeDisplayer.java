@@ -26,8 +26,8 @@ import java.util.ResourceBundle;
 public class MazeDisplayer extends Canvas {
 
     private Maze maze;
-    private int characterPositionRow = 1;
-    private int characterPositionColumn = 1;
+    private int characterPositionRow;
+    private int characterPositionColumn;
 
     public MazeDisplayer() {
 //        widthProperty().addListener(e->redraw());
@@ -36,7 +36,7 @@ public class MazeDisplayer extends Canvas {
 
     public void setMaze(Maze maze) {
         this.maze = maze;
-        redraw(false);
+        //redraw(false);
     }
 
     public void setCharacterPosition(int row, int column,boolean isPushedSolve) {

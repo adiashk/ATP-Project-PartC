@@ -20,8 +20,8 @@ public class MyViewModel extends Observable implements Observer {
     private int characterPositionRowIndex;
     private int characterPositionColumnIndex;
 
-    public StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
-    public StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
+    public  StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
+    public  StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
 
     public MyViewModel(IModel model){
         this.model = model;
@@ -29,19 +29,25 @@ public class MyViewModel extends Observable implements Observer {
 
 
     @Override
-    public void update(Observable o, Object arg) {
+    public  void update(Observable o, Object arg) {
         if (o==model){
             characterPositionRowIndex = model.getCharacterPositionRow();
-            characterPositionRow.set(characterPositionRowIndex + "");
             characterPositionColumnIndex = model.getCharacterPositionColumn();
+
+            characterPositionRow.set(characterPositionRowIndex + "");
+
+
             characterPositionColumn.set(characterPositionColumnIndex + "");
+
             setChanged();
             notifyObservers();
         }
+
     }
 
     public void generateMaze(int row, int col){
         model.generateMaze(row, col);
+
     }
 
     public void moveCharacter(KeyCode movement){
@@ -54,6 +60,11 @@ public class MyViewModel extends Observable implements Observer {
 
     public void setMaze(Maze maze){
         this.model.setMaze(maze);
+        model.setCharacterPositionRow(maze.getStartPosition().getRowIndex());
+        model.setCharacterPositionColumn(maze.getStartPosition().getColumnIndex());
+        this.characterPositionColumnIndex =maze.getStartPosition().getColumnIndex();
+        this.characterPositionRowIndex=     maze.getStartPosition().getRowIndex();
+
     }
 
     public int getCharacterPositionRow() {
