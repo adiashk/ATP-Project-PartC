@@ -31,6 +31,8 @@ public class MyViewModel extends Observable implements Observer {
     @Override
     public  void update(Observable o, Object arg) {
         if (o==model){
+            System.out.println("2");
+
             characterPositionRowIndex = model.getCharacterPositionRow();
             characterPositionColumnIndex = model.getCharacterPositionColumn();
 
@@ -60,10 +62,12 @@ public class MyViewModel extends Observable implements Observer {
 
     public void setMaze(Maze maze){
         this.model.setMaze(maze);
+
         model.setCharacterPositionRow(maze.getStartPosition().getRowIndex());
         model.setCharacterPositionColumn(maze.getStartPosition().getColumnIndex());
         this.characterPositionColumnIndex =maze.getStartPosition().getColumnIndex();
         this.characterPositionRowIndex=     maze.getStartPosition().getRowIndex();
+
 
     }
 

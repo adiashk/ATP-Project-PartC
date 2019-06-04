@@ -109,6 +109,9 @@ public class MyModel extends Observable implements IModel {
     public void setMaze(Maze maze) {
 
         this.maze = maze;
+        setChanged();
+        notifyObservers();
+        System.out.println("1");
 
     }
 
