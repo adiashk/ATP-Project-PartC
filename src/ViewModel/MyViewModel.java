@@ -3,6 +3,7 @@ package ViewModel;
 import Model.MyModel;
 import Model.IModel;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.AState;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,6 +11,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -86,4 +88,5 @@ public class MyViewModel extends Observable implements Observer {
         model.saveGame();
     }
 
+    public ArrayList<AState> solveMaze(){return model.solveMaze();}
 }

@@ -120,7 +120,7 @@ public class MyViewController implements Observer, IView {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-//            showAlert("Solving maze..");
+        mazeDisplayer.setSolutionPath(myViewModel.solveMaze());
         isPushedSolve = !isPushedSolve;
         //btn_solveMaze.setDisable(true);
         mazeDisplayer.redraw(isPushedSolve);
@@ -161,7 +161,7 @@ public class MyViewController implements Observer, IView {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 System.out.println("Width: " + newSceneWidth);
-              //  mazeDisplayer.widthProperty().bind(pane.widthProperty());
+                mazeDisplayer.widthProperty().bind(pane.widthProperty());
 
             }
         });
@@ -169,13 +169,10 @@ public class MyViewController implements Observer, IView {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 System.out.println("Height: " + newSceneHeight);
-//                mazeDisplayer.heightProperty().bind(pane.scaleYProperty());
-               // mazeDisplayer.heightProperty().bind(pane.heightProperty());
+                mazeDisplayer.heightProperty().bind(pane.heightProperty());
             }
         });
 
-        // mazeDisplayer.widthProperty().bind(pane.widthProperty());
-//            mazeDisplayer.heightProperty().bind(pane.heightProperty());
     }
 
 

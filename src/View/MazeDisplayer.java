@@ -28,6 +28,7 @@ public class MazeDisplayer extends Canvas {
     private Maze maze;
     private int characterPositionRow;
     private int characterPositionColumn;
+    private ArrayList<AState> solutionPath;
 
     public MazeDisplayer() {
         widthProperty().addListener(e->redraw(false));
@@ -39,7 +40,11 @@ public class MazeDisplayer extends Canvas {
         //redraw(false);
     }
 
-    public void setCharacterPosition(int row, int column,boolean isPushedSolve) {
+    public void setSolutionPath(ArrayList<AState> solutionPath) {
+        this.solutionPath = solutionPath;
+    }
+
+    public void setCharacterPosition(int row, int column, boolean isPushedSolve) {
         characterPositionRow = row;
         characterPositionColumn = column;
         redraw(isPushedSolve);
@@ -118,9 +123,9 @@ public class MazeDisplayer extends Canvas {
 
             SearchableMaze searchableMaze = new SearchableMaze(maze);
 
-            ISearchingAlgorithm searcher = new DepthFirstSearch();
-            Solution solution = searcher.solve(searchableMaze);
-            ArrayList<AState> solutionPath = solution.getSolutionPath();
+//            ISearchingAlgorithm searcher = new DepthFirstSearch();
+//            Solution solution = searcher.solve(searchableMaze);
+//            ArrayList<AState> solutionPath = solution.getSolutionPath();
 
 
             try {
