@@ -45,7 +45,8 @@ public class MyViewController implements Observer, IView {
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.Node GridPane_newMaze;
-    public javafx.scene.Node pane;
+//    public javafx.scene.Node pane;
+    public javafx.scene.layout.Pane pane;
     public boolean isPushedSolve = false;
     public boolean isPushedNewMaze = false;
     public Stage stage;
@@ -160,7 +161,7 @@ public class MyViewController implements Observer, IView {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 System.out.println("Width: " + newSceneWidth);
-                mazeDisplayer.widthProperty().bind(scene.widthProperty());
+              //  mazeDisplayer.widthProperty().bind(pane.widthProperty());
 
             }
         });
@@ -169,7 +170,7 @@ public class MyViewController implements Observer, IView {
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 System.out.println("Height: " + newSceneHeight);
 //                mazeDisplayer.heightProperty().bind(pane.scaleYProperty());
-                mazeDisplayer.heightProperty().bind(scene.heightProperty());
+               // mazeDisplayer.heightProperty().bind(pane.heightProperty());
             }
         });
 
@@ -309,6 +310,8 @@ public class MyViewController implements Observer, IView {
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
 //        scene.getStylesheets().add("PopUpWindow.css");
+        scene.getStylesheets().add(getClass().getResource("PopUpWindow.css").toExternalForm());
+
         window.setScene(scene);
         window.showAndWait();
     }
@@ -350,6 +353,7 @@ public class MyViewController implements Observer, IView {
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
         window.setScene(scene);
+        scene.getStylesheets().add(getClass().getResource("PopUpWindow.css").toExternalForm());
         window.showAndWait();
     }
 
