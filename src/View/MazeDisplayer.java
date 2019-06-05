@@ -30,8 +30,8 @@ public class MazeDisplayer extends Canvas {
     private int characterPositionColumn;
 
     public MazeDisplayer() {
-//        widthProperty().addListener(e->redraw());
-//        heightProperty().addListener(e->redraw());
+        widthProperty().addListener(e->redraw(false));
+        heightProperty().addListener(e->redraw(false));
     }
 
     public void setMaze(Maze maze) {
@@ -84,25 +84,23 @@ public class MazeDisplayer extends Canvas {
                 }
                 //start:
                 gc.drawImage(startImage, maze.getStartPosition().getColumnIndex() * cellWidth,
-                        maze.getStartPosition().getColumnIndex() * cellHeight, cellWidth, cellHeight);
+                        maze.getStartPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
 
                 //end:
-                gc.drawImage(startImage, maze.getGoalPosition().getColumnIndex() * cellWidth,
-                        maze.getGoalPosition().getColumnIndex() * cellHeight, cellWidth, cellHeight);
-              // imageFileNameEnd ="resources/images/end.png" imageFileNameCharacter="resources/images/rocket.png"
+                gc.drawImage(endImage, maze.getGoalPosition().getColumnIndex() * cellWidth,
+                        maze.getGoalPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
 
                 if(isSolve)
                     redrawSolve();
 
                 //Draw Character
-                //gc.setFill(Color.RED);
-                //gc.fillOval(characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
-                gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
-                //gc.drawImage(characterImage, characterPositionRow * cellHeight, characterPositionColumn * cellWidth, cellHeight, cellWidth);
-                // gc.drawImage(characterImage, characterPositionRow * cellWidth, characterPositionColumn * cellHeight, cellWidth, cellHeight);
+                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
+
+
             } catch (FileNotFoundException e) {
                 //e.printStackTrace();
             }
+
         }
     }
 

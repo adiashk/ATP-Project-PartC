@@ -21,6 +21,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -85,6 +86,10 @@ public class MyViewController implements Observer, IView {
         this.characterPositionRow.set(characterPositionRow + "");
 
         this.characterPositionColumn.set(characterPositionColumn + "");
+           if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
+            characterPositionColumn == maze.getGoalPosition().getColumnIndex()){
+                popWindow("final", "awawawaw!!!!!");
+            }
 
     }
 
@@ -105,14 +110,12 @@ public class MyViewController implements Observer, IView {
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
 
 
+           // mazeDisplayer.widthProperty().bind(pane.widthProperty());
+//            mazeDisplayer.heightProperty().bind(pane.heightProperty());
+//        characterPositionRow.widthProperty().bind(pane.widthProperty());
+//        characterPositionColumn.heightProperty().bind(pane.heightProperty());
             isPushedNewMaze = true;
         }
-        /*
-        mazeDisplayer.widthProperty().bind(pane.widthProperty());
-        mazeDisplayer.heightProperty().bind(pane.heightProperty());
-        characterPositionRow.widthProperty().bind(pane.widthProperty());
-        characterPositionColumn.heightProperty().bind(pane.heightProperty());
-        */
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -122,12 +125,6 @@ public class MyViewController implements Observer, IView {
         mazeDisplayer.redraw(isPushedSolve);
         //btn_solveMaze.setDisable(true);
 
-    }
-
-    private void showAlert(String alertMessage) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(alertMessage);
-        alert.show();
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
@@ -163,50 +160,27 @@ public class MyViewController implements Observer, IView {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 System.out.println("Width: " + newSceneWidth);
+                mazeDisplayer.widthProperty().bind(scene.widthProperty());
+
             }
         });
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
                 System.out.println("Height: " + newSceneHeight);
+//                mazeDisplayer.heightProperty().bind(pane.scaleYProperty());
+                mazeDisplayer.heightProperty().bind(scene.heightProperty());
             }
         });
+
+        // mazeDisplayer.widthProperty().bind(pane.widthProperty());
+//            mazeDisplayer.heightProperty().bind(pane.heightProperty());
     }
 
 
     @Override
     public void newGame() {
         GridPane_newMaze.setVisible(true);
-    }
-
-    public void popWindow(String title, String message) {
-
-        Stage window = new Stage();
-
-        //Block events to other windows
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
-        window.setMinWidth(550);
-        window.setMinHeight(300);
-
-        Label label = new Label();
-        label.setText(message);
-        Button closeButton = new Button("Close this window");
-        closeButton.setOnAction(e -> window.close());
-        closeButton.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                window.close();
-            }
-        });
-
-        VBox layout = new VBox(20);
-        layout.getChildren().addAll(label, closeButton);
-        layout.setAlignment(Pos.CENTER);
-
-        //Display window and wait for it to be closed before returning
-        Scene scene = new Scene(layout);
-        window.setScene(scene);
-        window.showAndWait();
     }
 
     @Override
@@ -271,6 +245,7 @@ public class MyViewController implements Observer, IView {
         setViewModel(myViewModel);
         displayMaze(maze);
 
+
         //mazeDisplayer.setMaze(maze);
     }
 
@@ -307,6 +282,37 @@ public class MyViewController implements Observer, IView {
         exitPopWindow("exit window", strExit);
 
     }
+    public void popWindow(String title, String message) {
+
+        Stage window = new Stage();
+
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(550);
+        window.setMinHeight(300);
+
+        Label label = new Label();
+        label.setText(message);
+        Button closeButton = new Button("Close this window");
+        closeButton.setOnAction(e -> window.close());
+        closeButton.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                window.close();
+            }
+        });
+
+        VBox layout = new VBox(20);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER);
+
+        //Display window and wait for it to be closed before returning
+        Scene scene = new Scene(layout);
+//        scene.getStylesheets().add("PopUpWindow.css");
+        window.setScene(scene);
+        window.showAndWait();
+    }
+
 
     public void exitPopWindow(String title, String message) {
 

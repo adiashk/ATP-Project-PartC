@@ -31,10 +31,13 @@ public class MyViewModel extends Observable implements Observer {
     @Override
     public  void update(Observable o, Object arg) {
         if (o==model){
-            System.out.println("2");
 
             characterPositionRowIndex = model.getCharacterPositionRow();
             characterPositionColumnIndex = model.getCharacterPositionColumn();
+         /*   if(characterPositionRowIndex == model.getMaze().getGoalPosition().getRowIndex()&&
+            characterPositionColumnIndex == model.getMaze().getGoalPosition().getColumnIndex()){
+
+            }*/
 
             characterPositionRow.set(characterPositionRowIndex + "");
 

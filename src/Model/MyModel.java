@@ -24,7 +24,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class MyModel extends Observable implements IModel {
 
-    private ExecutorService threadPool = Executors.newCachedThreadPool();
+    private ExecutorService threadPool = Executors.newCachedThreadPool();/////??????
     Server mazeGeneratingServer;
     Server solveSearchProblemServer;
     Maze maze;
@@ -46,19 +46,6 @@ public class MyModel extends Observable implements IModel {
         mazeGeneratingServer.stop();
         solveSearchProblemServer.stop();
     }
-
-//    private int[][] maze = { // a stub...
-//            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-//            {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1},
-//            {0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1},
-//            {1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1},
-//            {1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1},
-//            {1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1},
-//            {1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1},
-//            {1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1},
-//            {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1},
-//            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1}
-//    };
 
     private int characterPositionRow=1;
     private int characterPositionColumn=1;
@@ -88,17 +75,6 @@ public class MyModel extends Observable implements IModel {
         setChanged();
         notifyObservers();
     }
-
-//    private int[][] generateRandomMaze(int width, int height) {
-//        Random rand = new Random();
-//        maze = new int[width][height];
-//        for (int i = 0; i < maze.length; i++) {
-//            for (int j = 0; j < maze[i].length; j++) {
-//                maze[i][j] = Math.abs(rand.nextInt() % 2);
-//            }
-//        }
-//        return maze;
-//    }
 
     @Override
     public Maze getMaze() {
@@ -207,7 +183,7 @@ public class MyModel extends Observable implements IModel {
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                        byte[] decompressedMaze = new byte[100000000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
+                        byte[] decompressedMaze = new byte[1000000000 /*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         Maze m = new Maze(decompressedMaze);
                         characterPositionColumn = m.getStartPosition().getColumnIndex();//
@@ -228,18 +204,6 @@ public class MyModel extends Observable implements IModel {
 
     @Override
     public void saveGame() {
-/*        String tempDirectoryPath = System.getProperty("java.io.tmpdir");
-        File folderMaze = new File(tempDirectoryPath + "/Mazes");
-        folderMaze.mkdir();
-        File rowCol = new File(folderMaze.getPath() + "/" + maze.getrowSize() + "." + maze.getcolSize());
-        rowCol.mkdir();
-        byte[] mazeByte = maze.toByteArray();
-        try {
-            Files.write(Paths.get(rowCol.getPath() + "/maze.txt"), mazeByte);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
 
     }
 }
