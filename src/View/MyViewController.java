@@ -215,6 +215,7 @@ public class MyViewController implements Observer, IView {
     private void SaveMazeFile(Maze maze, File file) {
         try {
             File newFile = new File(file.getPath());
+//            newFile
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(newFile));
             out.writeObject(maze);
             out.flush();
@@ -234,6 +235,9 @@ public class MyViewController implements Observer, IView {
         if (loadFile != null) {
             try {
                 loadMazeFile(loadFile);
+                GridPane_newMaze.setVisible(true);
+                btn_solveMaze.setDisable(false);
+
             }
             catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
