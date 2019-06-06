@@ -86,7 +86,7 @@ public class MyViewController implements Observer, IView {
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
 
         mazeDisplayer.setIsSolve(isPushedSolve);
-        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn, myViewModel.getRotation());
         System.out.println("pos: "+characterPositionRow+", "+characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");

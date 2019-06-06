@@ -30,7 +30,7 @@ public class MyModel extends Observable implements IModel {
     Server solveSearchProblemServer;
     Maze maze;
     ArrayList<AState> mazeSolutionSteps;
-
+    private int direction;
 
 
     public MyModel() {
@@ -100,6 +100,10 @@ public class MyModel extends Observable implements IModel {
         this.maze = maze;
     }
 
+    public int getDirection() {
+        return direction;
+    }
+
     @Override
     public void moveCharacter(KeyCode movement) {
         Position currPos = new Position(characterPositionRow, characterPositionColumn);
@@ -110,32 +114,41 @@ public class MyModel extends Observable implements IModel {
             case NUMPAD8:
             case DIGIT8:
             case UP:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn))))
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn)))) {
                     characterPositionRow--;
+                    direction = 0;
+                }
                 break;
             case NUMPAD2:
             case DIGIT2:
             case DOWN:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn))))
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn)))) {
                     characterPositionRow++;
+                    direction = 180;
+                }
                 break;
             case NUMPAD6:
             case DIGIT6:
             case RIGHT:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn + 1))))
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn + 1)))) {
                     characterPositionColumn++;
+                    direction = 90;
+                }
                 break;
             case NUMPAD4:
             case DIGIT4:
             case LEFT:
-                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn - 1))))
+                if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn - 1)))) {
                     characterPositionColumn--;
+                    direction = -90;
+                }
                 break;
             case NUMPAD7://8&4
             case DIGIT7:
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn - 1)))) {
                     characterPositionRow--;
                     characterPositionColumn--;
+                    direction = -45;
                 }
                 break;
             case NUMPAD1://4&2
@@ -143,6 +156,7 @@ public class MyModel extends Observable implements IModel {
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn - 1)))) {
                     characterPositionRow++;
                     characterPositionColumn--;
+                    direction = -135;
                 }
                 break;
             case NUMPAD3://2&6
@@ -150,6 +164,7 @@ public class MyModel extends Observable implements IModel {
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn + 1)))) {
                     characterPositionRow++;
                     characterPositionColumn++;
+                    direction = 135;
                 }
                 break;
             case NUMPAD9://6&8
@@ -157,6 +172,7 @@ public class MyModel extends Observable implements IModel {
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn + 1)))) {
                     characterPositionRow--;
                     characterPositionColumn++;
+                    direction = 45;
                 }
                 break;
         }
