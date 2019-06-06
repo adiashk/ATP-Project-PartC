@@ -19,12 +19,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //MyViewModel->MyModel
         MyModel model = new MyModel();
         model.startServers();
         MyViewModel viewModel = new MyViewModel(model);
         model.addObserver(viewModel);
         //--------------
-        primaryStage.setTitle("My Application!");
+        primaryStage.setTitle("The Chicken Invaders Maze!");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("View/MyView.fxml").openStream());
         Scene scene = new Scene(root, 800, 700);

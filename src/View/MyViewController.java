@@ -21,6 +21,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -82,7 +83,9 @@ public class MyViewController implements Observer, IView {
         int characterPositionRow = myViewModel.getCharacterPositionRow();
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
 
-        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn, isPushedSolve);
+        mazeDisplayer.setIsSolve(isPushedSolve);
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+
 
         this.characterPositionRow.set(characterPositionRow + "");
 
@@ -109,6 +112,7 @@ public class MyViewController implements Observer, IView {
         if (isOk) {
 
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
+            btn_solveMaze.setDisable(false);
 
 
            // mazeDisplayer.widthProperty().bind(pane.widthProperty());
@@ -122,8 +126,9 @@ public class MyViewController implements Observer, IView {
     public void solveMaze(ActionEvent actionEvent) {
         mazeDisplayer.setSolutionPath(myViewModel.solveMaze());
         isPushedSolve = !isPushedSolve;
+        mazeDisplayer.setIsSolve(isPushedSolve);
         //btn_solveMaze.setDisable(true);
-        mazeDisplayer.redraw(isPushedSolve);
+        mazeDisplayer.redraw();
         //btn_solveMaze.setDisable(true);
 
     }
@@ -132,6 +137,15 @@ public class MyViewController implements Observer, IView {
         myViewModel.moveCharacter(keyEvent.getCode());
         keyEvent.consume();
     }
+    public void mouseClicked(MouseEvent mouseEvent) {
+        this.mazeDisplayer.requestFocus();
+    }
+
+//    public void mouseDrag(MouseEvent mouseEvent) {
+//        myViewModel.moveCharacter(mouseEvent.);
+//        mouseEvent.consume();
+//    }
+
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
@@ -374,6 +388,7 @@ public class MyViewController implements Observer, IView {
                 "We use thread pool to to manage multiple client.";
         popWindow("About the game", strAbout);
     }
+
 
 }
 

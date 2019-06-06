@@ -29,10 +29,12 @@ public class MazeDisplayer extends Canvas {
     private int characterPositionRow;
     private int characterPositionColumn;
     private ArrayList<AState> solutionPath;
+    private boolean isSolve;
+
 
     public MazeDisplayer() {
-        widthProperty().addListener(e->redraw(false));
-        heightProperty().addListener(e->redraw(false));
+        widthProperty().addListener(e->redraw());
+        heightProperty().addListener(e->redraw());
     }
 
     public void setMaze(Maze maze) {
@@ -44,10 +46,10 @@ public class MazeDisplayer extends Canvas {
         this.solutionPath = solutionPath;
     }
 
-    public void setCharacterPosition(int row, int column, boolean isPushedSolve) {
+    public void setCharacterPosition(int row, int column) {
         characterPositionRow = row;
         characterPositionColumn = column;
-        redraw(isPushedSolve);
+        redraw();
     }
 
     public int getCharacterPositionRow() {
@@ -58,7 +60,15 @@ public class MazeDisplayer extends Canvas {
         return characterPositionColumn;
     }
 
-    public void redraw(boolean isSolve) {
+    public boolean getIsSolve() {
+        return isSolve;
+    }
+
+    public void setIsSolve(boolean issolve) {
+        this.isSolve = issolve;
+    }
+
+    public void redraw() {
         if (maze != null) {
             int row = maze.getrowSize();
             int col = maze.getcolSize();
@@ -121,8 +131,7 @@ public class MazeDisplayer extends Canvas {
             double cellHeight = canvasHeight / row;
             double cellWidth = canvasWidth / col;
 
-            SearchableMaze searchableMaze = new SearchableMaze(maze);
-
+//            SearchableMaze searchableMaze = new SearchableMaze(maze);
 //            ISearchingAlgorithm searcher = new DepthFirstSearch();
 //            Solution solution = searcher.solve(searchableMaze);
 //            ArrayList<AState> solutionPath = solution.getSolutionPath();

@@ -105,7 +105,6 @@ public class MyModel extends Observable implements IModel {
         AState state = new MazeState(1, null, currPos);
         SearchableMaze searchableMaze = new SearchableMaze(this.maze);
         ArrayList<AState> possibleS = searchableMaze.getAllPossibleStates(state);
-
         switch (movement) {
             case NUMPAD8:
             case DIGIT8:
@@ -160,6 +159,7 @@ public class MyModel extends Observable implements IModel {
                 }
                 break;
         }
+        ///not need to changed if not move!!
         setChanged();
         notifyObservers();
 

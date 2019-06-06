@@ -1,11 +1,8 @@
 package ViewModel;
 
-import Model.MyModel;
 import Model.IModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.AState;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
@@ -45,7 +42,7 @@ public class MyViewModel extends Observable implements Observer {
 
 
             characterPositionColumn.set(characterPositionColumnIndex + "");
-
+            //notify my observer (MyViewController)that i change
             setChanged();
             notifyObservers();
         }
