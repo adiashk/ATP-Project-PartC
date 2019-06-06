@@ -25,10 +25,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.print.attribute.standard.Media;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -90,10 +92,19 @@ public class MyViewController implements Observer, IView {
         System.out.println("pos: "+characterPositionRow+", "+characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
-           if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
+/*
+
+        //win!!!!!!
+        String musicFile = "soundtrack.mp3.mp3";     // For example
+
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(resources/sounds/Chicken invaders 1 (soundtrack).mp3);
+        mediaPlayer.play();
+        if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
             characterPositionColumn == maze.getGoalPosition().getColumnIndex()){
                 popWindow("final", "awawawaw!!!!!");
             }
+*/
 
     }
 
