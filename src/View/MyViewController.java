@@ -104,16 +104,18 @@ public class MyViewController implements Observer, IView {
         try {
             int row = Integer.valueOf(txtfld_rowsNum.getText());
             int col = Integer.valueOf(txtfld_columnsNum.getText());
+            if (row<3||col<3)
+                throw new NumberFormatException();
             isOk = true;
         } catch (NumberFormatException e) {
-            popWindow("Wrong row or column", "Please enter valid numbers.");
+            popWindow("Wrong row or column", "Please enter valid numbers\n" +
+                                                        "positive numbers, bigger then 3.");
             isOk = false;
         }
         if (isOk) {
 
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
             btn_solveMaze.setDisable(false);
-
             isPushedNewMaze = true;
         }
     }
