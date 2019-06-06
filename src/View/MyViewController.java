@@ -5,6 +5,7 @@ import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.Position;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -31,6 +32,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Properties;
@@ -85,10 +87,8 @@ public class MyViewController implements Observer, IView {
 
         mazeDisplayer.setIsSolve(isPushedSolve);
         mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
-
-
+        System.out.println("pos: "+characterPositionRow+", "+characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
-
         this.characterPositionColumn.set(characterPositionColumn + "");
            if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
             characterPositionColumn == maze.getGoalPosition().getColumnIndex()){
@@ -114,11 +114,6 @@ public class MyViewController implements Observer, IView {
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
             btn_solveMaze.setDisable(false);
 
-
-           // mazeDisplayer.widthProperty().bind(pane.widthProperty());
-//            mazeDisplayer.heightProperty().bind(pane.heightProperty());
-//        characterPositionRow.widthProperty().bind(pane.widthProperty());
-//        characterPositionColumn.heightProperty().bind(pane.heightProperty());
             isPushedNewMaze = true;
         }
     }
@@ -195,6 +190,8 @@ public class MyViewController implements Observer, IView {
         GridPane_newMaze.setVisible(true);
     }
 
+
+
     @Override
     public void saveGame() {
         if (isPushedNewMaze == true) {
@@ -205,21 +202,23 @@ public class MyViewController implements Observer, IView {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             //Show save file dialog
             File file = fileChooser.showSaveDialog(stage);
-            SaveMazeFile(myViewModel.getMaze(), file);
+            Position p = new Position(myViewModel.getCharacterPositionRow(),myViewModel.getCharacterPositionColumn());
+            SaveMazeFile(myViewModel.getMaze(),p, file);
 
         } else
             popWindow("Attempt Saving failed", " attempt failed to save the maze\n" +
                     "you need to create maze first");
     }
 
-    private void SaveMazeFile(Maze maze, File file) {
+    private void SaveMazeFile(Maze maze,Position pos, File file) {
         try {
             File newFile = new File(file.getPath());
-//            newFile
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(newFile));
-            out.writeObject(maze);
-            out.flush();
-            out.close();
+            ArrayList<Object> arrObjects=new ArrayList<>();
+            arrObjects.add(maze);
+            arrObjects.add(pos);
+            ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream(newFile));
+            oos.writeObject(arrObjects);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -251,10 +250,13 @@ public class MyViewController implements Observer, IView {
 
     private void loadMazeFile(File file) throws IOException, ClassNotFoundException {
         FileInputStream inputFile = new FileInputStream(file.getPath());
-        ObjectInputStream input = new ObjectInputStream(inputFile);
-
-        Maze maze = (Maze) input.readObject();
+        ObjectInputStream ois=new ObjectInputStream(inputFile);
+        ArrayList<Object> arrObjects=new ArrayList<>();
+        arrObjects=(ArrayList<Object>)ois.readObject();
+        Maze maze =(Maze)(arrObjects.toArray()[0]);
+        Position p=(Position) (arrObjects.toArray()[1]);
         this.myViewModel.setMaze(maze);
+        this.myViewModel.setPosition(p);
         this.txtfld_rowsNum.setText(maze.getrowSize()+"");
         this.txtfld_columnsNum.setText(maze.getcolSize()+"");
         this.isPushedSolve = false;

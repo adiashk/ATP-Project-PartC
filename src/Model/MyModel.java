@@ -53,11 +53,16 @@ public class MyModel extends Observable implements IModel {
     private int characterPositionColumn=1;
 
     public void setCharacterPositionRow(int characterPositionRow) {
+
         this.characterPositionRow = characterPositionRow;
+        setChanged();
+        notifyObservers();
     }
 
     public void setCharacterPositionColumn(int characterPositionColumn) {
         this.characterPositionColumn = characterPositionColumn;
+        setChanged();
+        notifyObservers();
     }
 
     @Override
@@ -93,10 +98,6 @@ public class MyModel extends Observable implements IModel {
     public void setMaze(Maze maze) {
 
         this.maze = maze;
-        setChanged();
-        notifyObservers();
-        System.out.println("1");
-
     }
 
     @Override

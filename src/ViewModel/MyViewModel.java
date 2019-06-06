@@ -2,6 +2,7 @@ package ViewModel;
 
 import Model.IModel;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -30,18 +31,11 @@ public class MyViewModel extends Observable implements Observer {
     @Override
     public  void update(Observable o, Object arg) {
         if (o==model){
+            System.out.println("posView: "+model.getCharacterPositionRow()+", "+model.getCharacterPositionColumn());
 
-            characterPositionRowIndex = model.getCharacterPositionRow();
-            characterPositionColumnIndex = model.getCharacterPositionColumn();
-         /*   if(characterPositionRowIndex == model.getMaze().getGoalPosition().getRowIndex()&&
-            characterPositionColumnIndex == model.getMaze().getGoalPosition().getColumnIndex()){
+            characterPositionRow.set(model.getCharacterPositionRow()+ "");
 
-            }*/
-
-            characterPositionRow.set(characterPositionRowIndex + "");
-
-
-            characterPositionColumn.set(characterPositionColumnIndex + "");
+            characterPositionColumn.set(model.getCharacterPositionColumn() + "");
             //notify my observer (MyViewController)that i change
             setChanged();
             notifyObservers();
@@ -51,6 +45,8 @@ public class MyViewModel extends Observable implements Observer {
 
     public void generateMaze(int row, int col){
         model.generateMaze(row, col);
+        model.setCharacterPositionRow(model.getMaze().getStartPosition().getRowIndex());
+        model.setCharacterPositionColumn(model.getMaze().getStartPosition().getColumnIndex());
 
     }
 
@@ -62,23 +58,21 @@ public class MyViewModel extends Observable implements Observer {
         return model.getMaze();
     }
 
-    public void setMaze(Maze maze){
+    public void setMaze(Maze maze){//new
         this.model.setMaze(maze);
+    }
 
-        model.setCharacterPositionRow(maze.getStartPosition().getRowIndex());
-        model.setCharacterPositionColumn(maze.getStartPosition().getColumnIndex());
-        this.characterPositionColumnIndex =maze.getStartPosition().getColumnIndex();
-        this.characterPositionRowIndex=     maze.getStartPosition().getRowIndex();
-
-
+    public void setPosition(Position pos){
+        model.setCharacterPositionRow(pos.getRowIndex());
+        model.setCharacterPositionColumn(pos.getColumnIndex());
     }
 
     public int getCharacterPositionRow() {
-        return characterPositionRowIndex;
+        return model.getCharacterPositionRow();
     }
 
     public int getCharacterPositionColumn() {
-        return characterPositionColumnIndex;
+        return model.getCharacterPositionColumn();
     }
 
     public void saveMaze(){
