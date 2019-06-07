@@ -92,19 +92,17 @@ public class MyViewController implements Observer, IView {
         System.out.println("pos: "+characterPositionRow+", "+characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
-/*
 
         //win!!!!!!
-        String musicFile = "soundtrack.mp3.mp3";     // For example
+/*        String musicFile = "soundtrack.mp3.mp3";     // For example
 
         Media sound = new Media(new File(musicFile).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(resources/sounds/Chicken invaders 1 (soundtrack).mp3);
-        mediaPlayer.play();
+        mediaPlayer.play();*/
         if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
             characterPositionColumn == maze.getGoalPosition().getColumnIndex()){
                 popWindow("final", "awawawaw!!!!!");
             }
-*/
 
     }
 
