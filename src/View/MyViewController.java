@@ -52,6 +52,7 @@ public class MyViewController implements Observer, IView {
     public javafx.scene.Node GridPane_newMaze;
 //    public javafx.scene.Node pane;
     public javafx.scene.layout.Pane pane;
+    public javafx.scene.layout.Pane BorderPane;
     public boolean isPushedSolve = false;
     public boolean isPushedNewMaze = false;
     public Stage stage;
@@ -101,7 +102,10 @@ public class MyViewController implements Observer, IView {
         mediaPlayer.play();*/
         if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
             characterPositionColumn == maze.getGoalPosition().getColumnIndex()){
-                popWindow("final", "awawawaw!!!!!");
+            String message="congratulations!!!\n" + "you solve the maze";
+            String buttonOut="you want to finish the game and exit?";
+            String buttonStay="you want to keep play more?";
+                exitPopWindow("final", message,buttonOut,buttonStay);
             }
 
     }
@@ -308,7 +312,11 @@ public class MyViewController implements Observer, IView {
     @Override
     public void exitGame() {
         String strExit = "are you sure you want to exit?";
-        exitPopWindow("exit window", strExit);
+        String buttonOut ="Yes, of course!\n" +
+                        "Close the game";
+        String buttonStay = "No,I regretted it\n" +
+                        "Keep playing";
+        exitPopWindow("exit window", strExit,buttonOut,buttonStay);
 
     }
     public void popWindow(String title, String message) {
@@ -345,7 +353,7 @@ public class MyViewController implements Observer, IView {
     }
 
 
-    public void exitPopWindow(String title, String message) {
+    public void exitPopWindow(String title, String message,String buttonOut,String buttonStay) {
 
         Stage window = new Stage();
 
@@ -357,10 +365,8 @@ public class MyViewController implements Observer, IView {
 
         Label label = new Label();
         label.setText(message);
-        Button yesButton = new Button("Yes, of course!\n" +
-                "Close the game");
-        Button noButton = new Button("No,I regretted it\n" +
-                "Keep playing");
+        Button yesButton = new Button(buttonOut);
+        Button noButton = new Button(buttonStay);
         noButton.setOnAction(e -> window.close());
         noButton.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {

@@ -6,10 +6,12 @@ import ViewModel.MyViewModel;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -38,12 +40,34 @@ public class Main extends Application {
         //--------------
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.initStage(primaryStage);
-  /*      scene.setOnZoom(new EventHandler<ZoomEvent>() {
+       /* scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
-            public void handle(ZoomEvent event) {
-                myViewController
-            }
+            public void handle( ScrollEvent event) {
+                double zoomFactor = 1.05;
+                double deltaY = event.getDeltaY();
+
+                if (deltaY < 0){
+                    zoomFactor = 0.95;
+                }
+                myViewController.pane.setScaleX(myViewController.pane.getScaleX() * zoomFactor);
+                myViewController.pane.setScaleY(myViewController.pane.getScaleY() * zoomFactor);
+                event.consume();
+       }
         });*/
+        scene.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle( ScrollEvent event) {
+                double zoomFactor = 1.05;
+                double deltaY = event.getY();
+
+                if (deltaY < 0){
+                    zoomFactor = 0.95;
+                }
+                myViewController.pane.setScaleX(myViewController.pane.getScaleX() * zoomFactor);
+                myViewController.pane.setScaleY(myViewController.pane.getScaleY() * zoomFactor);
+                event.consume();
+            }
+        });
         myViewController.setResizeEvent(scene);
         myViewController.setViewModel(viewModel);
         viewModel.addObserver(myViewController);
