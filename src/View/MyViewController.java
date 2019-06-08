@@ -26,11 +26,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.print.attribute.standard.Media;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -402,6 +402,7 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void aboutGame() {
+        playSound("resources/sounds/ChickenBite.m4a");
         String strAbout = "this game brought you by Yuval Mor Yosef and Adi Ashkenazi\n" +
                 "in the course of advanced topic in programing\n" +
                 "We build the maze with the algorithm of Prim\n" +
@@ -412,6 +413,10 @@ public class MyViewController implements Observer, IView {
         popWindow("About the game", strAbout);
     }
 
-
+    public void playSound(String musicFile) {
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+    }
 }
 
