@@ -6,9 +6,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +32,7 @@ public class MazeDisplayer extends Canvas {
     private int characterPositionColumn;
     private ArrayList<AState> solutionPath;
     private boolean isSolve;
+    private int rotation;
 
 
     public MazeDisplayer() {
@@ -46,9 +49,10 @@ public class MazeDisplayer extends Canvas {
         this.solutionPath = solutionPath;
     }
 
-    public void setCharacterPosition(int row, int column) {
+    public void setCharacterPosition(int row, int column, int rotation) {
         characterPositionRow = row;
         characterPositionColumn = column;
+        this.rotation = rotation;
         redraw();
     }
 
@@ -111,7 +115,14 @@ public class MazeDisplayer extends Canvas {
                 //Draw Character
 //                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
                  //gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
-                gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
+              //  gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
+                //Draw Character
+                ImageView iv = new ImageView(characterImage);
+                iv.setRotate(rotation);
+                SnapshotParameters params = new SnapshotParameters();
+                params.setFill(Color.TRANSPARENT);
+                Image rotatedImageCharacter = iv.snapshot(params, null);
+                gc.drawImage(rotatedImageCharacter, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
 
 
 

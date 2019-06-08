@@ -43,6 +43,10 @@ public class MyViewModel extends Observable implements Observer {
 
     }
 
+    public int getRotation(){
+        return model.getDirection();
+    }
+
     public void generateMaze(int row, int col){
         model.generateMaze(row, col);
         model.setCharacterPositionRow(model.getMaze().getStartPosition().getRowIndex());

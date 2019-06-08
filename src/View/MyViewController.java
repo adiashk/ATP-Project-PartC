@@ -25,12 +25,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.text.html.ImageView;
-import java.awt.*;
+import javax.print.attribute.standard.Media;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -55,13 +55,9 @@ public class MyViewController implements Observer, IView {
     public boolean isPushedSolve = false;
     public boolean isPushedNewMaze = false;
     public Stage stage;
- //   public ImageView imageView;
 
     public void initStage(Stage s) {
         stage = s;
-    //        File file = new File("resources/images/open_manu.jpg");
-//            Image image = new Image("resources/images/open_manu.jpg");
-    //        imageView=new ImageView()
     }
 
     public void setViewModel(MyViewModel myViewModel) {
@@ -92,11 +88,18 @@ public class MyViewController implements Observer, IView {
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
 
         mazeDisplayer.setIsSolve(isPushedSolve);
-        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn, myViewModel.getRotation());
         System.out.println("pos: "+characterPositionRow+", "+characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
-           if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
+
+        //win!!!!!!
+/*        String musicFile = "soundtrack.mp3.mp3";     // For example
+
+        Media sound = new Media(new File(musicFile).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(resources/sounds/Chicken invaders 1 (soundtrack).mp3);
+        mediaPlayer.play();*/
+        if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
             characterPositionColumn == maze.getGoalPosition().getColumnIndex()){
                 popWindow("final", "awawawaw!!!!!");
             }
@@ -172,6 +175,8 @@ public class MyViewController implements Observer, IView {
     }
 
     public void setResizeEvent(Scene scene) {
+        long width = 0;
+        long height = 0;
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
@@ -187,12 +192,15 @@ public class MyViewController implements Observer, IView {
                 mazeDisplayer.heightProperty().bind(pane.heightProperty());
             }
         });
+
     }
+
 
     @Override
     public void newGame() {
         GridPane_newMaze.setVisible(true);
     }
+
 
 
     @Override
