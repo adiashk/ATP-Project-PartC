@@ -1,15 +1,11 @@
-/*
-.root{
-        -fx-background-image:url("../../resources/images/background.jpg");
+/*.root{
+        -fx-background-image:url("../resources/images/background.jpg");
         -fx-background-repeat:stretch;
         -fx-background-position:center;
         -fx-background-size:100%100%;
 }*/
-
 .root{
-    -fx-background-color: bisque;
-
-}
+    -fx-background-color: bisque;}
 Button {
     -fx-text-fill: white;
     -fx-font-family: "Arial Narrow";

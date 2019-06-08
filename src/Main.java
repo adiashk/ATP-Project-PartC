@@ -8,12 +8,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ZoomEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.util.Optional;
+import java.io.File;
 
 public class Main extends Application {
 
@@ -30,10 +31,19 @@ public class Main extends Application {
         Parent root = fxmlLoader.load(getClass().getResource("View/MyView.fxml").openStream());
         Scene scene = new Scene(root, 800, 700);
         scene.getStylesheets().add(getClass().getResource("View/MyViewStyle.css").toExternalForm());
+        final ImageView selectedImage = new ImageView();
+        Image image = new Image(new File("resources/images/open_manu.jpg").toURI().toURL().toExternalForm());
+        selectedImage.setImage(image);
         primaryStage.setScene(scene);
         //--------------
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.initStage(primaryStage);
+  /*      scene.setOnZoom(new EventHandler<ZoomEvent>() {
+            @Override
+            public void handle(ZoomEvent event) {
+                myViewController
+            }
+        });*/
         myViewController.setResizeEvent(scene);
         myViewController.setViewModel(viewModel);
         viewModel.addObserver(myViewController);
