@@ -31,6 +31,7 @@ public class MyModel extends Observable implements IModel {
     Maze maze;
     ArrayList<AState> mazeSolutionSteps;
     private int direction;
+    private boolean isCorrectMove= false;
 
 
     public MyModel() {
@@ -117,6 +118,7 @@ public class MyModel extends Observable implements IModel {
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow - 1, characterPositionColumn)))) {
                     characterPositionRow--;
                     direction = 0;
+                    isCorrectMove=true;
                 }
                 break;
             case NUMPAD2:
@@ -125,6 +127,7 @@ public class MyModel extends Observable implements IModel {
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow + 1, characterPositionColumn)))) {
                     characterPositionRow++;
                     direction = 180;
+                    isCorrectMove=true;
                 }
                 break;
             case NUMPAD6:
@@ -133,6 +136,7 @@ public class MyModel extends Observable implements IModel {
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn + 1)))) {
                     characterPositionColumn++;
                     direction = 90;
+                    isCorrectMove=true;
                 }
                 break;
             case NUMPAD4:
@@ -141,6 +145,7 @@ public class MyModel extends Observable implements IModel {
                 if (possibleS.contains(new MazeState(1, null, new Position(characterPositionRow, characterPositionColumn - 1)))) {
                     characterPositionColumn--;
                     direction = -90;
+                    isCorrectMove=true;
                 }
                 break;
             case NUMPAD7://8&4
@@ -149,6 +154,7 @@ public class MyModel extends Observable implements IModel {
                     characterPositionRow--;
                     characterPositionColumn--;
                     direction = -45;
+                    isCorrectMove=true;
                 }
                 break;
             case NUMPAD1://4&2
@@ -157,6 +163,8 @@ public class MyModel extends Observable implements IModel {
                     characterPositionRow++;
                     characterPositionColumn--;
                     direction = -135;
+                    isCorrectMove=true;
+
                 }
                 break;
             case NUMPAD3://2&6
@@ -165,6 +173,8 @@ public class MyModel extends Observable implements IModel {
                     characterPositionRow++;
                     characterPositionColumn++;
                     direction = 135;
+                    isCorrectMove=true;
+
                 }
                 break;
             case NUMPAD9://6&8
@@ -173,14 +183,26 @@ public class MyModel extends Observable implements IModel {
                     characterPositionRow--;
                     characterPositionColumn++;
                     direction = 45;
+                    isCorrectMove=true;
+
                 }
                 break;
+
         }
+        //maze.updateMazeNum(characterPositionRow,characterPositionColumn,-1);
+
         ///not need to changed if not move!!
         setChanged();
         notifyObservers();
 
+    }
 
+    public boolean isCorrectMove() {
+        return isCorrectMove;
+    }
+
+    public void setCorrectMove(boolean correctMove) {
+        isCorrectMove = correctMove;
     }
 
     @Override

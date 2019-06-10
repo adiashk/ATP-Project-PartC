@@ -84,6 +84,8 @@ public class MazeDisplayer extends Canvas {
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
                 Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
+                //Image eggBeforeImage = new Image(new FileInputStream(ImageFileNameEgg.get()));
+                //Image eggAfterImage = new Image(new FileInputStream(ImageFileNameEggAfter.get()));
                 Image startImage = new Image(new FileInputStream(ImageFileNameStart.get()));
                 Image endImage = new Image(new FileInputStream(ImageFileNameEnd.get()));
 
@@ -98,9 +100,17 @@ public class MazeDisplayer extends Canvas {
                             // gc.drawImage(wallImage, i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                             gc.drawImage(wallImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
 
-                        }
+                        }/*else if (maze.getValue(i, j) == 0){
+                            gc.drawImage(eggBeforeImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+
+                        }else if (maze.getValue(i, j) == -1){
+                            gc.drawImage(eggAfterImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+
+                        }*/
                     }
                 }
+                if(isSolve)
+                    redrawSolve();
                 //start:
                 gc.drawImage(startImage, maze.getStartPosition().getColumnIndex() * cellWidth,
                         maze.getStartPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
@@ -109,8 +119,6 @@ public class MazeDisplayer extends Canvas {
                 gc.drawImage(endImage, maze.getGoalPosition().getColumnIndex() * cellWidth,
                         maze.getGoalPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
 
-                if(isSolve)
-                    redrawSolve();
 
                 //Draw Character
 //                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
@@ -173,6 +181,34 @@ public class MazeDisplayer extends Canvas {
     private StringProperty ImageFileNameSolve = new SimpleStringProperty();
     private StringProperty ImageFileNameStart = new SimpleStringProperty();
     private StringProperty ImageFileNameEnd = new SimpleStringProperty();
+
+    private StringProperty ImageFileNameEgg = new SimpleStringProperty();
+    private StringProperty ImageFileNameEggAfter = new SimpleStringProperty();
+
+
+    public String getImageFileNameEggAfter() {
+        return ImageFileNameEggAfter.get();
+    }
+
+    public StringProperty imageFileNameEggAfterProperty() {
+        return ImageFileNameEggAfter;
+    }
+
+    public void setImageFileNameEggAfter(String imageFileNameEggAfter) {
+        this.ImageFileNameEggAfter.set(imageFileNameEggAfter);
+    }
+
+    public String getImageFileNameEgg() {
+        return ImageFileNameEgg.get();
+    }
+
+    public StringProperty imageFileNameEggProperty() {
+        return ImageFileNameEgg;
+    }
+
+    public void setImageFileNameEgg(String imageFileNameEgg) {
+        this.ImageFileNameEgg.set(imageFileNameEgg);
+    }
 
     public void setImageFileNameStart(String imageFileNameStart) {
         this.ImageFileNameStart.set(imageFileNameStart);

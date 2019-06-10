@@ -63,7 +63,10 @@ public class MyViewModel extends Observable implements Observer {
 
     public void moveCharacter(KeyCode movement){
         model.moveCharacter(movement);
-        countMoves++;
+        if(model.isCorrectMove()) {
+            countMoves++;
+            model.setCorrectMove(false);
+        }
         moves.setValue(countMoves+"");
 //        int countM=countMoves.getValue();
 //        countMoves.setValue(countM+1);

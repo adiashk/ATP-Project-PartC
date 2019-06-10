@@ -18,5 +18,7 @@ public interface IModel {
     void setCharacterPositionColumn(int i);
     void setCharacterPositionRow(int i);
     int getDirection();
+    boolean isCorrectMove();
+    void setCorrectMove(boolean b);
 }
 
