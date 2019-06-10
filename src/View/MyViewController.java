@@ -29,6 +29,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -58,6 +59,9 @@ public class MyViewController implements Observer, IView {
 
     public void initStage(Stage s) {
         stage = s;
+        String open="Welcome to The Chicken Invaders Maze!";
+
+        openWindow("The Chicken Invaders Maze!", open);
     }
 
     public void setViewModel(MyViewModel myViewModel) {
@@ -71,19 +75,14 @@ public class MyViewController implements Observer, IView {
         lbl_rowsNum.textProperty().bind(myViewModel.characterPositionRow);
         lbl_columnsNum.textProperty().bind(myViewModel.characterPositionColumn);
         lbl_Date.textProperty().bind(myViewModel.moves);
-//        String countM;
-//        int
-//        countM.bind(myViewModel.countMoves);
-
-
     }
 
-    /*    public long measureAlgorithmTimeMillis(){
-            long timeBefore = System.currentTimeMillis();
-    //        generate(row, col);
-            long timeAfter = System.currentTimeMillis();
-            return (timeAfter-timeBefore);
-        }*/
+    /*        public long measureAlgorithmTimeMillis(){
+                long timeBefore = System.currentTimeMillis();
+        //        generate(row, col);
+                long timeAfter = System.currentTimeMillis();
+                return (timeAfter-timeBefore);
+            }*/
     @Override
     public void update(Observable o, Object arg) {
         if (o == myViewModel) {
@@ -106,17 +105,15 @@ public class MyViewController implements Observer, IView {
         this.characterPositionColumn.set(characterPositionColumn + "");
 
         //win!!!!!!
-/*        String musicFile = "soundtrack.mp3.mp3";     // For example
-
-        Media sound = new Media(new File(musicFile).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(resources/sounds/Chicken invaders 1 (soundtrack).mp3);
-        mediaPlayer.play();*/
         if (characterPositionRow == maze.getGoalPosition().getRowIndex() &&
                 characterPositionColumn == maze.getGoalPosition().getColumnIndex()) {
-            String message = "congratulations!!!\n" + "you solve the maze";
-            String buttonOut = "you want to finish the game and exit?";
-            String buttonStay = "you want to keep play more?";
+            String message = "Congratulations!!!\n" + "You solved the maze";
+            String buttonOut = "Do you want to finish the game and exit?";
+            String buttonStay = "Do you want to keep play more?\n" +
+                    "press here to start a new maze";
+            playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
             exitPopWindow("final", message, buttonOut, buttonStay);
+
         }
 
     }
@@ -322,6 +319,9 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void exitGame() {
+//        playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
+        playSound("resources/sounds/ChickenBite.m4a");
+
         String strExit = "are you sure you want to exit?";
         String buttonOut = "Yes, of course!\n" +
                 "Close the game";
@@ -373,7 +373,7 @@ public class MyViewController implements Observer, IView {
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(300);
+        window.setMinWidth(400);
         window.setMinHeight(300);
 
         Label label = new Label();
@@ -431,18 +431,36 @@ public class MyViewController implements Observer, IView {
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
     }
-//    public void start(ActionEvent actionEvent) {
-//        try {
-//            Stage stage = new Stage();
-//            stage.setTitle("The Chicken Invaders Maze!!!");
-//            FXMLLoader fxmlLoader = new FXMLLoader();
-//            Parent root = fxmlLoader.load(getClass().getResource("MyViewOpenGame.fxml").openStream());
-//            Scene scene = new Scene(root, 400, 350);
-//            stage.setScene(scene);
-//            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-//            stage.show();
-//        } catch (Exception e) {
-//        }
-//    }
+
+    public void openWindow(String title, String message) {
+
+        Stage window = new Stage();
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMaximized(true);
+        Label label = new Label();
+        label.setText(message);
+        Button closeButton = new Button("Start the game!!");
+        closeButton.setOnAction(e -> window.close());
+        closeButton.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                window.close();
+            }
+        });
+
+        VBox layout = new VBox(20);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER);
+
+        //Display window and wait for it to be closed before returning
+        Scene scene = new Scene(layout);
+//        scene.getStylesheets().add("PopUpWindow.css");
+        scene.getStylesheets().add(getClass().getResource("openGame.css").toExternalForm());
+
+        window.setScene(scene);
+        window.showAndWait();
+
+    }
 }
 

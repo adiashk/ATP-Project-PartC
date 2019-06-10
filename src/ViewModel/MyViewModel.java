@@ -38,7 +38,7 @@ public class MyViewModel extends Observable implements Observer {
     @Override
     public  void update(Observable o, Object arg) {
         if (o==model){
-            System.out.println("posView: "+model.getCharacterPositionRow()+", "+model.getCharacterPositionColumn());
+//            System.out.println("posView: "+model.getCharacterPositionRow()+", "+model.getCharacterPositionColumn());
 
             characterPositionRow.set(model.getCharacterPositionRow()+ "");
 

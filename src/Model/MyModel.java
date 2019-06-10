@@ -250,29 +250,29 @@ public class MyModel extends Observable implements IModel {
     }
 
     private void CommunicateWithServer_SolveSearchProblem() {
- /*       try {
-            Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
-                @Override
-                public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
-                    try {
-                        ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
-                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
-                        toServer.flush();
-                        toServer.writeObject(maze); //send maze to server
-                        toServer.flush();
-                        Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
-                        //Print Maze Solution retrieved from the server
-                        mazeSolutionSteps = mazeSolution.getSolutionPath();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            client.communicateWithServer();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }*/
+//        try {
+//            Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
+//                @Override
+//                public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
+//                    try {
+//                        ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
+//                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
+//                        toServer.flush();
+////                        toServer.writeObject(maze); //send maze to server
+////                        toServer.flush();
+//                        Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
+//                        //Print Maze Solution retrieved from the server
+//                        mazeSolutionSteps = mazeSolution.getSolutionPath();
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//            client.communicateWithServer();
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        }
         SearchableMaze searchableMaze = new SearchableMaze(maze);
 
             ISearchingAlgorithm searcher = new DepthFirstSearch();

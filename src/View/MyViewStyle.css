@@ -77,3 +77,12 @@ Label{
     -fx-font-weight: bold;
 
 }
+#menuBar{
+    -fx-background-color: lightblue;
+}
+#openGame{
+    -fx-background-image:url("../../../../resources/images/background.jpg");
+    -fx-background-repeat:stretch;
+    -fx-background-position:center;
+    -fx-background-size:100%100%;
+}
