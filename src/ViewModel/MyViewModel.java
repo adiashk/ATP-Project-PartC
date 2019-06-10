@@ -4,6 +4,8 @@ import Model.IModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Alert;
@@ -20,8 +22,13 @@ public class MyViewModel extends Observable implements Observer {
     private int characterPositionRowIndex;
     private int characterPositionColumnIndex;
 
+
     public  StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
     public  StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
+//    public IntegerProperty countMoves = new SimpleIntegerProperty(0);
+    private int countMoves;
+    public StringProperty moves = new SimpleStringProperty("0");
+
 
     public MyViewModel(IModel model){
         this.model = model;
@@ -51,11 +58,15 @@ public class MyViewModel extends Observable implements Observer {
         model.generateMaze(row, col);
         model.setCharacterPositionRow(model.getMaze().getStartPosition().getRowIndex());
         model.setCharacterPositionColumn(model.getMaze().getStartPosition().getColumnIndex());
-
+        countMoves=0;
     }
 
     public void moveCharacter(KeyCode movement){
         model.moveCharacter(movement);
+        countMoves++;
+        moves.setValue(countMoves+"");
+//        int countM=countMoves.getValue();
+//        countMoves.setValue(countM+1);
     }
 
     public Maze getMaze() {

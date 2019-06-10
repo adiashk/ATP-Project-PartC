@@ -40,7 +40,7 @@ public class Main extends Application {
         //--------------
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.initStage(primaryStage);
-       /* scene.setOnScroll(new EventHandler<ScrollEvent>() {
+        scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
             public void handle( ScrollEvent event) {
                 double zoomFactor = 1.05;
@@ -53,8 +53,8 @@ public class Main extends Application {
                 myViewController.pane.setScaleY(myViewController.pane.getScaleY() * zoomFactor);
                 event.consume();
        }
-        });*/
-        scene.setOnScroll(new EventHandler<ScrollEvent>() {
+        });
+/*        scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
             public void handle( ScrollEvent event) {
                 double zoomFactor = 1.05;
@@ -67,7 +67,7 @@ public class Main extends Application {
                 myViewController.pane.setScaleY(myViewController.pane.getScaleY() * zoomFactor);
                 event.consume();
             }
-        });
+        });*/
         myViewController.setResizeEvent(scene);
         myViewController.setViewModel(viewModel);
         viewModel.addObserver(myViewController);

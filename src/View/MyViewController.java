@@ -34,10 +34,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Properties;
+import java.util.*;
 
 public class MyViewController implements Observer, IView {
     @FXML
@@ -47,15 +44,17 @@ public class MyViewController implements Observer, IView {
     public javafx.scene.control.TextField txtfld_columnsNum;
     public javafx.scene.control.Label lbl_rowsNum;
     public javafx.scene.control.Label lbl_columnsNum;
+    public javafx.scene.control.Label lbl_Date;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.Node GridPane_newMaze;
-//    public javafx.scene.Node pane;
+    //    public javafx.scene.Node pane;
     public javafx.scene.layout.Pane pane;
     public javafx.scene.layout.Pane BorderPane;
     public boolean isPushedSolve = false;
     public boolean isPushedNewMaze = false;
     public Stage stage;
+//    public Timer timer;
 
     public void initStage(Stage s) {
         stage = s;
@@ -71,8 +70,20 @@ public class MyViewController implements Observer, IView {
     private void bindProperties(MyViewModel myViewModel) {
         lbl_rowsNum.textProperty().bind(myViewModel.characterPositionRow);
         lbl_columnsNum.textProperty().bind(myViewModel.characterPositionColumn);
+        lbl_Date.textProperty().bind(myViewModel.moves);
+//        String countM;
+//        int
+//        countM.bind(myViewModel.countMoves);
+
+
     }
 
+    /*    public long measureAlgorithmTimeMillis(){
+            long timeBefore = System.currentTimeMillis();
+    //        generate(row, col);
+            long timeAfter = System.currentTimeMillis();
+            return (timeAfter-timeBefore);
+        }*/
     @Override
     public void update(Observable o, Object arg) {
         if (o == myViewModel) {
@@ -90,7 +101,7 @@ public class MyViewController implements Observer, IView {
 
         mazeDisplayer.setIsSolve(isPushedSolve);
         mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn, myViewModel.getRotation());
-        System.out.println("pos: "+characterPositionRow+", "+characterPositionColumn);
+        System.out.println("pos: " + characterPositionRow + ", " + characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
 
@@ -100,13 +111,13 @@ public class MyViewController implements Observer, IView {
         Media sound = new Media(new File(musicFile).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(resources/sounds/Chicken invaders 1 (soundtrack).mp3);
         mediaPlayer.play();*/
-        if(characterPositionRow == maze.getGoalPosition().getRowIndex()&&
-            characterPositionColumn == maze.getGoalPosition().getColumnIndex()){
-            String message="congratulations!!!\n" + "you solve the maze";
-            String buttonOut="you want to finish the game and exit?";
-            String buttonStay="you want to keep play more?";
-                exitPopWindow("final", message,buttonOut,buttonStay);
-            }
+        if (characterPositionRow == maze.getGoalPosition().getRowIndex() &&
+                characterPositionColumn == maze.getGoalPosition().getColumnIndex()) {
+            String message = "congratulations!!!\n" + "you solve the maze";
+            String buttonOut = "you want to finish the game and exit?";
+            String buttonStay = "you want to keep play more?";
+            exitPopWindow("final", message, buttonOut, buttonStay);
+        }
 
     }
 
@@ -117,12 +128,12 @@ public class MyViewController implements Observer, IView {
         try {
             int row = Integer.valueOf(txtfld_rowsNum.getText());
             int col = Integer.valueOf(txtfld_columnsNum.getText());
-            if (row<3||col<3)
+            if (row < 3 || col < 3)
                 throw new NumberFormatException();
             isOk = true;
         } catch (NumberFormatException e) {
             popWindow("Wrong row or column", "Please enter valid numbers\n" +
-                                                        "positive numbers, bigger then 3.");
+                    "positive numbers, bigger then 3.");
             isOk = false;
         }
         if (isOk) {
@@ -130,6 +141,7 @@ public class MyViewController implements Observer, IView {
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
             btn_solveMaze.setDisable(false);
             isPushedNewMaze = true;
+            myViewModel.moves.setValue("0");
         }
     }
 
@@ -147,6 +159,7 @@ public class MyViewController implements Observer, IView {
         myViewModel.moveCharacter(keyEvent.getCode());
         keyEvent.consume();
     }
+
     public void mouseClicked(MouseEvent mouseEvent) {
         this.mazeDisplayer.requestFocus();
     }
@@ -206,7 +219,6 @@ public class MyViewController implements Observer, IView {
     }
 
 
-
     @Override
     public void saveGame() {
         if (isPushedNewMaze == true) {
@@ -217,21 +229,21 @@ public class MyViewController implements Observer, IView {
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             //Show save file dialog
             File file = fileChooser.showSaveDialog(stage);
-            Position p = new Position(myViewModel.getCharacterPositionRow(),myViewModel.getCharacterPositionColumn());
-            SaveMazeFile(myViewModel.getMaze(),p, file);
+            Position p = new Position(myViewModel.getCharacterPositionRow(), myViewModel.getCharacterPositionColumn());
+            SaveMazeFile(myViewModel.getMaze(), p, file);
 
         } else
             popWindow("Attempt Saving failed", " attempt failed to save the maze\n" +
                     "you need to create maze first");
     }
 
-    private void SaveMazeFile(Maze maze,Position pos, File file) {
+    private void SaveMazeFile(Maze maze, Position pos, File file) {
         try {
             File newFile = new File(file.getPath());
-            ArrayList<Object> arrObjects=new ArrayList<>();
+            ArrayList<Object> arrObjects = new ArrayList<>();
             arrObjects.add(maze);
             arrObjects.add(pos);
-            ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream(newFile));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(newFile));
             oos.writeObject(arrObjects);
 
         } catch (Exception e) {
@@ -252,8 +264,7 @@ public class MyViewController implements Observer, IView {
                 GridPane_newMaze.setVisible(true);
                 btn_solveMaze.setDisable(false);
 
-            }
-            catch (IOException | ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
             //Desktop.getDesktop().open(loadFile); // open in new window
@@ -265,15 +276,15 @@ public class MyViewController implements Observer, IView {
 
     private void loadMazeFile(File file) throws IOException, ClassNotFoundException {
         FileInputStream inputFile = new FileInputStream(file.getPath());
-        ObjectInputStream ois=new ObjectInputStream(inputFile);
-        ArrayList<Object> arrObjects=new ArrayList<>();
-        arrObjects=(ArrayList<Object>)ois.readObject();
-        Maze maze =(Maze)(arrObjects.toArray()[0]);
-        Position p=(Position) (arrObjects.toArray()[1]);
+        ObjectInputStream ois = new ObjectInputStream(inputFile);
+        ArrayList<Object> arrObjects = new ArrayList<>();
+        arrObjects = (ArrayList<Object>) ois.readObject();
+        Maze maze = (Maze) (arrObjects.toArray()[0]);
+        Position p = (Position) (arrObjects.toArray()[1]);
         this.myViewModel.setMaze(maze);
         this.myViewModel.setPosition(p);
-        this.txtfld_rowsNum.setText(maze.getrowSize()+"");
-        this.txtfld_columnsNum.setText(maze.getcolSize()+"");
+        this.txtfld_rowsNum.setText(maze.getrowSize() + "");
+        this.txtfld_columnsNum.setText(maze.getcolSize() + "");
         this.isPushedSolve = false;
         setViewModel(myViewModel);
         displayMaze(maze);
@@ -312,13 +323,14 @@ public class MyViewController implements Observer, IView {
     @Override
     public void exitGame() {
         String strExit = "are you sure you want to exit?";
-        String buttonOut ="Yes, of course!\n" +
-                        "Close the game";
+        String buttonOut = "Yes, of course!\n" +
+                "Close the game";
         String buttonStay = "No,I regretted it\n" +
-                        "Keep playing";
-        exitPopWindow("exit window", strExit,buttonOut,buttonStay);
+                "Keep playing";
+        exitPopWindow("exit window", strExit, buttonOut, buttonStay);
 
     }
+
     public void popWindow(String title, String message) {
 
         Stage window = new Stage();
@@ -330,6 +342,7 @@ public class MyViewController implements Observer, IView {
         window.setMinHeight(300);
 
         Label label = new Label();
+//        label.setId("about");
         label.setText(message);
         Button closeButton = new Button("Close this window");
         closeButton.setOnAction(e -> window.close());
@@ -353,7 +366,7 @@ public class MyViewController implements Observer, IView {
     }
 
 
-    public void exitPopWindow(String title, String message,String buttonOut,String buttonStay) {
+    public void exitPopWindow(String title, String message, String buttonOut, String buttonStay) {
 
         Stage window = new Stage();
 
@@ -418,5 +431,18 @@ public class MyViewController implements Observer, IView {
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
     }
+//    public void start(ActionEvent actionEvent) {
+//        try {
+//            Stage stage = new Stage();
+//            stage.setTitle("The Chicken Invaders Maze!!!");
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            Parent root = fxmlLoader.load(getClass().getResource("MyViewOpenGame.fxml").openStream());
+//            Scene scene = new Scene(root, 400, 350);
+//            stage.setScene(scene);
+//            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+//            stage.show();
+//        } catch (Exception e) {
+//        }
+//    }
 }
 
