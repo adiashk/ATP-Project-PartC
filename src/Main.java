@@ -24,6 +24,10 @@ import java.io.File;
 public class Main extends Application {
     private double xOffset;
     private double yOffset;
+    private double  scaleX;
+    private double scaleY;
+    private double  transX;
+    private double transY;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -45,7 +49,10 @@ public class Main extends Application {
         //--------------
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.initStage(primaryStage);
-
+        scaleX = myViewController.pane.getScaleX();
+        scaleY = myViewController.pane.getScaleY();
+        transX = myViewController.pane.getTranslateX();
+        transY = myViewController.pane.getTranslateY();
 
         scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
@@ -85,7 +92,18 @@ public class Main extends Application {
 
             }
 
+        });
 
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("scale:");
+                myViewController.pane.setScaleX(scaleX);
+                myViewController.pane.setScaleY(scaleY);
+
+                myViewController.pane.setTranslateX(transX);
+                myViewController.pane.setTranslateY(transY);
+            }
         });
 
 
