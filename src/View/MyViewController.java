@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
@@ -66,7 +67,6 @@ public class MyViewController implements Observer, IView {
 
     public void setViewModel(MyViewModel myViewModel) {
 
-        //System.out.println("wwwwwwwwwww");
         this.myViewModel = myViewModel;
         bindProperties(myViewModel);
     }
@@ -100,7 +100,7 @@ public class MyViewController implements Observer, IView {
 
         mazeDisplayer.setIsSolve(isPushedSolve);
         mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn, myViewModel.getRotation());
-        System.out.println("pos: " + characterPositionRow + ", " + characterPositionColumn);
+        //System.out.println("pos: " + characterPositionRow + ", " + characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
 
@@ -117,6 +117,8 @@ public class MyViewController implements Observer, IView {
         }
 
     }
+
+
 
     public void generateMaze() {
 
@@ -194,7 +196,7 @@ public class MyViewController implements Observer, IView {
         scene.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                System.out.println("Width: " + newSceneWidth);
+                //System.out.println("Width: " + newSceneWidth);
                 mazeDisplayer.widthProperty().bind(pane.widthProperty());
 
             }
@@ -202,7 +204,7 @@ public class MyViewController implements Observer, IView {
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                System.out.println("Height: " + newSceneHeight);
+               // System.out.println("Height: " + newSceneHeight);
                 mazeDisplayer.heightProperty().bind(pane.heightProperty());
             }
         });
@@ -462,5 +464,6 @@ public class MyViewController implements Observer, IView {
         window.showAndWait();
 
     }
+
 }
 

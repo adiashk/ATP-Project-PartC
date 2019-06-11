@@ -33,6 +33,8 @@ public class MazeDisplayer extends Canvas {
     private ArrayList<AState> solutionPath;
     private boolean isSolve;
     private int rotation;
+    private double x;
+    private double y;
 
 
     public MazeDisplayer() {
@@ -131,6 +133,8 @@ public class MazeDisplayer extends Canvas {
                 params.setFill(Color.TRANSPARENT);
                 Image rotatedImageCharacter = iv.snapshot(params, null);
                 gc.drawImage(rotatedImageCharacter, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
+                x= characterPositionColumn * cellWidth;
+                y = characterPositionRow * cellHeight;
 
 
 
@@ -263,4 +267,12 @@ public class MazeDisplayer extends Canvas {
     }
     //endregion
 
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }

@@ -4,6 +4,7 @@ import View.IView;
 import View.MyViewController;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -11,15 +12,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.input.ZoomEvent;
+import javafx.scene.layout.BackgroundFill;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.awt.*;
 import java.io.File;
 
 public class Main extends Application {
+    private double xOffset;
+    private double yOffset;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -42,9 +46,13 @@ public class Main extends Application {
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.initStage(primaryStage);
 
+
         scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
             public void handle( ScrollEvent event) {
+                xOffset=event.getDeltaY();
+                yOffset=event.getDeltaY();
+                System.out.println(xOffset+" , "+yOffset);
                 double zoomFactor = 1.05;
                 double deltaY = event.getDeltaY();
 
@@ -52,25 +60,50 @@ public class Main extends Application {
                     zoomFactor = 0.95;
                 }
                 myViewController.pane.setScaleX(myViewController.pane.getScaleX() * zoomFactor);
-                //myViewController.pane.setScaleX( * zoomFactor);
                 myViewController.pane.setScaleY(myViewController.pane.getScaleY() * zoomFactor);
-                event.consume();
-       }
-        });
-/*        scene.setOnScroll(new EventHandler<ScrollEvent>() {
-            @Override
-            public void handle( ScrollEvent event) {
-                double zoomFactor = 1.05;
-                double deltaY = event.getY();
 
-                if (deltaY < 0){
-                    zoomFactor = 0.95;
-                }
-                myViewController.pane.setScaleX(myViewController.pane.getScaleX() * zoomFactor);
-                myViewController.pane.setScaleY(myViewController.pane.getScaleY() * zoomFactor);
+                System.out.println("before");
+                System.out.println(myViewController.pane.getTranslateX()+" , "+myViewController.pane.getTranslateY());
+                System.out.println("after");
+
+                double widthPane = myViewController.pane.getWidth()/2;
+                double heightPane = myViewController.pane.getHeight()/2;
+                double sizeA = (widthPane*2/model.getMaze().getrowSize());
+                double sizeB = (heightPane*2/model.getMaze().getcolSize());
+                System.out.println("Size:: "+sizeA+" , "+sizeB);
+                System.out.println("heightPane:: "+widthPane*2+" , "+heightPane*2);
+                System.out.println("row:: "+myViewController.mazeDisplayer.getCharacterPositionRow()+" , "+myViewController.mazeDisplayer.getCharacterPositionColumn());
+                System.out.println("scale:: "+myViewController.pane.getScaleX()+" , "+myViewController.pane.getScaleY());
+
+                    myViewController.pane.setTranslateX(((widthPane-(myViewController.mazeDisplayer.getCharacterPositionColumn()
+                         *sizeB  ))*myViewController.pane.getScaleX() )- 167);
+                    myViewController.pane.setTranslateY(((heightPane-(myViewController.mazeDisplayer.getCharacterPositionRow()
+                         *sizeA  ))*myViewController.pane.getScaleY() ));
+
+                System.out.println(myViewController.pane.getTranslateX()+" , "+myViewController.pane.getTranslateY());
                 event.consume();
+
+            }
+
+
+        });
+
+
+  /*      scene.setOnScrollFinished(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                System.out.println("off");
+
+                myViewController.pane.setTranslateX(myViewController.pane.getTranslateX()+xOffset);
+                myViewController.pane.setTranslateY(myViewController.pane.getTranslateY()+yOffset);
+                event.consume();
+
             }
         });*/
+
+
+
+
         myViewController.setResizeEvent(scene);
         myViewController.setViewModel(viewModel);
         viewModel.addObserver(myViewController);
@@ -86,6 +119,11 @@ public class Main extends Application {
                 windowEvent.consume();
             }
         });
+    }
+
+    private void finishedScroll(MyViewController myViewController){
+        myViewController.pane.setTranslateX(myViewController.mazeDisplayer.getX());
+        myViewController.pane.setTranslateY(myViewController.mazeDisplayer.getY());
     }
 
     public static void main(String[] args) {
