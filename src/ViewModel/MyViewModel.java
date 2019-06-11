@@ -72,6 +72,9 @@ public class MyViewModel extends Observable implements Observer {
 //        countMoves.setValue(countM+1);
     }
 
+    public boolean isCorrectMove() {
+        return model.isCorrectMove();
+    }
     public Maze getMaze() {
         return model.getMaze();
     }

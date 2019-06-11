@@ -18,14 +18,14 @@ Button {
     -fx-text-fill: white;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-background-color: linear-gradient(#AB4642, #2A5018);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-font-size: 40;
 
 }
 
 Label{
-    -fx-text-fill: white;
+    -fx-text-fill: #00FFFF;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
     -fx-font-size: 50;

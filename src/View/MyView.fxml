@@ -3,6 +3,7 @@
 <?import View.MazeDisplayer?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -21,7 +22,7 @@
     <left>
         <VBox prefHeight="200.0" prefWidth="178.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
-                <GridPane fx:id="GridPane_newMaze" visible="false">
+                <GridPane fx:id="GridPane_newMaze">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -57,6 +58,7 @@
                                             </items>
                                         </ChoiceBox>-->
                 </GridPane>
+            <CheckBox fx:id="CheckBox" mnemonicParsing="false" onAction="#muteSound" text="Mute" />
             </children>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

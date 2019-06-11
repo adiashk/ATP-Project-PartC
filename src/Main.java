@@ -46,6 +46,8 @@ public class Main extends Application {
         Image image = new Image(new File("resources/images/open_manu.jpg").toURI().toURL().toExternalForm());
         selectedImage.setImage(image);
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+
         //--------------
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.initStage(primaryStage);

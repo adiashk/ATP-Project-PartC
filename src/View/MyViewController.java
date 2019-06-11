@@ -56,11 +56,12 @@ public class MyViewController implements Observer, IView {
     public boolean isPushedSolve = false;
     public boolean isPushedNewMaze = false;
     public Stage stage;
+    public MediaPlayer mediaPlayer;
 //    public Timer timer;
 
     public void initStage(Stage s) {
         stage = s;
-        String open="Welcome to The Chicken Invaders Maze!";
+        String open = "Welcome to The Chicken Invaders Maze!";
 
         openWindow("The Chicken Invaders Maze!", open);
     }
@@ -103,7 +104,7 @@ public class MyViewController implements Observer, IView {
         //System.out.println("pos: " + characterPositionRow + ", " + characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
-
+//todo
         //win!!!!!!
         if (characterPositionRow == maze.getGoalPosition().getRowIndex() &&
                 characterPositionColumn == maze.getGoalPosition().getColumnIndex()) {
@@ -111,7 +112,7 @@ public class MyViewController implements Observer, IView {
             String buttonOut = "Do you want to finish the game and exit?";
             String buttonStay = "Do you want to keep play more?\n" +
                     "press here to start a new maze";
-            playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
+//            playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
             exitPopWindow("final", message, buttonOut, buttonStay);
 
         }
@@ -141,6 +142,7 @@ public class MyViewController implements Observer, IView {
             btn_solveMaze.setDisable(false);
             isPushedNewMaze = true;
             myViewModel.moves.setValue("0");
+            pane.setVisible(true);
         }
     }
 
@@ -156,13 +158,17 @@ public class MyViewController implements Observer, IView {
 
     public void KeyPressed(KeyEvent keyEvent) {
         myViewModel.moveCharacter(keyEvent.getCode());
+//todo
+        if (myViewModel.isCorrectMove()==false)
+            playSound("resources/sounds/packaSound.m4a");
+
         keyEvent.consume();
     }
 
     public void mouseClicked(MouseEvent mouseEvent) {
         this.mazeDisplayer.requestFocus();
     }
-
+//todo--------
 //    public void mouseDrag(MouseEvent mouseEvent) {
 //        myViewModel.moveCharacter(mouseEvent.);
 //        mouseEvent.consume();
@@ -214,7 +220,8 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void newGame() {
-        GridPane_newMaze.setVisible(true);
+//        GridPane_newMaze.setVisible(true);
+        pane.setVisible(false);
     }
 
 
@@ -321,7 +328,7 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void exitGame() {
-//        playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
+//            playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
         playSound("resources/sounds/ChickenBite.m4a");
 
         String strExit = "are you sure you want to exit?";
@@ -334,14 +341,12 @@ public class MyViewController implements Observer, IView {
     }
 
     public void popWindow(String title, String message) {
-
         Stage window = new Stage();
-
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(550);
-        window.setMinHeight(300);
+        window.setMinWidth(700);
+        window.setMinHeight(500);
 
         Label label = new Label();
 //        label.setId("about");
@@ -353,7 +358,6 @@ public class MyViewController implements Observer, IView {
                 window.close();
             }
         });
-
         VBox layout = new VBox(20);
         layout.getChildren().addAll(label, closeButton);
         layout.setAlignment(Pos.CENTER);
@@ -375,8 +379,8 @@ public class MyViewController implements Observer, IView {
         //Block events to other windows
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMinWidth(400);
-        window.setMinHeight(300);
+        window.setMinWidth(700);
+        window.setMinHeight(500);
 
         Label label = new Label();
         label.setText(message);
@@ -409,30 +413,42 @@ public class MyViewController implements Observer, IView {
     @Override
     public void helpGame() {
         String strHelp = "The roles of the game:\n" +
-                "move the rocket on the eggs and break them until\n" +
+                "move the rocket until\n" +
                 "you get to the end of the board.\n" +
-                "be careful not to collide the chickens. ";
+                    "be careful not to collide the chickens. ";
         popWindow("Help window", strHelp);
     }
 
     @Override
     public void aboutGame() {
-        playSound("resources/sounds/ChickenBite.m4a");
-        String strAbout = "this game brought you by Yuval Mor Yosef and Adi Ashkenazi\n" +
-                "in the course of advanced topic in programing\n" +
-                "We build the maze with the algorithm of Prim\n" +
-                "We build solutions for the maze with the algorithms of :\n" +
-                "Breadth-first search and his expansion, Best-first search and depth-first search\n" +
-                "We compress the maze in a decimal method\n" +
-                "We use thread pool to to manage multiple client.";
+        playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
+        String strAbout = "This game is brought to you by:\n" +
+                "Yuval Mor Yosef and Adi Ashkenazi\n" +
+                "In the course of advanced topic in programing.\n" +
+                "We create mazes using Prim's algorithm.\n" +
+                "We solve the mazes using the algorithms:\n" +
+                "* Breadth-first search and its expansion - Best-first search. \n" +
+                "* Depth-first search.\n" +
+                "We compress mazes using decimal method.\n" +
+                "We use thread pool in order to manage multiple clients.";
         popWindow("About the game", strAbout);
     }
 
+
+
+
     public void playSound(String musicFile) {
         Media sound = new Media(new File(musicFile).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
     }
+    public void muteSound() {
+//        Media sound = new Media(new File(musicFile).toURI().toString());
+//        mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.setVolume(0);
+//        mediaPlayer.play();
+    }
+
 
     public void openWindow(String title, String message) {
 
