@@ -89,7 +89,6 @@ public class MyViewController implements Observer, IView {
         if (o == myViewModel) {
             displayMaze(myViewModel.getMaze());
             btn_generateMaze.setDisable(false);
-
         }
 
     }
@@ -119,7 +118,6 @@ public class MyViewController implements Observer, IView {
         }
 
     }
-
 
 
     public void generateMaze() {
@@ -158,15 +156,10 @@ public class MyViewController implements Observer, IView {
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
-        System.out.println("myViewModel.isCorrectMove() before: "+myViewModel.isCorrectMove());
-
         myViewModel.moveCharacter(keyEvent.getCode());
-        System.out.println("myViewModel.isCorrectMove() after: "+myViewModel.isCorrectMove());
-
 //todo
-        if (myViewModel.isCorrectMove()==false) {
+        if (myViewModel.isCorrectMove() == false)
             playSound("resources/sounds/packaSound.m4a");
-        }
 
         keyEvent.consume();
     }
@@ -216,7 +209,7 @@ public class MyViewController implements Observer, IView {
         scene.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-               // System.out.println("Height: " + newSceneHeight);
+                // System.out.println("Height: " + newSceneHeight);
                 mazeDisplayer.heightProperty().bind(pane.heightProperty());
             }
         });
@@ -227,7 +220,7 @@ public class MyViewController implements Observer, IView {
     @Override
     public void newGame() {
 //        GridPane_newMaze.setVisible(true);
-        pane.setVisible(false);
+//        pane.setVisible(false);
     }
 
 
@@ -334,8 +327,8 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void exitGame() {
-//            playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
-        playSound("resources/sounds/ChickenBite.m4a");
+        playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
+//        playSound("resources/sounds/ChickenBite.m4a");
 
         String strExit = "are you sure you want to exit?";
         String buttonOut = "Yes, of course!\n" +
@@ -421,7 +414,7 @@ public class MyViewController implements Observer, IView {
         String strHelp = "The roles of the game:\n" +
                 "move the rocket until\n" +
                 "you get to the end of the board.\n" +
-                    "be careful not to collide the chickens. ";
+                "be careful not to collide the chickens. ";
         popWindow("Help window", strHelp);
     }
 
@@ -441,17 +434,22 @@ public class MyViewController implements Observer, IView {
     }
 
 
-
-
     public void playSound(String musicFile) {
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         mediaPlayer.play();
     }
+
     public void muteSound() {
 //        Media sound = new Media(new File(musicFile).toURI().toString());
 //        mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.setVolume(0);
+//        System.out.println("in");
+//        System.out.println(mediaPlayer.getVolume());
+//        if (mediaPlayer.getVolume() == 0) {
+//            mediaPlayer.setVolume(1);
+//            System.out.println(mediaPlayer.getVolume());
+//        } else if (mediaPlayer.getVolume() != 0)
+//            mediaPlayer.setVolume(0);
 //        mediaPlayer.play();
     }
 
