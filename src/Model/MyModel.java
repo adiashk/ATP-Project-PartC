@@ -31,7 +31,7 @@ public class MyModel extends Observable implements IModel {
     Maze maze;
     ArrayList<AState> mazeSolutionSteps;
     private int direction;
-    private boolean isCorrectMove= false;
+    private boolean isCorrectMove;
 
 
     public MyModel() {
@@ -107,6 +107,7 @@ public class MyModel extends Observable implements IModel {
 
     @Override
     public void moveCharacter(KeyCode movement) {
+        isCorrectMove = false;
         Position currPos = new Position(characterPositionRow, characterPositionColumn);
         AState state = new MazeState(1, null, currPos);
         SearchableMaze searchableMaze = new SearchableMaze(this.maze);
@@ -190,6 +191,7 @@ public class MyModel extends Observable implements IModel {
 
         }
         //maze.updateMazeNum(characterPositionRow,characterPositionColumn,-1);
+        System.out.println("myViewModel.isCorrectMove():model "+isCorrectMove());
 
         ///not need to changed if not move!!
         setChanged();

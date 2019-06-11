@@ -89,6 +89,7 @@ public class MyViewController implements Observer, IView {
         if (o == myViewModel) {
             displayMaze(myViewModel.getMaze());
             btn_generateMaze.setDisable(false);
+
         }
 
     }
@@ -157,10 +158,15 @@ public class MyViewController implements Observer, IView {
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
+        System.out.println("myViewModel.isCorrectMove() before: "+myViewModel.isCorrectMove());
+
         myViewModel.moveCharacter(keyEvent.getCode());
+        System.out.println("myViewModel.isCorrectMove() after: "+myViewModel.isCorrectMove());
+
 //todo
-        if (myViewModel.isCorrectMove()==false)
+        if (myViewModel.isCorrectMove()==false) {
             playSound("resources/sounds/packaSound.m4a");
+        }
 
         keyEvent.consume();
     }

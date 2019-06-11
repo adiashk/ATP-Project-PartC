@@ -84,9 +84,9 @@ public class Main extends Application {
                 System.out.println("row:: "+myViewController.mazeDisplayer.getCharacterPositionRow()+" , "+myViewController.mazeDisplayer.getCharacterPositionColumn());
                 System.out.println("scale:: "+myViewController.pane.getScaleX()+" , "+myViewController.pane.getScaleY());
 
-                    myViewController.pane.setTranslateX(((widthPane-(myViewController.mazeDisplayer.getCharacterPositionColumn()
+                    myViewController.pane.setTranslateX(((myViewController.pane.getWidth()/2-(myViewController.mazeDisplayer.getCharacterPositionColumn()
                          *sizeB  ))*myViewController.pane.getScaleX() )- 167);
-                    myViewController.pane.setTranslateY(((heightPane-(myViewController.mazeDisplayer.getCharacterPositionRow()
+                    myViewController.pane.setTranslateY(((myViewController.pane.getHeight()/2-(myViewController.mazeDisplayer.getCharacterPositionRow()
                          *sizeA  ))*myViewController.pane.getScaleY() ));
 
                 System.out.println(myViewController.pane.getTranslateX()+" , "+myViewController.pane.getTranslateY());

@@ -65,7 +65,7 @@ public class MyViewModel extends Observable implements Observer {
         model.moveCharacter(movement);
         if(model.isCorrectMove()) {
             countMoves++;
-            model.setCorrectMove(false);
+            //model.setCorrectMove(false);
         }
         moves.setValue(countMoves+"");
 //        int countM=countMoves.getValue();
