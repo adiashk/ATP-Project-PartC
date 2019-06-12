@@ -191,7 +191,6 @@ public class MyModel extends Observable implements IModel {
 
         }
         //maze.updateMazeNum(characterPositionRow,characterPositionColumn,-1);
-        System.out.println("myViewModel.isCorrectMove():model "+isCorrectMove());
 
         ///not need to changed if not move!!
         setChanged();

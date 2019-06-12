@@ -25,9 +25,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.PopupWindow;
@@ -57,14 +59,18 @@ public class MyViewController implements Observer, IView {
     public boolean isPushedNewMaze = false;
     public Stage stage;
     public MediaPlayer mediaPlayer;
+    public boolean isMute=false;
+//    Media media;
+//    String sound="";
 //    public Timer timer;
 
     public void initStage(Stage s) {
         stage = s;
         String open = "Welcome to The Chicken Invaders Maze!";
-
+        playSound("resources/sounds/startSong.m4a");
         openWindow("The Chicken Invaders Maze!", open);
     }
+
 
     public void setViewModel(MyViewModel myViewModel) {
 
@@ -104,15 +110,14 @@ public class MyViewController implements Observer, IView {
         //System.out.println("pos: " + characterPositionRow + ", " + characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
-//todo
-        //win!!!!!!
+        //wining!!!
         if (characterPositionRow == maze.getGoalPosition().getRowIndex() &&
                 characterPositionColumn == maze.getGoalPosition().getColumnIndex()) {
             String message = "Congratulations!!!\n" + "You solved the maze";
             String buttonOut = "Do you want to finish the game and exit?";
             String buttonStay = "Do you want to keep play more?\n" +
                     "press here to start a new maze";
-//            playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
+            playSound("resources/sounds/winSong.m4a");
             exitPopWindow("final", message, buttonOut, buttonStay);
 
         }
@@ -320,16 +325,15 @@ public class MyViewController implements Observer, IView {
         str += "\n";
         str += "Maze = ";
         str += prop.getProperty("maze");
-
+        playSound("resources/sounds/popSong.m4a");
         popWindow("maze properties", str);
 
     }
 
     @Override
     public void exitGame() {
-        playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
-//        playSound("resources/sounds/ChickenBite.m4a");
-
+//        playVideo("resources/videos/Chicken Invaders 4_ Ultimate Omelette Final.mp4");
+        playSound("resources/sounds/ChickenBite.m4a");
         String strExit = "are you sure you want to exit?";
         String buttonOut = "Yes, of course!\n" +
                 "Close the game";
@@ -411,16 +415,17 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void helpGame() {
-        String strHelp = "The roles of the game:\n" +
-                "move the rocket until\n" +
+        playSound("resources/sounds/popSong.m4a");
+        String strHelp = "The rules of the game:\n" +
+                "Move the rocket until\n" +
                 "you get to the end of the board.\n" +
-                "be careful not to collide the chickens. ";
+                "Be careful not to hit the chickens. ";
         popWindow("Help window", strHelp);
     }
 
     @Override
     public void aboutGame() {
-        playSound("resources/sounds/ChickenInvadersWiningMelody.mp3");
+        playSound("resources/sounds/popSong.m4a");
         String strAbout = "This game is brought to you by:\n" +
                 "Yuval Mor Yosef and Adi Ashkenazi\n" +
                 "In the course of advanced topic in programing.\n" +
@@ -433,24 +438,51 @@ public class MyViewController implements Observer, IView {
         popWindow("About the game", strAbout);
     }
 
-
     public void playSound(String musicFile) {
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
+        if (!isMute)
+            mediaPlayer.play();
     }
 
     public void muteSound() {
-//        Media sound = new Media(new File(musicFile).toURI().toString());
-//        mediaPlayer = new MediaPlayer(sound);
-//        System.out.println("in");
-//        System.out.println(mediaPlayer.getVolume());
-//        if (mediaPlayer.getVolume() == 0) {
-//            mediaPlayer.setVolume(1);
-//            System.out.println(mediaPlayer.getVolume());
-//        } else if (mediaPlayer.getVolume() != 0)
-//            mediaPlayer.setVolume(0);
+        if (isMute) {
+            isMute=false;
+        }
+        else {
+            isMute=true;
+            mediaPlayer.pause();
+
+        }
+    }
+
+    public void playVideo(String video){
+//        Media media = null;
+//        try{
+//            File videoFile = new File(video);
+//            String url = videoFile.toURI().toURL().toString();
+//            System.out.println("URL: "+url);
+//            media = new Media(url);
+//        }catch(Exception e){
+//            System.err.println(e.toString());
+//        }
+//        mediaPlayer = new MediaPlayer(media);
 //        mediaPlayer.play();
+//        MediaView mediaView = new MediaView(mediaPlayer);
+
+        StackPane root = new StackPane();
+
+        mediaPlayer = new MediaPlayer( new Media(getClass().getResource(video).toExternalForm()));
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+        root.getChildren().add(mediaView);
+
+        Scene scene = new Scene(root, 1024, 768);
+
+        stage.setScene(scene);
+        stage.show();
+
+        mediaPlayer.play();
     }
 
 
