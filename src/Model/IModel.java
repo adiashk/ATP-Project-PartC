@@ -14,11 +14,9 @@ public interface IModel {
     void setMaze(Maze maze);
     int getCharacterPositionRow();
     int getCharacterPositionColumn();
-    void saveGame();
     void setCharacterPositionColumn(int i);
     void setCharacterPositionRow(int i);
     int getDirection();
     boolean isCorrectMove();
-    void setCorrectMove(boolean b);
 }
 

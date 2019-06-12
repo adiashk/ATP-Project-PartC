@@ -37,10 +37,10 @@ public class MazeDisplayer extends Canvas {
     private int rotation;
     private double x;
     private double y;
-    Position rockPos1;
-    Position rockPos2;
-    Position rockPos3;
-
+    public Position rockPos1;
+    public Position rockPos2;
+    public Position rockPos3;
+    public boolean isDrawRocks=false;
 
     public MazeDisplayer() {
         widthProperty().addListener(e->redraw());
@@ -49,9 +49,13 @@ public class MazeDisplayer extends Canvas {
 
     public void setMaze(Maze maze) {
         this.maze = maze;
-        rockPos1 = getRandomRockPos();
-        rockPos2 = getRandomRockPos();
-        rockPos3 = getRandomRockPos();
+
+        if (!isDrawRocks) {
+            rockPos1 = getRandomRockPos();
+            rockPos3 = getRandomRockPos();
+            rockPos2 = getRandomRockPos();
+            isDrawRocks=true;
+        }
     }
 
     public void setSolutionPath(ArrayList<AState> solutionPath) {
@@ -80,6 +84,7 @@ public class MazeDisplayer extends Canvas {
     public void setIsSolve(boolean issolve) {
         this.isSolve = issolve;
     }
+
 
     public void redraw() {
         if (maze != null) {
@@ -110,7 +115,8 @@ public class MazeDisplayer extends Canvas {
                             // gc.drawImage(wallImage, i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                             gc.drawImage(wallImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
 
-                        }/*else if (maze.getValue(i, j) == 0){
+                        }
+                        /*else if (maze.getValue(i, j) == 0){
                             gc.drawImage(eggBeforeImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
 
                         }else if (maze.getValue(i, j) == -1){
@@ -141,10 +147,11 @@ public class MazeDisplayer extends Canvas {
                 //Position rockPos3=getRandomRockPos();
                 gc.drawImage(rockImage, rockPos3.getColumnIndex() * cellWidth,
                         rockPos3.getRowIndex() * cellHeight, cellWidth, cellHeight);
+
                 //Draw Character
 //                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
-                 //gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
-              //  gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
+                //gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
+                //  gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
                 //Draw Character
                 ImageView iv = new ImageView(characterImage);
                 iv.setRotate(rotation);

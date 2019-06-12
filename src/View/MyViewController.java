@@ -56,6 +56,8 @@ public class MyViewController implements Observer, IView {
     private double transX;
     private double transY;
     private boolean isZoom = false;
+    private int countLives=3;
+    public StringProperty lives = new SimpleStringProperty("3");
 
     public void initStage(Stage s) {
         stage = s;
@@ -79,7 +81,7 @@ public class MyViewController implements Observer, IView {
         lbl_rowsNum.textProperty().bind(myViewModel.characterPositionRow);
         lbl_columnsNum.textProperty().bind(myViewModel.characterPositionColumn);
         lbl_Moves.textProperty().bind(myViewModel.moves);
-        lbl_Lives.textProperty().bind(myViewModel.moves);
+        lbl_Lives.textProperty().bind(lives);
     }
 
     /*        public long measureAlgorithmTimeMillis(){
@@ -111,6 +113,7 @@ public class MyViewController implements Observer, IView {
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
         if(isZoom){doZoom();}
+
         //wining!!!
         if (characterPositionRow == maze.getGoalPosition().getRowIndex() &&
                 characterPositionColumn == maze.getGoalPosition().getColumnIndex()) {
@@ -126,9 +129,10 @@ public class MyViewController implements Observer, IView {
 
     }
 
-
     public void generateMaze() {
-
+        countLives=3;
+        lives.setValue(countLives+"");
+        mazeDisplayer.isDrawRocks=false;
         isPushedSolve = false;
         boolean isOk = true;
         try {
@@ -143,10 +147,7 @@ public class MyViewController implements Observer, IView {
             isOk = false;
         }
         if (isOk) {
-
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
-            mazeDisplayer.setSolutionPath(myViewModel.solveMaze());///
-
             btn_solveMaze.setDisable(false);
             isPushedNewMaze = true;
             myViewModel.moves.setValue("0");
@@ -166,9 +167,31 @@ public class MyViewController implements Observer, IView {
 
     public void KeyPressed(KeyEvent keyEvent) {
         myViewModel.moveCharacter(keyEvent.getCode());
-//todo
         if (myViewModel.isCorrectMove() == false)
             playSound("resources/sounds/packaSound.m4a");
+
+        if (myViewModel.getCharacterPositionRow()==mazeDisplayer.rockPos1.getRowIndex()&
+                myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos1.getColumnIndex()){
+            playSound("resources/sounds/rockHit.m4a");
+            countLives--;
+        }
+        if (myViewModel.getCharacterPositionRow()==mazeDisplayer.rockPos2.getRowIndex()&
+                myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos2.getColumnIndex()){
+            playSound("resources/sounds/rockHit.m4a");
+            countLives--;
+        }if (myViewModel.getCharacterPositionRow()==mazeDisplayer.rockPos3.getRowIndex()&
+                myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos3.getColumnIndex()){
+            playSound("resources/sounds/rockHit.m4a");
+            countLives--;
+        }
+        lives.setValue(countLives+"");
+        if (countLives==0){
+            String exit="you lose the game";
+            String out="exit";
+            String stay="new game";
+            exitPopWindow("Game Over",exit,out,stay);
+        }
+
 
         keyEvent.consume();
     }
@@ -181,6 +204,7 @@ public class MyViewController implements Observer, IView {
 //        myViewModel.moveCharacter(mouseEvent.);
 //        mouseEvent.consume();
 //    }
+
 
 
     //region String Property for Binding
@@ -203,6 +227,7 @@ public class MyViewController implements Observer, IView {
     public StringProperty characterPositionColumnProperty() {
         return characterPositionColumn;
     }
+    //endregion
 
     public void setResizeEvent(Scene scene) {
         long width = 0;
@@ -226,13 +251,8 @@ public class MyViewController implements Observer, IView {
     }
 
 
-    @Override
-    public void newGame() {
-//        GridPane_newMaze.setVisible(true);
-//        pane.setVisible(false);
-    }
 
-
+    //region save&load
     @Override
     public void saveGame() {
         if (isPushedNewMaze == true) {
@@ -306,46 +326,11 @@ public class MyViewController implements Observer, IView {
 
         //mazeDisplayer.setMaze(maze);
     }
+    //endregion
 
 
-    @Override
-    public void propertiesGame() {
-        Properties prop = new Properties();
 
-        InputStream input = Configurations.class.getClassLoader().getResourceAsStream("config.properties");
-        // load a properties file
-        try {
-            prop.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // get value by key
-        String str = "Tread = ";
-        str += prop.getProperty("Tread");
-        str += "\n";
-        str += "Solution = ";
-        str += prop.getProperty("sol");
-        str += "\n";
-        str += "Maze = ";
-        str += prop.getProperty("maze");
-        playSound("resources/sounds/popSong.m4a");
-        popWindow("maze properties", str);
-
-    }
-
-    @Override
-    public void exitGame() {
-        playSound("resources/sounds/ChickenBite.m4a");
-        String strExit = "are you sure you want to exit?";
-        String buttonOut = "Yes, of course!\n" +
-                "Close the game";
-        String buttonStay = "No,I regretted it\n" +
-                "Keep playing";
-        exitPopWindow("exit window", strExit, buttonOut, buttonStay);
-
-    }
-
+    //region pop windows
     public void popWindow(String title, String message) {
         Stage window = new Stage();
         //Block events to other windows
@@ -416,13 +401,93 @@ public class MyViewController implements Observer, IView {
         window.showAndWait();
     }
 
+    public void openWindow(String title, String message) {
+
+        Stage window = new Stage();
+        //Block events to other windows
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMaximized(true);
+        Label label = new Label();
+        label.setText(message);
+        Button closeButton = new Button("Start the game!!");
+        closeButton.setOnAction(e -> window.close());
+        closeButton.setOnKeyPressed(e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                window.close();
+            }
+        });
+
+        VBox layout = new VBox(20);
+        layout.getChildren().addAll(label, closeButton);
+        layout.setAlignment(Pos.CENTER);
+
+        //Display window and wait for it to be closed before returning
+        Scene scene = new Scene(layout);
+//        scene.getStylesheets().add("PopUpWindow.css");
+        scene.getStylesheets().add(getClass().getResource("openGame.css").toExternalForm());
+
+        window.setScene(scene);
+        window.showAndWait();
+
+    }
+    //endregion
+
+
+    //region menu bar
+    @Override
+    public void newGame() {
+//        GridPane_newMaze.setVisible(true);
+//        pane.setVisible(false);
+    }
+    @Override
+    public void propertiesGame() {
+        Properties prop = new Properties();
+
+        InputStream input = Configurations.class.getClassLoader().getResourceAsStream("config.properties");
+        // load a properties file
+        try {
+            prop.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // get value by key
+        String str = "The Properties of our game:\n" +
+                "Treads amount = ";
+        str += prop.getProperty("Tread");
+        str += "\n";
+        str += "The Solve Algorithm = ";
+        str += prop.getProperty("sol");
+        str += "\n";
+        str += "The Maze method of generating = ";
+        str += prop.getProperty("maze");
+        playSound("resources/sounds/popSong.m4a");
+        popWindow("maze properties", str);
+
+    }
+
+    @Override
+    public void exitGame() {
+        playSound("resources/sounds/ChickenBite.m4a");
+        String strExit = "are you sure you want to exit?";
+        String buttonOut = "Yes, of course!\n" +
+                "Close the game";
+        String buttonStay = "No,I regretted it\n" +
+                "Keep playing";
+        exitPopWindow("exit window", strExit, buttonOut, buttonStay);
+
+    }
     @Override
     public void helpGame() {
         playSound("resources/sounds/popSong.m4a");
         String strHelp = "The rules of the game:\n" +
                 "Move the rocket until\n" +
                 "you get to the end of the board.\n" +
-                "Be careful not to hit the chickens. ";
+                "Be careful not to hit the Rocks. \n" +
+                "You have 3 lives\n" +
+                "each time you hit a rock you lose 1\n" +
+                "the game is over when you have 0 lives.";
         popWindow("Help window", strHelp);
     }
 
@@ -440,7 +505,9 @@ public class MyViewController implements Observer, IView {
                 "We use thread pool in order to manage multiple clients.";
         popWindow("About the game", strAbout);
     }
+    //endregion
 
+    //region media player
     public void playSound(String musicFile) {
         Media sound = new Media(new File(musicFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
@@ -495,39 +562,11 @@ public class MyViewController implements Observer, IView {
 
 
     }*/
+    //endregion
 
 
-    public void openWindow(String title, String message) {
 
-        Stage window = new Stage();
-        //Block events to other windows
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle(title);
-        window.setMaximized(true);
-        Label label = new Label();
-        label.setText(message);
-        Button closeButton = new Button("Start the game!!");
-        closeButton.setOnAction(e -> window.close());
-        closeButton.setOnKeyPressed(e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                window.close();
-            }
-        });
-
-        VBox layout = new VBox(20);
-        layout.getChildren().addAll(label, closeButton);
-        layout.setAlignment(Pos.CENTER);
-
-        //Display window and wait for it to be closed before returning
-        Scene scene = new Scene(layout);
-//        scene.getStylesheets().add("PopUpWindow.css");
-        scene.getStylesheets().add(getClass().getResource("openGame.css").toExternalForm());
-
-        window.setScene(scene);
-        window.showAndWait();
-
-    }
-
+    //region zoom
     public void setZoom(Scene scene) {
         scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
@@ -581,5 +620,6 @@ public class MyViewController implements Observer, IView {
                 * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
 
     }
+    //endregion
 }
 

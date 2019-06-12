@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="BorderPane" onKeyPressed="#KeyPressed" style="-fx-background-image: url(//resources/images/background.jpg)" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane fx:id="BorderPane" onKeyPressed="#KeyPressed" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <left>
         <VBox prefHeight="200.0" prefWidth="178.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
@@ -45,17 +45,6 @@
                     <Label text="Char column:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
                     <Label fx:id="lbl_rowsNum" text="${controller.characterPositionRow}" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     <Label fx:id="lbl_columnsNum" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                    <!--<Label GridPane.columnIndex="1" GridPane.rowIndex="4" text="${controller.characterPositionRow}" />-->
-                    <!--<Label GridPane.columnIndex="1" GridPane.rowIndex="5" text="${controller.characterPositionColumn}"/>-->
-                    <!--                    <ChoiceBox value="2 minutes" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                                            <items>
-                                                <FXCollections fx:factory="observableArrayList">
-                                                    <String fx:value="2 minutes" />
-                                                    <String fx:value="5 minutes" />
-                                                    <String fx:value="15 minutes" />
-                                                </FXCollections>
-                                            </items>
-                                        </ChoiceBox>-->
                 </GridPane>
             </children>
             <padding>

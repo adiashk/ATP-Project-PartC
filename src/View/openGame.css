@@ -18,7 +18,7 @@ Button {
     -fx-text-fill: white;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#AB4642, #2A5018);
+    -fx-background-color: linear-gradient( #ffa0f7,#AB4642);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
     -fx-font-size: 40;
 

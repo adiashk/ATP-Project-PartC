@@ -42,9 +42,6 @@ public class Main extends Application {
         Parent root = fxmlLoader.load(getClass().getResource("View/MyView.fxml").openStream());
         Scene scene = new Scene(root, 800, 700);
         scene.getStylesheets().add(getClass().getResource("View/MyViewStyle.css").toExternalForm());
-        final ImageView selectedImage = new ImageView();
-        Image image = new Image(new File("resources/images/open_manu.jpg").toURI().toURL().toExternalForm());
-        selectedImage.setImage(image);
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
 
