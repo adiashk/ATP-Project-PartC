@@ -27,7 +27,10 @@ public class MyViewModel extends Observable implements Observer {
     public  StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
 //    public IntegerProperty countMoves = new SimpleIntegerProperty(0);
     private int countMoves;
+    private int countLives;
     public StringProperty moves = new SimpleStringProperty("0");
+    public StringProperty lives = new SimpleStringProperty("3");
+
 
 
     public MyViewModel(IModel model){
@@ -59,6 +62,7 @@ public class MyViewModel extends Observable implements Observer {
         model.setCharacterPositionRow(model.getMaze().getStartPosition().getRowIndex());
         model.setCharacterPositionColumn(model.getMaze().getStartPosition().getColumnIndex());
         countMoves=0;
+        countLives=3;
     }
 
     public void moveCharacter(KeyCode movement){
@@ -70,6 +74,7 @@ public class MyViewModel extends Observable implements Observer {
         moves.setValue(countMoves+"");
 //        int countM=countMoves.getValue();
 //        countMoves.setValue(countM+1);
+
     }
 
     public boolean isCorrectMove() {

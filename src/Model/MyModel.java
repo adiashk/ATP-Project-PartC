@@ -280,6 +280,7 @@ public class MyModel extends Observable implements IModel {
 //            Solution solution = searcher.solve(searchableMaze);
 //            mazeSolutionSteps = solution.getSolutionPath();
 
+
     }
     @Override
     public void saveGame() {

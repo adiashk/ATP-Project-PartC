@@ -2,9 +2,7 @@ package View;
 
 import Server.Configurations;
 import ViewModel.MyViewModel;
-import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,9 +11,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.geometry.Pos;
@@ -24,20 +19,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
-import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class MyViewController implements Observer, IView {
@@ -48,7 +38,8 @@ public class MyViewController implements Observer, IView {
     public javafx.scene.control.TextField txtfld_columnsNum;
     public javafx.scene.control.Label lbl_rowsNum;
     public javafx.scene.control.Label lbl_columnsNum;
-    public javafx.scene.control.Label lbl_Date;
+    public javafx.scene.control.Label lbl_Moves;
+    public javafx.scene.control.Label lbl_Lives;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.Node GridPane_newMaze;
@@ -60,15 +51,21 @@ public class MyViewController implements Observer, IView {
     public Stage stage;
     public MediaPlayer mediaPlayer;
     public boolean isMute=false;
-//    Media media;
-//    String sound="";
-//    public Timer timer;
+    private double scaleX;
+    private double scaleY;
+    private double transX;
+    private double transY;
+    private boolean isZoom = false;
 
     public void initStage(Stage s) {
         stage = s;
         String open = "Welcome to The Chicken Invaders Maze!";
         playSound("resources/sounds/startSong.m4a");
         openWindow("The Chicken Invaders Maze!", open);
+        scaleX= pane.getScaleX();
+        scaleY = pane.getScaleY();
+        transX = pane.getTranslateX();
+        transY = pane.getTranslateY();
     }
 
 
@@ -81,7 +78,8 @@ public class MyViewController implements Observer, IView {
     private void bindProperties(MyViewModel myViewModel) {
         lbl_rowsNum.textProperty().bind(myViewModel.characterPositionRow);
         lbl_columnsNum.textProperty().bind(myViewModel.characterPositionColumn);
-        lbl_Date.textProperty().bind(myViewModel.moves);
+        lbl_Moves.textProperty().bind(myViewModel.moves);
+        lbl_Lives.textProperty().bind(myViewModel.moves);
     }
 
     /*        public long measureAlgorithmTimeMillis(){
@@ -110,9 +108,11 @@ public class MyViewController implements Observer, IView {
         //System.out.println("pos: " + characterPositionRow + ", " + characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
+        if(isZoom){doZoom();}
         //wining!!!
         if (characterPositionRow == maze.getGoalPosition().getRowIndex() &&
                 characterPositionColumn == maze.getGoalPosition().getColumnIndex()) {
+            finishZoom();
             String message = "Congratulations!!!\n" + "You solved the maze";
             String buttonOut = "Do you want to finish the game and exit?";
             String buttonStay = "Do you want to keep play more?\n" +
@@ -332,7 +332,6 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void exitGame() {
-//        playVideo("resources/videos/Chicken Invaders 4_ Ultimate Omelette Final.mp4");
         playSound("resources/sounds/ChickenBite.m4a");
         String strExit = "are you sure you want to exit?";
         String buttonOut = "Yes, of course!\n" +
@@ -455,35 +454,43 @@ public class MyViewController implements Observer, IView {
 
         }
     }
+    private StackPane root;
 
-    public void playVideo(String video){
-//        Media media = null;
-//        try{
-//            File videoFile = new File(video);
+    /*public void playVideo(String video){
+        Media media = null;
+        try{
+            File videoFile = new File(video);
 //            String url = videoFile.toURI().toURL().toString();
-//            System.out.println("URL: "+url);
-//            media = new Media(url);
-//        }catch(Exception e){
-//            System.err.println(e.toString());
-//        }
-//        mediaPlayer = new MediaPlayer(media);
-//        mediaPlayer.play();
-//        MediaView mediaView = new MediaView(mediaPlayer);
-
-        StackPane root = new StackPane();
-
-        mediaPlayer = new MediaPlayer( new Media(getClass().getResource(video).toExternalForm()));
+            String url = videoFile.toURI().toURL().toExternalForm();
+            System.out.println("URL: "+url);
+            media = new Media(url);
+        }catch(Exception e){
+            System.err.println(e.toString());
+        }
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
         MediaView mediaView = new MediaView(mediaPlayer);
-
+        root = new StackPane();
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color : white;");
         root.getChildren().add(mediaView);
 
-        Scene scene = new Scene(root, 1024, 768);
+//        StackPane root = new StackPane();
+//
+//        mediaPlayer = new MediaPlayer( new Media(getClass().getResource(video).toExternalForm()));
+//        MediaView mediaView = new MediaView(mediaPlayer);
+//
+//        root.getChildren().add(mediaView);
+//
+//        Scene scene = new Scene(root, 1024, 768);
+//
+//        stage.setScene(scene);
+//        stage.show();
+//
+//        mediaPlayer.play();
 
-        stage.setScene(scene);
-        stage.show();
 
-        mediaPlayer.play();
-    }
+    }*/
 
 
     public void openWindow(String title, String message) {
@@ -517,5 +524,58 @@ public class MyViewController implements Observer, IView {
 
     }
 
+    public void setZoom(Scene scene) {
+        scene.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+              //  finishZoom();
+                isZoom = true;
+                double xOffset = event.getDeltaY();
+                double yOffset = event.getDeltaY();
+                //System.out.println(xOffset + " , " + yOffset);
+                double zoomFactor = 1.1;
+                double deltaY = event.getDeltaY();
+
+                if (deltaY < 0) {
+                    zoomFactor = 0.9;
+                }
+                pane.setScaleX(pane.getScaleX() * zoomFactor);
+                pane.setScaleY(pane.getScaleY() * zoomFactor);
+
+//                pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
+//                        * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
+//                pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
+//                        * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+                doZoom();
+                event.consume();
+
+            }
+
+        });
+
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                isZoom = false;
+                finishZoom();
+            }
+        });
+    }
+
+    public void finishZoom(){
+        pane.setScaleX(scaleX);
+        pane.setScaleY(scaleY);
+
+        pane.setTranslateX(transX);
+        pane.setTranslateY(transY);
+    }
+
+    public void doZoom(){
+        pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
+                * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
+        pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
+                * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+
+    }
 }
 

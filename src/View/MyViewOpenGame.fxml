@@ -67,7 +67,7 @@
         <HBox BorderPane.alignment="CENTER">
             <children>
                 <Label text="Date:" />
-            <Label fx:id="lbl_Date" text="${controller.characterPositionRow}" />
+            <Label fx:id="lbl_Moves" text="${controller.characterPositionRow}" />
             </children>
         </HBox>
     </bottom>

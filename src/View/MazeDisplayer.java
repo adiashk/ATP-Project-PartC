@@ -1,6 +1,7 @@
 package View;
 
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import algorithms.search.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
@@ -90,6 +92,7 @@ public class MazeDisplayer extends Canvas {
                 //Image eggAfterImage = new Image(new FileInputStream(ImageFileNameEggAfter.get()));
                 Image startImage = new Image(new FileInputStream(ImageFileNameStart.get()));
                 Image endImage = new Image(new FileInputStream(ImageFileNameEnd.get()));
+                Image rockImage = new Image(new FileInputStream(ImageFileNameRock.get()));
 
                 GraphicsContext gc = getGraphicsContext2D();
                 gc.clearRect(0, 0, getWidth(), getHeight());
@@ -121,7 +124,18 @@ public class MazeDisplayer extends Canvas {
                 gc.drawImage(endImage, maze.getGoalPosition().getColumnIndex() * cellWidth,
                         maze.getGoalPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
 
+                //Draw rocks
+                /*Position rockPos1=getRandomRockPos();
+                gc.drawImage(rockImage, rockPos1.getColumnIndex() * cellWidth,
+                        rockPos1.getRowIndex() * cellHeight, cellWidth, cellHeight);
 
+                Position rockPos2=getRandomRockPos();
+                gc.drawImage(rockImage, rockPos2.getColumnIndex() * cellWidth,
+                        rockPos2.getRowIndex() * cellHeight, cellWidth, cellHeight);
+
+                Position rockPos3=getRandomRockPos();
+                gc.drawImage(rockImage, rockPos3.getColumnIndex() * cellWidth,
+                        rockPos3.getRowIndex() * cellHeight, cellWidth, cellHeight);*/
                 //Draw Character
 //                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
                  //gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
@@ -155,12 +169,6 @@ public class MazeDisplayer extends Canvas {
             double cellHeight = canvasHeight / row;
             double cellWidth = canvasWidth / col;
 
-//            SearchableMaze searchableMaze = new SearchableMaze(maze);
-//            ISearchingAlgorithm searcher = new DepthFirstSearch();
-//            Solution solution = searcher.solve(searchableMaze);
-//            ArrayList<AState> solutionPath = solution.getSolutionPath();
-
-
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameSolve.get()));
 
@@ -169,7 +177,6 @@ public class MazeDisplayer extends Canvas {
                 Object[] o = solutionPath.toArray();
                 for (int i = 0; i < o.length; i++) {
                     gc.drawImage(wallImage, ((MazeState) o[i]).getPosition().getColumnIndex() * cellWidth, ((MazeState) o[i]).getPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
-
                 }
 
             } catch (FileNotFoundException e) {
@@ -188,7 +195,19 @@ public class MazeDisplayer extends Canvas {
 
     private StringProperty ImageFileNameEgg = new SimpleStringProperty();
     private StringProperty ImageFileNameEggAfter = new SimpleStringProperty();
+    private StringProperty ImageFileNameRock = new SimpleStringProperty();
 
+    public String getImageFileNameRock() {
+        return ImageFileNameRock.get();
+    }
+
+    public StringProperty imageFileNameRockProperty() {
+        return ImageFileNameRock;
+    }
+
+    public void setImageFileNameRock(String imageFileNameRock) {
+        this.ImageFileNameRock.set(imageFileNameRock);
+    }
 
     public String getImageFileNameEggAfter() {
         return ImageFileNameEggAfter.get();
@@ -274,5 +293,45 @@ public class MazeDisplayer extends Canvas {
 
     public double getY() {
         return y;
+    }
+
+    //rock:
+    public boolean validRock(Position pos){
+//        MazeState rockState=new MazeState(1,null,pos);
+//        if (solutionPath.contains(rockState))
+//            return false;
+        System.out.println(pos.toString());
+        Object[] o = solutionPath.toArray();
+        for (int i = 0; i < o.length; i++) {
+           if (pos.getRowIndex()==((MazeState)o[i]).getPosition().getRowIndex()||
+                   pos.getColumnIndex()==((MazeState)o[i]).getPosition().getColumnIndex())
+               return false;
+        }
+        if(pos.equals(maze.getGoalPosition())||pos.equals(maze.getStartPosition()))
+            return false;
+        else if (maze.getValue(pos.getRowIndex(),pos.getColumnIndex())==1)
+            return false;
+        else
+            return true;
+    }
+
+    public Position getRandomRockPos(){
+        int x=getRandomInRange(maze.getrowSize());
+        int y=getRandomInRange(maze.getcolSize());
+        Position rockPos =new Position(x,y);
+
+        while (validRock(rockPos)!=true){
+           x=getRandomInRange(maze.getrowSize());
+           y=getRandomInRange(maze.getcolSize());
+            rockPos =new Position(x,y);
+        }
+        return rockPos;
+    }
+
+    /**retutn number between 0 to range*/
+    private int getRandomInRange(int range) {
+        Random rn = new Random();
+        int i = rn.nextInt(range);
+        return i;
     }
 }

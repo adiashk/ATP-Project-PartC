@@ -92,3 +92,23 @@ Label{
     -fx-background-position:center;
     -fx-background-size:100%100%;
 }
+#Moves{
+    -fx-text-fill: #5bee60;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+}
+#lbl_Moves{
+    -fx-text-fill: #5bee60;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+}
+#Lives{
+    -fx-text-fill: orange;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+}
+#lbl_Lives{
+    -fx-text-fill: orange;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-weight: bold;
+}
