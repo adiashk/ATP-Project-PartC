@@ -37,6 +37,9 @@ public class MazeDisplayer extends Canvas {
     private int rotation;
     private double x;
     private double y;
+    Position rockPos1;
+    Position rockPos2;
+    Position rockPos3;
 
 
     public MazeDisplayer() {
@@ -46,7 +49,9 @@ public class MazeDisplayer extends Canvas {
 
     public void setMaze(Maze maze) {
         this.maze = maze;
-        //redraw(false);
+        rockPos1 = getRandomRockPos();
+        rockPos2 = getRandomRockPos();
+        rockPos3 = getRandomRockPos();
     }
 
     public void setSolutionPath(ArrayList<AState> solutionPath) {
@@ -125,17 +130,17 @@ public class MazeDisplayer extends Canvas {
                         maze.getGoalPosition().getRowIndex() * cellHeight, cellWidth, cellHeight);
 
                 //Draw rocks
-                /*Position rockPos1=getRandomRockPos();
+                //Position rockPos1=getRandomRockPos();
                 gc.drawImage(rockImage, rockPos1.getColumnIndex() * cellWidth,
                         rockPos1.getRowIndex() * cellHeight, cellWidth, cellHeight);
 
-                Position rockPos2=getRandomRockPos();
+                //Position rockPos2=getRandomRockPos();
                 gc.drawImage(rockImage, rockPos2.getColumnIndex() * cellWidth,
                         rockPos2.getRowIndex() * cellHeight, cellWidth, cellHeight);
 
-                Position rockPos3=getRandomRockPos();
+                //Position rockPos3=getRandomRockPos();
                 gc.drawImage(rockImage, rockPos3.getColumnIndex() * cellWidth,
-                        rockPos3.getRowIndex() * cellHeight, cellWidth, cellHeight);*/
+                        rockPos3.getRowIndex() * cellHeight, cellWidth, cellHeight);
                 //Draw Character
 //                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
                  //gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
@@ -296,29 +301,31 @@ public class MazeDisplayer extends Canvas {
     }
 
     //rock:
-    public boolean validRock(Position pos){
-//        MazeState rockState=new MazeState(1,null,pos);
-//        if (solutionPath.contains(rockState))
-//            return false;
-        System.out.println(pos.toString());
+    public boolean validRock(Position pos) {
+        //System.out.println(solutionPath);
         Object[] o = solutionPath.toArray();
-        for (int i = 0; i < o.length; i++) {
-           if (pos.getRowIndex()==((MazeState)o[i]).getPosition().getRowIndex()||
-                   pos.getColumnIndex()==((MazeState)o[i]).getPosition().getColumnIndex())
-               return false;
-        }
-        if(pos.equals(maze.getGoalPosition())||pos.equals(maze.getStartPosition()))
-            return false;
-        else if (maze.getValue(pos.getRowIndex(),pos.getColumnIndex())==1)
-            return false;
-        else
-            return true;
-    }
 
-    public Position getRandomRockPos(){
-        int x=getRandomInRange(maze.getrowSize());
-        int y=getRandomInRange(maze.getcolSize());
-        Position rockPos =new Position(x,y);
+        for (int i = 0; i < o.length; i++) {
+            if (pos.toString().equals(((MazeState) o[i]).getPosition().toString())) {
+                return false;
+            }
+        }
+            if (pos.equals(maze.getGoalPosition()) || pos.equals(maze.getStartPosition()))
+                return false;
+            else if (maze.getValue(pos.getRowIndex(), pos.getColumnIndex()) == 1)
+                return false;
+            else {
+                System.out.println(pos.toString());
+                return true;
+            }
+        }
+
+
+    public Position getRandomRockPos() {
+            int x = getRandomInRange(maze.getrowSize());
+            int y = getRandomInRange(maze.getcolSize());
+            Position rockPos = new Position(x, y);
+
 
         while (validRock(rockPos)!=true){
            x=getRandomInRange(maze.getrowSize());

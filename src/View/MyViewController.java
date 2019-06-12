@@ -99,6 +99,8 @@ public class MyViewController implements Observer, IView {
 
     @Override
     public void displayMaze(Maze maze) {
+        mazeDisplayer.setSolutionPath(myViewModel.solveMaze());
+
         mazeDisplayer.setMaze(maze);
         int characterPositionRow = myViewModel.getCharacterPositionRow();
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
@@ -143,6 +145,8 @@ public class MyViewController implements Observer, IView {
         if (isOk) {
 
             myViewModel.generateMaze(Integer.valueOf(txtfld_rowsNum.getText()), Integer.valueOf(txtfld_columnsNum.getText()));
+            mazeDisplayer.setSolutionPath(myViewModel.solveMaze());///
+
             btn_solveMaze.setDisable(false);
             isPushedNewMaze = true;
             myViewModel.moves.setValue("0");
@@ -151,7 +155,7 @@ public class MyViewController implements Observer, IView {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        mazeDisplayer.setSolutionPath(myViewModel.solveMaze());
+        //mazeDisplayer.setSolutionPath(myViewModel.solveMaze());
         isPushedSolve = !isPushedSolve;
         mazeDisplayer.setIsSolve(isPushedSolve);
         //btn_solveMaze.setDisable(true);
