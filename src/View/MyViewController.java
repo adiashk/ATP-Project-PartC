@@ -614,10 +614,16 @@ public class MyViewController implements Observer, IView {
     }
 
     public void doZoom(){
+//        pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
+//                * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
+//        pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
+//                * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+
         pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
-                * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
+                * (pane.getHeight()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
         pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
-                * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+                * (pane.getWidth()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+
 
     }
     //endregion
