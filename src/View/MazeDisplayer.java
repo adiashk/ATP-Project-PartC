@@ -37,10 +37,10 @@ public class MazeDisplayer extends Canvas {
     private int rotation;
     private double x;
     private double y;
-    public Position rockPos1;
-    public Position rockPos2;
-    public Position rockPos3;
-    private Position[]arrayRock = new Position[3];
+//    public Position rockPos1;
+//    public Position rockPos2;
+//    public Position rockPos3;
+    private ArrayList<Position>arrayRock;
     public boolean isDrawRocks=false;
 
     public MazeDisplayer() {
@@ -50,14 +50,21 @@ public class MazeDisplayer extends Canvas {
 
     public void setMaze(Maze maze) {
         this.maze = maze;
-
+        int countRocks = (maze.getrowSize()+maze.getcolSize())/6;
         if (!isDrawRocks) {
-            rockPos1 = getRandomRockPos();
-            rockPos3 = getRandomRockPos();
-            rockPos2 = getRandomRockPos();
-            arrayRock[0] = rockPos1;
-            arrayRock[1] = rockPos2;
-            arrayRock[2] =rockPos3;
+            arrayRock = new ArrayList<>();//init
+
+            for(int i=0; i<countRocks;i++){
+
+                Position p = getRandomRockPos();
+                arrayRock.add(p);
+            }
+//            rockPos1 = getRandomRockPos();
+//            rockPos3 = getRandomRockPos();
+//            rockPos2 = getRandomRockPos();
+//            arrayRock[0] = rockPos1;
+//            arrayRock[1] = rockPos2;
+//            arrayRock[2] =rockPos3;
             isDrawRocks=true;
         }
     }
@@ -141,16 +148,21 @@ public class MazeDisplayer extends Canvas {
 
                 //Draw rocks
                 //Position rockPos1=getRandomRockPos();
-                gc.drawImage(rockImage, rockPos1.getColumnIndex() * cellWidth,
-                        rockPos1.getRowIndex() * cellHeight, cellWidth, cellHeight);
+                for(int i=0; i<arrayRock.size();i++){
+                    gc.drawImage(rockImage, (arrayRock.get(i)).getColumnIndex() * cellWidth,
+                            (arrayRock.get(i)).getRowIndex() * cellHeight, cellWidth, cellHeight);
 
-                //Position rockPos2=getRandomRockPos();
-                gc.drawImage(rockImage, rockPos2.getColumnIndex() * cellWidth,
-                        rockPos2.getRowIndex() * cellHeight, cellWidth, cellHeight);
-
-                //Position rockPos3=getRandomRockPos();
-                gc.drawImage(rockImage, rockPos3.getColumnIndex() * cellWidth,
-                        rockPos3.getRowIndex() * cellHeight, cellWidth, cellHeight);
+                }
+//                gc.drawImage(rockImage, rockPos1.getColumnIndex() * cellWidth,
+//                        rockPos1.getRowIndex() * cellHeight, cellWidth, cellHeight);
+//
+//                //Position rockPos2=getRandomRockPos();
+//                gc.drawImage(rockImage, rockPos2.getColumnIndex() * cellWidth,
+//                        rockPos2.getRowIndex() * cellHeight, cellWidth, cellHeight);
+//
+//                //Position rockPos3=getRandomRockPos();
+//                gc.drawImage(rockImage, rockPos3.getColumnIndex() * cellWidth,
+//                        rockPos3.getRowIndex() * cellHeight, cellWidth, cellHeight);
 
                 //Draw Character
 //                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
@@ -353,14 +365,14 @@ public class MazeDisplayer extends Canvas {
         return i;
     }
 
-    public Position[] getArrayRock() {
+    public ArrayList<Position> getArrayRock() {
         return arrayRock;
     }
 
-    public void setArrayRock(Position[] arrayRock) {
+    public void setArrayRock(ArrayList<Position> arrayRock) {
         this.arrayRock = arrayRock;
-        rockPos1 =arrayRock[0];
-        rockPos2 = arrayRock[1];
-        rockPos3 = arrayRock[2];
+//        rockPos1 =arrayRock[0];
+//        rockPos2 = arrayRock[1];
+//        rockPos3 = arrayRock[2];
     }
 }

@@ -169,6 +169,14 @@ public class MyViewController implements Observer, IView {
         if (myViewModel.isCorrectMove() == false)
             playSound("resources/sounds/packaSound.m4a");
 
+        for(int i=0; i<mazeDisplayer.getArrayRock().size();i++){
+            if (myViewModel.getCharacterPositionRow()==mazeDisplayer.getArrayRock().get(i).getRowIndex()&
+                    myViewModel.getCharacterPositionColumn()==mazeDisplayer.getArrayRock().get(i).getColumnIndex()){
+                playSound("resources/sounds/rockHit.m4a");
+                countLives--;
+            }
+        }
+/*
         if (myViewModel.getCharacterPositionRow()==mazeDisplayer.rockPos1.getRowIndex()&
                 myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos1.getColumnIndex()){
             playSound("resources/sounds/rockHit.m4a");
@@ -182,7 +190,8 @@ public class MyViewController implements Observer, IView {
                 myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos3.getColumnIndex()){
             playSound("resources/sounds/rockHit.m4a");
             countLives--;
-        }
+        }*/
+
         lives.setValue(countLives+"");
         if (countLives==0){
             String exit="you lose the game";
@@ -326,7 +335,7 @@ public class MyViewController implements Observer, IView {
         //System.out.println("lives after: "+ loadLives);
        myViewModel.countMoves = (int)(arrObjects.toArray()[3]);
         myViewModel.moves.setValue(myViewModel.countMoves+"");
-       mazeDisplayer.setArrayRock((Position[])(arrObjects.toArray()[4]));
+       mazeDisplayer.setArrayRock((ArrayList<Position>)(arrObjects.toArray()[4]));
 
        this.txtfld_rowsNum.setText(maze.getrowSize() + "");
         this.txtfld_columnsNum.setText(maze.getcolSize() + "");
@@ -628,9 +637,9 @@ public class MyViewController implements Observer, IView {
 
     public void doZoom(){
         pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
-                * (pane.getHeight()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
+                * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
         pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
-                * (pane.getWidth()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+                * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
 
     }
     //endregion
