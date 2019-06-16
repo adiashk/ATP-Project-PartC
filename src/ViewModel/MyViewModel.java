@@ -25,7 +25,6 @@ public class MyViewModel extends Observable implements Observer {
 
     public  StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
     public  StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
-//    public IntegerProperty countMoves = new SimpleIntegerProperty(0);
     public int countMoves;
 
     public StringProperty moves = new SimpleStringProperty("0");

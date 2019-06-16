@@ -84,12 +84,6 @@ public class MyViewController implements Observer, IView {
         lbl_Lives.textProperty().bind(lives);
     }
 
-    /*        public long measureAlgorithmTimeMillis(){
-                long timeBefore = System.currentTimeMillis();
-        //        generate(row, col);
-                long timeAfter = System.currentTimeMillis();
-                return (timeAfter-timeBefore);
-            }*/
     @Override
     public void update(Observable o, Object arg) {
         if (o == myViewModel) {
@@ -155,12 +149,9 @@ public class MyViewController implements Observer, IView {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        //mazeDisplayer.setSolutionPath(myViewModel.solveMaze());
         isPushedSolve = !isPushedSolve;
         mazeDisplayer.setIsSolve(isPushedSolve);
-        //btn_solveMaze.setDisable(true);
         mazeDisplayer.redraw();
-        //btn_solveMaze.setDisable(true);
 
     }
 
@@ -176,24 +167,9 @@ public class MyViewController implements Observer, IView {
                 countLives--;
             }
         }
-/*
-        if (myViewModel.getCharacterPositionRow()==mazeDisplayer.rockPos1.getRowIndex()&
-                myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos1.getColumnIndex()){
-            playSound("resources/sounds/rockHit.m4a");
-            countLives--;
-        }
-        if (myViewModel.getCharacterPositionRow()==mazeDisplayer.rockPos2.getRowIndex()&
-                myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos2.getColumnIndex()){
-            playSound("resources/sounds/rockHit.m4a");
-            countLives--;
-        }if (myViewModel.getCharacterPositionRow()==mazeDisplayer.rockPos3.getRowIndex()&
-                myViewModel.getCharacterPositionColumn()==mazeDisplayer.rockPos3.getColumnIndex()){
-            playSound("resources/sounds/rockHit.m4a");
-            countLives--;
-        }*/
 
         lives.setValue(countLives+"");
-        if (countLives==0){
+        if (countLives<=0){
             String exit="you lose the game";
             String out="exit";
             String stay="new game";
@@ -397,10 +373,12 @@ public class MyViewController implements Observer, IView {
         label.setText(message);
         Button yesButton = new Button(buttonOut);
         Button noButton = new Button(buttonStay);
-        noButton.setOnAction(e -> window.close());
+        noButton.setOnAction(e -> {window.close();
+        generateMaze();});
         noButton.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 window.close();
+                generateMaze();
             }
         });
         yesButton.setOnAction(e -> System.exit(0));//Platform.exit();
@@ -457,8 +435,7 @@ public class MyViewController implements Observer, IView {
     //region menu bar
     @Override
     public void newGame() {
-//        GridPane_newMaze.setVisible(true);
-//        pane.setVisible(false);
+
     }
     @Override
     public void propertiesGame() {
@@ -547,41 +524,6 @@ public class MyViewController implements Observer, IView {
     }
     private StackPane root;
 
-    /*public void playVideo(String video){
-        Media media = null;
-        try{
-            File videoFile = new File(video);
-//            String url = videoFile.toURI().toURL().toString();
-            String url = videoFile.toURI().toURL().toExternalForm();
-            System.out.println("URL: "+url);
-            media = new Media(url);
-        }catch(Exception e){
-            System.err.println(e.toString());
-        }
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.play();
-        MediaView mediaView = new MediaView(mediaPlayer);
-        root = new StackPane();
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-background-color : white;");
-        root.getChildren().add(mediaView);
-
-//        StackPane root = new StackPane();
-//
-//        mediaPlayer = new MediaPlayer( new Media(getClass().getResource(video).toExternalForm()));
-//        MediaView mediaView = new MediaView(mediaPlayer);
-//
-//        root.getChildren().add(mediaView);
-//
-//        Scene scene = new Scene(root, 1024, 768);
-//
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        mediaPlayer.play();
-
-
-    }*/
     //endregion
 
 
@@ -605,11 +547,6 @@ public class MyViewController implements Observer, IView {
                     }
                     pane.setScaleX(pane.getScaleX() * zoomFactor);
                     pane.setScaleY(pane.getScaleY() * zoomFactor);
-
-//                pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
-//                        * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
-//                pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
-//                        * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
                     doZoom();
                     event.consume();
 

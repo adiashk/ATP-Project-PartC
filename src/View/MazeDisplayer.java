@@ -37,9 +37,6 @@ public class MazeDisplayer extends Canvas {
     private int rotation;
     private double x;
     private double y;
-//    public Position rockPos1;
-//    public Position rockPos2;
-//    public Position rockPos3;
     private ArrayList<Position>arrayRock;
     public boolean isDrawRocks=false;
 
@@ -59,12 +56,7 @@ public class MazeDisplayer extends Canvas {
                 Position p = getRandomRockPos();
                 arrayRock.add(p);
             }
-//            rockPos1 = getRandomRockPos();
-//            rockPos3 = getRandomRockPos();
-//            rockPos2 = getRandomRockPos();
-//            arrayRock[0] = rockPos1;
-//            arrayRock[1] = rockPos2;
-//            arrayRock[2] =rockPos3;
+
             isDrawRocks=true;
         }
     }
@@ -109,8 +101,6 @@ public class MazeDisplayer extends Canvas {
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
                 Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
-                //Image eggBeforeImage = new Image(new FileInputStream(ImageFileNameEgg.get()));
-                //Image eggAfterImage = new Image(new FileInputStream(ImageFileNameEggAfter.get()));
                 Image startImage = new Image(new FileInputStream(ImageFileNameStart.get()));
                 Image endImage = new Image(new FileInputStream(ImageFileNameEnd.get()));
                 Image rockImage = new Image(new FileInputStream(ImageFileNameRock.get()));
@@ -122,18 +112,9 @@ public class MazeDisplayer extends Canvas {
                 for (int i = 0; i < row; i++) {
                     for (int j = 0; j < col; j++) {
                         if (maze.getValue(i, j) == 1) {
-                            //gc.fillRect(i * cellHeight, j * cellWidth, cellHeight, cellWidth);
-                            // gc.drawImage(wallImage, i * cellWidth, j * cellHeight, cellWidth, cellHeight);
                             gc.drawImage(wallImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
 
                         }
-                        /*else if (maze.getValue(i, j) == 0){
-                            gc.drawImage(eggBeforeImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-
-                        }else if (maze.getValue(i, j) == -1){
-                            gc.drawImage(eggAfterImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-
-                        }*/
                     }
                 }
                 if(isSolve)
@@ -153,21 +134,6 @@ public class MazeDisplayer extends Canvas {
                             (arrayRock.get(i)).getRowIndex() * cellHeight, cellWidth, cellHeight);
 
                 }
-//                gc.drawImage(rockImage, rockPos1.getColumnIndex() * cellWidth,
-//                        rockPos1.getRowIndex() * cellHeight, cellWidth, cellHeight);
-//
-//                //Position rockPos2=getRandomRockPos();
-//                gc.drawImage(rockImage, rockPos2.getColumnIndex() * cellWidth,
-//                        rockPos2.getRowIndex() * cellHeight, cellWidth, cellHeight);
-//
-//                //Position rockPos3=getRandomRockPos();
-//                gc.drawImage(rockImage, rockPos3.getColumnIndex() * cellWidth,
-//                        rockPos3.getRowIndex() * cellHeight, cellWidth, cellHeight);
-
-                //Draw Character
-//                 gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
-                //gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
-                //  gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
                 //Draw Character
                 ImageView iv = new ImageView(characterImage);
                 iv.setRotate(rotation);
@@ -338,7 +304,7 @@ public class MazeDisplayer extends Canvas {
             else if (maze.getValue(pos.getRowIndex(), pos.getColumnIndex()) == 1)
                 return false;
             else {
-                System.out.println(pos.toString());
+                //System.out.println(pos.toString());
                 return true;
             }
         }
@@ -371,8 +337,6 @@ public class MazeDisplayer extends Canvas {
 
     public void setArrayRock(ArrayList<Position> arrayRock) {
         this.arrayRock = arrayRock;
-//        rockPos1 =arrayRock[0];
-//        rockPos2 = arrayRock[1];
-//        rockPos3 = arrayRock[2];
+
     }
 }

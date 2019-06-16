@@ -274,12 +274,6 @@ public class MyModel extends Observable implements IModel {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-//        SearchableMaze searchableMaze = new SearchableMaze(maze);
-//
-//            ISearchingAlgorithm searcher = new DepthFirstSearch();
-//            Solution solution = searcher.solve(searchableMaze);
-//            mazeSolutionSteps = solution.getSolutionPath();
-
 
     }
 }
