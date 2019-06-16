@@ -277,6 +277,8 @@ public class MyViewController implements Observer, IView {
             ArrayList<Object> arrObjects = new ArrayList<>();
             arrObjects.add(maze);
             arrObjects.add(pos);
+            //arrObjects.add(countLives);//
+            //System.out.println("lives before: "+ countLives);
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(newFile));
             oos.writeObject(arrObjects);
 
@@ -315,8 +317,14 @@ public class MyViewController implements Observer, IView {
         arrObjects = (ArrayList<Object>) ois.readObject();
         Maze maze = (Maze) (arrObjects.toArray()[0]);
         Position p = (Position) (arrObjects.toArray()[1]);
+        //int loadLives = (int)(arrObjects.toArray()[2]);//
+        //countLives =loadLives;
+        //System.out.println("lives after: "+ loadLives);
+       // this.lives.set(lives);
+
         this.myViewModel.setMaze(maze);
         this.myViewModel.setPosition(p);
+        //this.countLives = loadLives;//
         this.txtfld_rowsNum.setText(maze.getrowSize() + "");
         this.txtfld_columnsNum.setText(maze.getcolSize() + "");
         this.isPushedSolve = false;
@@ -571,27 +579,29 @@ public class MyViewController implements Observer, IView {
         scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override
             public void handle(ScrollEvent event) {
-              //  finishZoom();
-                isZoom = true;
-                double xOffset = event.getDeltaY();
-                double yOffset = event.getDeltaY();
-                //System.out.println(xOffset + " , " + yOffset);
-                double zoomFactor = 1.1;
-                double deltaY = event.getDeltaY();
+                if (event.isControlDown()) {
+                    //  finishZoom();
+                    isZoom = true;
+                    double xOffset = event.getDeltaY();
+                    double yOffset = event.getDeltaY();
+                    //System.out.println(xOffset + " , " + yOffset);
+                    double zoomFactor = 1.1;
+                    double deltaY = event.getDeltaY();
 
-                if (deltaY < 0) {
-                    zoomFactor = 0.9;
-                }
-                pane.setScaleX(pane.getScaleX() * zoomFactor);
-                pane.setScaleY(pane.getScaleY() * zoomFactor);
+                    if (deltaY < 0) {
+                        zoomFactor = 0.9;
+                    }
+                    pane.setScaleX(pane.getScaleX() * zoomFactor);
+                    pane.setScaleY(pane.getScaleY() * zoomFactor);
 
 //                pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
 //                        * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
 //                pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
 //                        * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
-                doZoom();
-                event.consume();
+                    doZoom();
+                    event.consume();
 
+                }
             }
 
         });
@@ -615,9 +625,9 @@ public class MyViewController implements Observer, IView {
 
     public void doZoom(){
         pane.setTranslateX(((pane.getWidth() / 2 - (mazeDisplayer.getCharacterPositionColumn()
-                * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
+                * (pane.getHeight()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
         pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
-                * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+                * (pane.getWidth()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
 
     }
     //endregion
