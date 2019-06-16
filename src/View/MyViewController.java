@@ -102,7 +102,6 @@ public class MyViewController implements Observer, IView {
     @Override
     public void displayMaze(Maze maze) {
         mazeDisplayer.setSolutionPath(myViewModel.solveMaze());
-
         mazeDisplayer.setMaze(maze);
         int characterPositionRow = myViewModel.getCharacterPositionRow();
         int characterPositionColumn = myViewModel.getCharacterPositionColumn();
@@ -273,11 +272,13 @@ public class MyViewController implements Observer, IView {
 
     private void SaveMazeFile(Maze maze, Position pos, File file) {
         try {
-            File newFile = new File(file.getPath());
+            File newFile = new File(file.getPath());//0-maze,1-pos,2-lives,3-moves,4-rocks
             ArrayList<Object> arrObjects = new ArrayList<>();
-            arrObjects.add(maze);
-            arrObjects.add(pos);
-            //arrObjects.add(countLives);//
+            arrObjects.add(maze);//0
+            arrObjects.add(pos);//1
+            arrObjects.add(countLives);//2
+            arrObjects.add(myViewModel.countMoves);//3
+            arrObjects.add(mazeDisplayer.getArrayRock());//4
             //System.out.println("lives before: "+ countLives);
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(newFile));
             oos.writeObject(arrObjects);
@@ -317,15 +318,17 @@ public class MyViewController implements Observer, IView {
         arrObjects = (ArrayList<Object>) ois.readObject();
         Maze maze = (Maze) (arrObjects.toArray()[0]);
         Position p = (Position) (arrObjects.toArray()[1]);
-        //int loadLives = (int)(arrObjects.toArray()[2]);//
-        //countLives =loadLives;
-        //System.out.println("lives after: "+ loadLives);
-       // this.lives.set(lives);
-
         this.myViewModel.setMaze(maze);
         this.myViewModel.setPosition(p);
-        //this.countLives = loadLives;//
-        this.txtfld_rowsNum.setText(maze.getrowSize() + "");
+        int loadLives = (int)(arrObjects.toArray()[2]);//
+        countLives =loadLives;
+        lives.setValue(countLives+"");
+        //System.out.println("lives after: "+ loadLives);
+       myViewModel.countMoves = (int)(arrObjects.toArray()[3]);
+        myViewModel.moves.setValue(myViewModel.countMoves+"");
+       mazeDisplayer.setArrayRock((Position[])(arrObjects.toArray()[4]));
+
+       this.txtfld_rowsNum.setText(maze.getrowSize() + "");
         this.txtfld_columnsNum.setText(maze.getcolSize() + "");
         this.isPushedSolve = false;
         setViewModel(myViewModel);

@@ -40,6 +40,7 @@ public class MazeDisplayer extends Canvas {
     public Position rockPos1;
     public Position rockPos2;
     public Position rockPos3;
+    private Position[]arrayRock = new Position[3];
     public boolean isDrawRocks=false;
 
     public MazeDisplayer() {
@@ -54,6 +55,9 @@ public class MazeDisplayer extends Canvas {
             rockPos1 = getRandomRockPos();
             rockPos3 = getRandomRockPos();
             rockPos2 = getRandomRockPos();
+            arrayRock[0] = rockPos1;
+            arrayRock[1] = rockPos2;
+            arrayRock[2] =rockPos3;
             isDrawRocks=true;
         }
     }
@@ -347,5 +351,16 @@ public class MazeDisplayer extends Canvas {
         Random rn = new Random();
         int i = rn.nextInt(range);
         return i;
+    }
+
+    public Position[] getArrayRock() {
+        return arrayRock;
+    }
+
+    public void setArrayRock(Position[] arrayRock) {
+        this.arrayRock = arrayRock;
+        rockPos1 =arrayRock[0];
+        rockPos2 = arrayRock[1];
+        rockPos3 = arrayRock[2];
     }
 }
