@@ -55,6 +55,7 @@ public class MyViewController implements Observer, IView {
     private double scaleY;
     private double transX;
     private double transY;
+    private boolean isWon = false;
     private boolean isZoom = false;
     private int countLives=3;
     public StringProperty lives = new SimpleStringProperty("3");
@@ -111,6 +112,7 @@ public class MyViewController implements Observer, IView {
         if (characterPositionRow == maze.getGoalPosition().getRowIndex() &&
                 characterPositionColumn == maze.getGoalPosition().getColumnIndex()) {
             finishZoom();
+            isWon = true;
             String message = "Congratulations!!!\n" + "You solved the maze";
             String buttonOut = "Do you want to finish the game and exit?";
             String buttonStay = "Do you want to keep play more?\n" +
@@ -123,6 +125,7 @@ public class MyViewController implements Observer, IView {
     }
 
     public void generateMaze() {
+        isWon = false;
         countLives=3;
         lives.setValue(countLives+"");
         mazeDisplayer.isDrawRocks=false;
@@ -373,8 +376,12 @@ public class MyViewController implements Observer, IView {
         label.setText(message);
         Button yesButton = new Button(buttonOut);
         Button noButton = new Button(buttonStay);
-        noButton.setOnAction(e -> {window.close();
-        generateMaze();});
+        noButton.setOnAction(e -> {
+            window.close();
+            if(isWon==true) {
+                generateMaze();
+            }
+        });
         noButton.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
                 window.close();
