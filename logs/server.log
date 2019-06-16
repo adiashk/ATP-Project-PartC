@@ -8998,3 +8998,137 @@
 2019.06.16 23:56:09.645 DEBUG Server.Server - Socket Timeout - No clients pending!
 2019.06.16 23:56:10.224 DEBUG Server.Server - Socket Timeout - No clients pending!
 2019.06.16 23:56:10.646 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:10.617 INFO  Server.Server - Type of maze: MyMazeGenerator
+2019.06.16 23:57:10.621 INFO  Server.Server - Type of Solution: DFS
+2019.06.16 23:57:10.622 INFO  Server.Server - Type of maze: MyMazeGenerator
+2019.06.16 23:57:10.623 INFO  Server.Server - Type of Solution: DFS
+2019.06.16 23:57:10.633 INFO  Server.Server - Server starter at ServerSocket[addr=0.0.0.0/0.0.0.0,localport=5400]!
+2019.06.16 23:57:10.633 INFO  Server.Server - Server's Strategy: ServerStrategyGenerateMaze
+2019.06.16 23:57:10.634 INFO  Server.Server - Server is waiting for clients...
+2019.06.16 23:57:10.635 INFO  Server.Server - Server starter at ServerSocket[addr=0.0.0.0/0.0.0.0,localport=5401]!
+2019.06.16 23:57:10.635 INFO  Server.Server - Server's Strategy: ServerStrategySolveSearchProblem
+2019.06.16 23:57:10.636 INFO  Server.Server - Server is waiting for clients...
+2019.06.16 23:57:11.634 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:11.636 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:12.635 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:12.637 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:13.635 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:13.638 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:14.635 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:14.639 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:15.637 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:15.639 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:15.652 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55515,localport=5400]
+2019.06.16 23:57:15.654 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55515,localport=5400]
+2019.06.16 23:57:15.654 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55515,localport=5400]
+2019.06.16 23:57:15.666 INFO  Server.Server - Type of maze: MyMazeGenerator
+2019.06.16 23:57:15.666 INFO  Server.Server - Type of Solution: DFS
+2019.06.16 23:57:15.669 INFO  Server.Server - Size of maze: 20 , 20
+2019.06.16 23:57:15.669 INFO  Server.Server - Start Position: {0,0}
+2019.06.16 23:57:15.670 INFO  Server.Server - Goal Position: {18,18}
+2019.06.16 23:57:16.001 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55516,localport=5401]
+2019.06.16 23:57:16.002 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55516,localport=5401]
+2019.06.16 23:57:16.002 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55516,localport=5401]
+2019.06.16 23:57:16.014 INFO  Server.Server - Type of maze: MyMazeGenerator
+2019.06.16 23:57:16.015 INFO  Server.Server - Type of Solution: DFS
+2019.06.16 23:57:16.081 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55517,localport=5401]
+2019.06.16 23:57:16.081 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55517,localport=5401]
+2019.06.16 23:57:16.082 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55517,localport=5401]
+2019.06.16 23:57:16.117 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55518,localport=5401]
+2019.06.16 23:57:16.118 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55518,localport=5401]
+2019.06.16 23:57:16.118 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55518,localport=5401]
+2019.06.16 23:57:16.654 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:17.119 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:17.654 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:18.119 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:18.655 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:19.121 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:19.655 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:20.122 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:20.656 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:21.123 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:21.656 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:21.870 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55520,localport=5401]
+2019.06.16 23:57:21.870 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55520,localport=5401]
+2019.06.16 23:57:21.870 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55520,localport=5401]
+2019.06.16 23:57:21.908 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55521,localport=5401]
+2019.06.16 23:57:21.908 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55521,localport=5401]
+2019.06.16 23:57:21.908 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55521,localport=5401]
+2019.06.16 23:57:21.944 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55522,localport=5401]
+2019.06.16 23:57:21.944 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55522,localport=5401]
+2019.06.16 23:57:21.944 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55522,localport=5401]
+2019.06.16 23:57:22.656 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:22.945 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:23.639 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55523,localport=5401]
+2019.06.16 23:57:23.640 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55523,localport=5401]
+2019.06.16 23:57:23.640 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55523,localport=5401]
+2019.06.16 23:57:23.657 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:24.066 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55524,localport=5401]
+2019.06.16 23:57:24.067 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55524,localport=5401]
+2019.06.16 23:57:24.067 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55524,localport=5401]
+2019.06.16 23:57:24.487 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55525,localport=5401]
+2019.06.16 23:57:24.488 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55525,localport=5401]
+2019.06.16 23:57:24.488 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55525,localport=5401]
+2019.06.16 23:57:24.657 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:24.728 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55526,localport=5401]
+2019.06.16 23:57:24.729 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55526,localport=5401]
+2019.06.16 23:57:24.729 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55526,localport=5401]
+2019.06.16 23:57:25.658 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:25.730 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:26.659 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:26.730 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:27.385 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55527,localport=5400]
+2019.06.16 23:57:27.385 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55527,localport=5400]
+2019.06.16 23:57:27.386 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55527,localport=5400]
+2019.06.16 23:57:27.388 INFO  Server.Server - Type of maze: MyMazeGenerator
+2019.06.16 23:57:27.388 INFO  Server.Server - Type of Solution: DFS
+2019.06.16 23:57:27.390 INFO  Server.Server - Size of maze: 20 , 20
+2019.06.16 23:57:27.391 INFO  Server.Server - Start Position: {1,1}
+2019.06.16 23:57:27.391 INFO  Server.Server - Goal Position: {19,19}
+2019.06.16 23:57:27.671 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55528,localport=5401]
+2019.06.16 23:57:27.672 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55528,localport=5401]
+2019.06.16 23:57:27.672 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55528,localport=5401]
+2019.06.16 23:57:27.679 INFO  Server.Server - Type of maze: MyMazeGenerator
+2019.06.16 23:57:27.679 INFO  Server.Server - Type of Solution: DFS
+2019.06.16 23:57:27.717 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55529,localport=5401]
+2019.06.16 23:57:27.717 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55529,localport=5401]
+2019.06.16 23:57:27.717 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55529,localport=5401]
+2019.06.16 23:57:27.744 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55530,localport=5401]
+2019.06.16 23:57:27.744 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55530,localport=5401]
+2019.06.16 23:57:27.744 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55530,localport=5401]
+2019.06.16 23:57:28.387 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:28.746 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:28.846 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55531,localport=5401]
+2019.06.16 23:57:28.846 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55531,localport=5401]
+2019.06.16 23:57:28.846 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55531,localport=5401]
+2019.06.16 23:57:29.387 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:29.846 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:30.387 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:30.847 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:31.388 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:31.848 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:32.388 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:32.848 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:33.389 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:33.848 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:34.389 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:34.849 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:35.390 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:35.849 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:36.391 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:36.850 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:36.853 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55532,localport=5401]
+2019.06.16 23:57:36.854 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55532,localport=5401]
+2019.06.16 23:57:36.854 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55532,localport=5401]
+2019.06.16 23:57:37.325 INFO  Server.Server - Client excepted: Socket[addr=/192.168.56.1,port=55533,localport=5401]
+2019.06.16 23:57:37.326 INFO  Server.Server - Finished handle client: Socket[addr=/192.168.56.1,port=55533,localport=5401]
+2019.06.16 23:57:37.326 INFO  Server.Server - Handling client with socket: Socket[addr=/192.168.56.1,port=55533,localport=5401]
+2019.06.16 23:57:37.391 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:38.326 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:38.392 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:39.327 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:39.392 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:40.328 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:40.393 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:41.329 DEBUG Server.Server - Socket Timeout - No clients pending!
+2019.06.16 23:57:41.393 DEBUG Server.Server - Socket Timeout - No clients pending!
