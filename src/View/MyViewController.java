@@ -176,6 +176,7 @@ public class MyViewController implements Observer, IView {
             String exit="you lose the game";
             String out="exit";
             String stay="new game";
+            isWon =true;//faild but same action.
             exitPopWindow("Game Over",exit,out,stay);
         }
 
