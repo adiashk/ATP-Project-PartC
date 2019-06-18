@@ -478,7 +478,7 @@ public class MyViewController implements Observer, IView {
         String strExit = "are you sure you want to exit?";
         String buttonOut = "Yes, of course!\n" +
                 "Close the game";
-        String buttonStay = "No,I regretted it\n" +
+        String buttonStay = "No,I regret\n" +
                 "Keep playing";
         exitPopWindow("exit window", strExit, buttonOut, buttonStay);
 
@@ -486,13 +486,18 @@ public class MyViewController implements Observer, IView {
     @Override
     public void helpGame() {
         playSound("resources/sounds/popSong.m4a");
-        String strHelp = "The rules of the game:\n" +
+        String strHelp =
+                 "Controls: use num 1-9 to move.\n"+
+                 "Use ctrl+mouse wheel up/down to\n"+
+                         "zoom in/out.\n"+
+                 "Tap left mouse button to reset zoom.\n"+
+                "The rules of the game:\n" +
                 "Move the rocket until\n" +
                 "you get to the end of the board.\n" +
                 "Be careful not to hit the Rocks. \n" +
                 "You have 3 lives\n" +
                 "each time you hit a rock you lose 1\n" +
-                "the game is over when you have 0 lives.";
+                "the game is over when you have 0 lives."                ;
         popWindow("Help window", strHelp);
     }
 
@@ -501,7 +506,7 @@ public class MyViewController implements Observer, IView {
         playSound("resources/sounds/popSong.m4a");
         String strAbout = "This game is brought to you by:\n" +
                 "Yuval Mor Yosef and Adi Ashkenazi\n" +
-                "In the course of advanced topic in programing.\n" +
+                "In the course of advanced topic in programming.\n" +
                 "We create mazes using Prim's algorithm.\n" +
                 "We solve the mazes using the algorithms:\n" +
                 "* Breadth-first search and its expansion - Best-first search. \n" +
@@ -547,11 +552,11 @@ public class MyViewController implements Observer, IView {
                     double xOffset = event.getDeltaY();
                     double yOffset = event.getDeltaY();
                     //System.out.println(xOffset + " , " + yOffset);
-                    double zoomFactor = 1.1;
+                    double zoomFactor = 1.05;
                     double deltaY = event.getDeltaY();
 
                     if (deltaY < 0) {
-                        zoomFactor = 0.9;
+                        zoomFactor = 0.95;
                     }
                     pane.setScaleX(pane.getScaleX() * zoomFactor);
                     pane.setScaleY(pane.getScaleY() * zoomFactor);
@@ -573,6 +578,7 @@ public class MyViewController implements Observer, IView {
     }
 
     public void finishZoom(){
+        isZoom = false;
         pane.setScaleX(scaleX);
         pane.setScaleY(scaleY);
 
@@ -585,6 +591,7 @@ public class MyViewController implements Observer, IView {
                 * (pane.getWidth()/myViewModel.getMaze().getrowSize()))) * pane.getScaleX()) - 167);
         pane.setTranslateY(((pane.getHeight() / 2 - (mazeDisplayer.getCharacterPositionRow()
                 * (pane.getHeight()/myViewModel.getMaze().getcolSize()))) * pane.getScaleY()));
+
 
     }
     //endregion
